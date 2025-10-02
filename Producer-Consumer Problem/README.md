@@ -1,3 +1,7 @@
+#Group Members
+    Gabriel Giancarlo (2405449)
+    Nate Carnnahan (2369448)
+
 # Producer-Consumer Problem with Bounded Buffer
 
 This project implements the classic Producer-Consumer synchronization problem using C with proper thread synchronization mechanisms.
@@ -113,7 +117,7 @@ Both implementations include comprehensive error handling and validation:
 
 ## Performance Considerations
 
-- **Buffer Size**: Fixed at 5 slots (configurable via `BUFFER_SIZE`)
+- **Buffer Size**: Fixed at 10 slots (configurable via `BUFFER_SIZE`)
 - **Thread Overhead**: Minimal delay between operations to prevent system overload
 - **Memory Usage**: Efficient circular buffer implementation
 - **Synchronization**: Minimal lock contention with proper semaphore usage
@@ -130,5 +134,6 @@ The implementations handle various error conditions:
 ## Platform Compatibility
 
 - **C Implementation**: Compatible with POSIX systems (Linux, macOS, Unix)
-- **Threading**: Uses standard pthread library
+- **Threading**: Uses standard pthread library with cancellation support
+- **Semaphores**: Uses POSIX named semaphores for robust synchronization
 - **Compilation**: Tested with GCC and Clang compilers
