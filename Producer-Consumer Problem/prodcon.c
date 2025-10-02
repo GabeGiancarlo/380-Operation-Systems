@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
+#include <sched.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 #include "buffer.h"
 
 // Global variables for synchronization
@@ -14,11 +18,10 @@ int out = 0; // Index for next removal
 
 // Synchronization primitives
 pthread_mutex_t mutex;     // Protects critical sections
-sem_t empty;              // Counts empty slots
-sem_t full;               // Counts full slots
+sem_t* empty;             // Counts empty slots
+sem_t* full;               // Counts full slots
 
-// Thread control
-volatile int running = 1; // Flag to control thread execution
+// Thread control - using pthread cancellation instead of running flag
 
 // Technical: calculate_checksum() computes the sum of all bytes in the data array
 // to create a simple integrity validation mechanism. This checksum is used to
@@ -45,7 +48,7 @@ uint16_t calculate_checksum(const uint8_t* data, int size) {
 // while making sure no two people put packages in at the same time.
 int insert_item(BUFFER_ITEM item) {
     // Wait for empty slot
-    if (sem_wait(&empty) != 0) {
+    if (sem_wait(empty) != 0) {
         perror("sem_wait empty");
         return -1;
     }
@@ -53,7 +56,7 @@ int insert_item(BUFFER_ITEM item) {
     // Enter critical section
     if (pthread_mutex_lock(&mutex) != 0) {
         perror("pthread_mutex_lock");
-        sem_post(&empty); // Release the semaphore we acquired
+        sem_post(empty); // Release the semaphore we acquired
         return -1;
     }
     
@@ -68,7 +71,7 @@ int insert_item(BUFFER_ITEM item) {
     }
     
     // Signal that buffer has one more item
-    if (sem_post(&full) != 0) {
+    if (sem_post(full) != 0) {
         perror("sem_post full");
         return -1;
     }
@@ -86,7 +89,7 @@ int insert_item(BUFFER_ITEM item) {
 // while making sure no two people take packages at the same time.
 int remove_item(BUFFER_ITEM* item) {
     // Wait for available item
-    if (sem_wait(&full) != 0) {
+    if (sem_wait(full) != 0) {
         perror("sem_wait full");
         return -1;
     }
@@ -94,7 +97,7 @@ int remove_item(BUFFER_ITEM* item) {
     // Enter critical section
     if (pthread_mutex_lock(&mutex) != 0) {
         perror("pthread_mutex_lock");
-        sem_post(&full); // Release the semaphore we acquired
+        sem_post(full); // Release the semaphore we acquired
         return -1;
     }
     
@@ -109,7 +112,7 @@ int remove_item(BUFFER_ITEM* item) {
     }
     
     // Signal that buffer has one more empty slot
-    if (sem_post(&empty) != 0) {
+    if (sem_post(empty) != 0) {
         perror("sem_post empty");
         return -1;
     }
@@ -119,7 +122,7 @@ int remove_item(BUFFER_ITEM* item) {
 
 // Technical: producer() function implements the producer thread logic. It generates
 // random data, calculates checksum, creates BUFFER_ITEM, and inserts it into the
-// bounded buffer. Uses a loop with running flag for clean termination. Each
+// bounded buffer. Uses pthread cancellation for clean termination. Each
 // producer has a unique ID for debugging purposes.
 //
 // Simple: This function is like a worker who keeps making packages and putting
@@ -130,7 +133,12 @@ void* producer(void* param) {
     
     printf("Producer %d starting\n", producer_id);
     
-    while (running) {
+    while (true) {
+        // Release the CPU randomly to simulate preemption
+        if ((rand() % 100) < 40) { // ~40% chance
+            sched_yield(); // voluntarily yield CPU
+        }
+        
         // Generate random data
         for (int i = 0; i < 30; i++) {
             item.data[i] = rand() % 256; // Random values 0-255
@@ -140,15 +148,12 @@ void* producer(void* param) {
         item.cksum = calculate_checksum(item.data, 30);
         
         // Insert item into buffer
-        if (insert_item(item) == 0) {
-            printf("Producer %d: inserted item with checksum %d\n", 
-                   producer_id, item.cksum);
-        } else {
-            printf("Producer %d: failed to insert item\n", producer_id);
+        if (insert_item(item) != 0) {
+            fprintf(stderr, "Producer %d: failed to insert item\n", producer_id);
         }
         
-        // Small delay to prevent overwhelming the system
-        usleep(10000); // 10ms
+        // Test for cancellation point
+        pthread_testcancel();
     }
     
     printf("Producer %d terminating\n", producer_id);
@@ -157,7 +162,7 @@ void* producer(void* param) {
 
 // Technical: consumer() function implements the consumer thread logic. It removes
 // items from the bounded buffer, verifies checksum integrity, and reports any
-// data corruption. Uses running flag for clean termination and unique ID for
+// data corruption. Uses pthread cancellation for clean termination and unique ID for
 // debugging. Critical for data integrity validation.
 //
 // Simple: This function is like a worker who keeps taking packages from the
@@ -168,7 +173,12 @@ void* consumer(void* param) {
     
     printf("Consumer %d starting\n", consumer_id);
     
-    while (running) {
+    while (true) {
+        // Release the CPU randomly to simulate preemption
+        if ((rand() % 100) < 40) { // ~40% chance
+            sched_yield(); // voluntarily yield CPU
+        }
+        
         // Remove item from buffer
         if (remove_item(&item) == 0) {
             // Verify checksum
@@ -178,17 +188,17 @@ void* consumer(void* param) {
                 printf("Consumer %d: consumed item with checksum %d\n", 
                        consumer_id, item.cksum);
             } else {
-                printf("Consumer %d: ERROR - checksum mismatch! "
+                fprintf(stderr, "Consumer %d: ERROR - checksum mismatch! "
                        "Expected %d, got %d\n", 
                        consumer_id, item.cksum, calculated_checksum);
                 exit(EXIT_FAILURE);
             }
         } else {
-            printf("Consumer %d: failed to remove item\n", consumer_id);
+            fprintf(stderr, "Consumer %d: failed to remove item\n", consumer_id);
         }
         
-        // Small delay to prevent overwhelming the system
-        usleep(10000); // 10ms
+        // Test for cancellation point
+        pthread_testcancel();
     }
     
     printf("Consumer %d terminating\n", consumer_id);
@@ -209,16 +219,19 @@ int initialize_synchronization() {
     }
     
     // Initialize empty semaphore (starts with BUFFER_SIZE empty slots)
-    if (sem_init(&empty, 0, BUFFER_SIZE) != 0) {
-        perror("sem_init empty");
+    empty = sem_open("/empty_sem", O_CREAT, 0644, BUFFER_SIZE);
+    if (empty == SEM_FAILED) {
+        perror("sem_open empty");
         pthread_mutex_destroy(&mutex);
         return -1;
     }
     
     // Initialize full semaphore (starts with 0 full slots)
-    if (sem_init(&full, 0, 0) != 0) {
-        perror("sem_init full");
-        sem_destroy(&empty);
+    full = sem_open("/full_sem", O_CREAT, 0644, 0);
+    if (full == SEM_FAILED) {
+        perror("sem_open full");
+        sem_close(empty);
+        sem_unlink("/empty_sem");
         pthread_mutex_destroy(&mutex);
         return -1;
     }
@@ -233,8 +246,10 @@ int initialize_synchronization() {
 // Simple: This function cleans up all the "traffic lights" and "locks" when
 // we're done, so we don't leave a mess behind.
 void cleanup_synchronization() {
-    sem_destroy(&full);
-    sem_destroy(&empty);
+    sem_close(full);
+    sem_close(empty);
+    sem_unlink("/full_sem");
+    sem_unlink("/empty_sem");
     pthread_mutex_destroy(&mutex);
 }
 
@@ -303,9 +318,22 @@ int main(int argc, char* argv[]) {
     printf("Sleeping for %d seconds...\n", delay);
     sleep(delay);
     
-    // Signal threads to stop
-    printf("Stopping all threads...\n");
-    running = 0;
+    // Cancel all threads
+    printf("Cancelling all threads...\n");
+    
+    // Cancel all producer threads
+    for (int i = 0; i < num_producers; i++) {
+        if (pthread_cancel(producer_threads[i]) != 0) {
+            perror("pthread_cancel producer");
+        }
+    }
+    
+    // Cancel all consumer threads
+    for (int i = 0; i < num_consumers; i++) {
+        if (pthread_cancel(consumer_threads[i]) != 0) {
+            perror("pthread_cancel consumer");
+        }
+    }
     
     // Wait for all producer threads to finish
     for (int i = 0; i < num_producers; i++) {
