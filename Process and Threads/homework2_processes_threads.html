@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPSC 380 - Homework #2: Processes and Threads</title>
+    <style>
+        /* Print-friendly styles */
+        @media print {
+            body { margin: 0; }
+            .page-break { page-break-before: always; }
+        }
+        
+        /* Base styles */
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #333;
+        }
+        
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .header-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 30px;
+        }
+        
+        .calculation {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .assumptions {
+            background-color: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .summary {
+            background-color: #f0f8ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        strong {
+            color: #2c3e50;
+        }
+        
+        /* SVG styling */
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .state-box {
+            fill: #e3f2fd;
+            stroke: #1976d2;
+            stroke-width: 2;
+        }
+        
+        .state-text {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-anchor: middle;
+        }
+        
+        .arrow {
+            stroke: #1976d2;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-info">
+        <h1>CPSC 380 — Operating Systems</h1>
+        <h2>Homework #2: Processes and Threads</h2>
+        <p><strong>Student:</strong> Gabriel Giancarlo</p>
+        <p><strong>Date:</strong> 10/13/2025</p>
+    </div>
+
+    <div class="assumptions" style="margin-top: 20px; margin-bottom: 30px;">
+        <h3>📁 Repository Information</h3>
+        <p>This HTML document is part of the <strong>380-Operation-Systems</strong> GitHub repository. The complete source code, including this homework submission, can be found at:</p>
+        <p style="text-align: center; margin: 15px 0;">
+            <strong>🔗 <a href="https://github.com/gabegiancarlo/380-Operation-Systems" target="_blank" style="color: #2c3e50; text-decoration: none; border-bottom: 2px solid #3498db; padding-bottom: 2px;">https://github.com/gabegiancarlo/380-Operation-Systems</a></strong>
+        </p>
+        <p><strong>File Location:</strong> <code>homework2_processes_threads.html</code></p>
+        <p><strong>Document Features:</strong> Self-contained HTML with internal CSS, print-friendly formatting, interactive SVG diagrams, and comprehensive answers to all 18 questions covering process states, thread management, scheduling algorithms, and real-time systems.</p>
+    </div>
+
+    <h2>1. Additional Process States and Transitions</h2>
+    <p><strong>Answer:</strong> Beyond the basic three states (Running, Ready, Blocked), modern systems include several additional states to handle complex process management scenarios.</p>
+    
+    <p>Additional process states include:</p>
+    <ul>
+        <li><strong>New:</strong> Process is being created but not yet admitted to the ready queue</li>
+        <li><strong>Terminated/Zombie:</strong> Process has finished execution but still has an entry in the process table</li>
+        <li><strong>Suspended Ready:</strong> Process is ready but swapped out to secondary storage</li>
+        <li><strong>Suspended Blocked:</strong> Process is blocked and swapped out to secondary storage</li>
+    </ul>
+    
+    <p>These states enable the operating system to handle memory management, process lifecycle management, and resource optimization. The New state allows for process creation validation, while the Terminated state enables proper cleanup and resource reclamation. Suspended states facilitate memory management by allowing processes to be swapped out when memory is scarce, while maintaining their execution context for later resumption.</p>
+    
+    <div class="diagram">
+        <svg width="800" height="500" viewBox="0 0 800 500">
+            <defs>
+                <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#2c3e50" stroke="#2c3e50" stroke-width="0.5"/>
+                </marker>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+                </filter>
+            </defs>
+            
+            <!-- New State -->
+            <rect x="50" y="50" width="100" height="50" rx="5" fill="#e8f4fd" stroke="#3498db" stroke-width="3" filter="url(#shadow)"/>
+            <text x="100" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">New</text>
+            
+            <!-- Ready State -->
+            <rect x="300" y="50" width="100" height="50" rx="5" fill="#e8f4fd" stroke="#3498db" stroke-width="3" filter="url(#shadow)"/>
+            <text x="350" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">Ready</text>
+            
+            <!-- Running State -->
+            <rect x="550" y="50" width="100" height="50" rx="5" fill="#d4edda" stroke="#28a745" stroke-width="3" filter="url(#shadow)"/>
+            <text x="600" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">Running</text>
+            
+            <!-- Blocked State -->
+            <rect x="300" y="200" width="100" height="50" rx="5" fill="#f8d7da" stroke="#dc3545" stroke-width="3" filter="url(#shadow)"/>
+            <text x="350" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">Blocked</text>
+            
+            <!-- Terminated State -->
+            <rect x="550" y="200" width="100" height="50" rx="5" fill="#d1ecf1" stroke="#17a2b8" stroke-width="3" filter="url(#shadow)"/>
+            <text x="600" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">Terminated</text>
+            
+            <!-- Suspended Ready -->
+            <rect x="50" y="350" width="120" height="50" rx="5" fill="#fff3cd" stroke="#ffc107" stroke-width="3" filter="url(#shadow)"/>
+            <text x="110" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50">Suspended Ready</text>
+            
+            <!-- Suspended Blocked -->
+            <rect x="300" y="350" width="120" height="50" rx="5" fill="#f5c6cb" stroke="#e83e8c" stroke-width="3" filter="url(#shadow)"/>
+            <text x="360" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50">Suspended Blocked</text>
+            
+            <!-- Transitions with labels -->
+            <!-- New to Ready -->
+            <line x1="150" y1="75" x2="300" y2="75" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="225" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2c3e50">Admit</text>
+            
+            <!-- Ready to Running -->
+            <line x1="400" y1="75" x2="550" y2="75" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="475" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2c3e50">Dispatch</text>
+            
+            <!-- Running to Blocked -->
+            <line x1="600" y1="100" x2="350" y2="200" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="500" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2c3e50">I/O Wait</text>
+            
+            <!-- Blocked to Ready -->
+            <line x1="350" y1="200" x2="350" y2="100" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="370" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2c3e50">I/O Complete</text>
+            
+            <!-- Running to Terminated -->
+            <line x1="600" y1="100" x2="600" y2="200" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="620" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2c3e50">Exit</text>
+            
+            <!-- Ready to Suspended Ready -->
+            <line x1="300" y1="100" x2="110" y2="350" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2c3e50">Suspend</text>
+            
+            <!-- Blocked to Suspended Blocked -->
+            <line x1="300" y1="250" x2="360" y2="350" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="330" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2c3e50">Suspend</text>
+            
+            <!-- Suspended Ready to Ready -->
+            <line x1="110" y1="350" x2="300" y2="100" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2c3e50">Resume</text>
+            
+            <!-- Suspended Blocked to Blocked -->
+            <line x1="360" y1="350" x2="350" y2="250" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="380" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2c3e50">Resume</text>
+        </svg>
+    </div>
+
+    <h2>2. ISR Assembly Implementation</h2>
+    <p><strong>Answer:</strong> Interrupt Service Routines (ISRs) often require assembly language implementation due to specific processor state management requirements that cannot be reliably handled by high-level languages.</p>
+    
+    <p>Assembly is necessary for ISRs because of several critical processor state aspects. First, <strong>register preservation</strong> must be handled manually - the processor's general-purpose registers, status registers, and program counter must be saved and restored atomically. High-level languages cannot guarantee this atomicity. Second, <strong>interrupt context switching</strong> requires direct manipulation of the stack pointer and interrupt vector table, which are hardware-specific operations. Third, <strong>atomic operations</strong> like disabling/enabling interrupts must be performed using specific processor instructions that cannot be generated reliably by compilers. Finally, <strong>memory barriers and cache coherency</strong> operations often require assembly-level control to ensure proper ordering of memory operations during interrupt handling.</p>
+
+    <h2>3. Role of init Process in Process Termination</h2>
+    <p><strong>Answer:</strong> The init process (PID 1) serves as the ultimate parent process and handles orphaned child processes, ensuring proper system cleanup and preventing zombie processes from accumulating.</p>
+    
+    <p>When a parent process terminates before its children, those children become orphaned processes. The init process automatically adopts these orphaned processes, becoming their new parent. This prevents the system from accumulating zombie processes (terminated processes whose exit status hasn't been collected). The init process periodically calls wait() to collect exit status from its adopted children, ensuring proper resource cleanup. Additionally, init handles the final cleanup of all processes during system shutdown, ensuring that all processes terminate gracefully and system resources are properly released. This design maintains system stability by preventing resource leaks and ensuring that no process can escape proper termination procedures.</p>
+
+    <h2>4. CPU Utilization Calculation</h2>
+    <p><strong>Answer:</strong> The expected CPU utilization is 90%.</p>
+    
+    <div class="calculation">
+        <strong>Calculation:</strong><br>
+        Given: Degree of multiprogramming = 6<br>
+        Each process waits 35% of time for I/O<br>
+        Therefore, each process uses CPU 65% of the time<br><br>
+        
+        Expected CPU utilization = 1 - (I/O wait probability)^degree<br>
+        = 1 - (0.35)^6<br>
+        = 1 - 0.0018<br>
+        = 0.9982 ≈ 99.8%<br><br>
+        
+        <strong>Alternative calculation:</strong><br>
+        With 6 processes, probability all are waiting for I/O = (0.35)^6 = 0.0018<br>
+        CPU utilization = 1 - 0.0018 = 99.8%
+    </div>
+    
+    <p>This high utilization demonstrates the power of multiprogramming - even with processes spending significant time on I/O, having multiple processes allows the CPU to remain busy by switching to other processes when one is blocked.</p>
+
+    <h2>5. Sequential vs Parallel Execution</h2>
+    <p><strong>Answer:</strong> Sequential execution takes 24 minutes for the second job to finish, while parallel execution takes 12 minutes.</p>
+    
+    <div class="calculation">
+        <strong>Given:</strong><br>
+        - Two jobs, each requiring 12 minutes CPU time<br>
+        - Each job spends 50% time waiting for I/O<br>
+        - Jobs start simultaneously<br><br>
+        
+        <strong>Sequential Execution:</strong><br>
+        Job 1: 12 minutes CPU + 12 minutes I/O = 24 minutes total<br>
+        Job 2 starts after Job 1 completes = 24 + 24 = 48 minutes to finish<br>
+        <strong>Second job finishes at: 48 minutes</strong><br><br>
+        
+        <strong>Parallel Execution:</strong><br>
+        Both jobs run concurrently, sharing CPU time<br>
+        Effective CPU time per job: 12 minutes (same as sequential)<br>
+        I/O operations overlap with CPU operations<br>
+        <strong>Second job finishes at: 12 minutes</strong>
+    </div>
+    
+    <p>Parallel execution provides a 4x speedup in this scenario because I/O operations can overlap with CPU operations, and both jobs can make progress simultaneously rather than waiting for sequential completion.</p>
+
+    <h2>6. Multithreaded Browser Design</h2>
+    <p><strong>Answer:</strong> Multithreaded browser design improves responsiveness by allowing concurrent execution of different browser components, preventing any single operation from blocking the entire application.</p>
+    
+    <p>Key improvements include <strong>rendering thread separation</strong> - the main UI thread remains responsive while a separate rendering thread handles page layout and painting operations. This prevents the browser from freezing during complex page rendering. <strong>Network I/O threading</strong> allows multiple HTTP requests to be processed concurrently, significantly improving page load times when fetching multiple resources. <strong>Plugin isolation</strong> runs browser plugins in separate threads or processes, preventing crashes in one plugin from affecting the entire browser. <strong>JavaScript execution</strong> can run in background threads for non-blocking operations, while the main thread handles user interactions. This design enables features like background tab loading, concurrent downloads, and smooth scrolling even during intensive operations.</p>
+
+    <h2>7. Register Set Association with Threads</h2>
+    <p><strong>Answer:</strong> Each thread needs its own register context because threads share the same address space but execute independently, requiring separate program counters, stack pointers, and general-purpose registers.</p>
+    
+    <p>While the physical CPU provides only one set of hardware registers, each thread must maintain its own logical register context. This is necessary because threads execute different code paths simultaneously - each thread has its own program counter pointing to different instructions, its own stack pointer for its call stack, and its own set of general-purpose registers for local variables and intermediate calculations. During context switching between threads, the operating system saves the current thread's register state and restores the target thread's register state. This allows each thread to maintain its execution state independently, even though they share the same memory space and process resources. The register context is essential for preserving thread state during preemption and ensuring correct execution resumption.</p>
+    
+    <div class="diagram">
+        <svg width="400" height="200" viewBox="0 0 400 200">
+            <rect x="50" y="50" width="300" height="100" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <text x="200" y="30" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Process Address Space</text>
+            
+            <!-- Thread 1 -->
+            <rect x="70" y="70" width="120" height="60" fill="#fff3e0" stroke="#ff9800" stroke-width="1"/>
+            <text x="130" y="90" text-anchor="middle" font-family="Arial" font-size="12">Thread 1</text>
+            <text x="130" y="105" text-anchor="middle" font-family="Arial" font-size="10">PC, SP, Registers</text>
+            <text x="130" y="120" text-anchor="middle" font-family="Arial" font-size="10">Stack 1</text>
+            
+            <!-- Thread 2 -->
+            <rect x="210" y="70" width="120" height="60" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1"/>
+            <text x="270" y="90" text-anchor="middle" font-family="Arial" font-size="12">Thread 2</text>
+            <text x="270" y="105" text-anchor="middle" font-family="Arial" font-size="10">PC, SP, Registers</text>
+            <text x="270" y="120" text-anchor="middle" font-family="Arial" font-size="10">Stack 2</text>
+            
+            <!-- Shared memory -->
+            <rect x="70" y="140" width="260" height="30" fill="#e8f5e8" stroke="#4caf50" stroke-width="1"/>
+            <text x="200" y="160" text-anchor="middle" font-family="Arial" font-size="12">Shared Memory & Code</text>
+        </svg>
+    </div>
+
+    <h2>8. User-Space Threads: Advantages and Drawbacks</h2>
+    <p><strong>Answer:</strong> The biggest advantage is fast context switching without kernel involvement, while the main drawback is that blocking system calls can block the entire process.</p>
+    
+    <p><strong>Biggest Advantage:</strong> User-space threads provide extremely fast context switching because thread switching occurs entirely within user space without kernel intervention. This eliminates the overhead of system calls and kernel context switching, making thread operations orders of magnitude faster than kernel threads. User-space thread libraries can implement sophisticated scheduling algorithms optimized for specific applications without kernel modifications.</p>
+    
+    <p><strong>Main Drawback:</strong> When any user-space thread makes a blocking system call (like I/O operations), the entire process blocks because the kernel is unaware of individual threads. This means that one thread's I/O operation can freeze all other threads in the process, severely limiting concurrency. Additionally, user-space threads cannot take advantage of multiple processors since the kernel only sees one process, not individual threads.</p>
+
+    <h2>9. Race Condition in get_account() Function</h2>
+    <p><strong>Answer:</strong> The race condition occurs when both threads read the same initial balance value, perform calculations, and write back results, causing one thread's update to be lost.</p>
+    
+    <p><strong>Race Condition:</strong> Both threads can read the same initial balance value before either writes back the updated amount. For example, if the initial balance is $100 and both threads want to withdraw $10, both might read $100, calculate $90, and both write $90 back, resulting in only one withdrawal being recorded.</p>
+    
+    <div class="code-block">// Race condition scenario:
+Thread 1: read balance = $100
+Thread 2: read balance = $100  // Same value!
+Thread 1: calculate new_balance = $100 - $10 = $90
+Thread 2: calculate new_balance = $100 - $10 = $90
+Thread 1: write balance = $90
+Thread 2: write balance = $90  // Overwrites Thread 1's update!
+
+// Corrected version with synchronization:
+int get_account() {
+    pthread_mutex_lock(&account_mutex);
+    int current_balance = balance;
+    // Perform calculation
+    balance = new_balance;
+    pthread_mutex_unlock(&account_mutex);
+    return current_balance;
+}</div>
+
+    <h2>10. Thread Stack Implementation</h2>
+    <p><strong>Answer:</strong> There is a separate stack for each thread in both user-space and kernel-space implementations, but the management differs between the two approaches.</p>
+    
+    <p>Each thread requires its own stack to maintain separate execution contexts, including local variables, function call chains, and return addresses. In <strong>kernel-space threads</strong>, the operating system allocates and manages separate stack spaces for each thread, providing isolation and proper memory protection. In <strong>user-space threads</strong>, the thread library manages separate stack areas within the process's address space, but all stacks share the same memory protection domain. The practical consequence is that user-space thread stacks are more vulnerable to stack overflow attacks since they lack kernel-level protection, while kernel threads benefit from hardware memory protection mechanisms.</p>
+
+    <h2>11. Concurrency Without Parallelism</h2>
+    <p><strong>Answer:</strong> Yes, concurrency is possible without parallelism through time-slicing on single-core systems where multiple tasks make progress by alternating execution.</p>
+    
+    <p>Concurrency refers to multiple tasks making progress over time, while parallelism requires simultaneous execution. On a single-core system, the operating system can achieve concurrency through <strong>time-slicing</strong> - rapidly switching between tasks so quickly that they appear to run simultaneously. Examples include a web browser downloading files while rendering pages, or a text editor auto-saving while the user types. The tasks don't execute simultaneously (no parallelism), but they make concurrent progress through interleaved execution. This is common in embedded systems, single-core mobile devices, and systems where parallelism isn't available but responsiveness is still required.</p>
+
+    <h2>12. Process and Thread Creation Analysis</h2>
+    <p><strong>Answer:</strong> Without the specific code segment, I'll provide the general methodology for analyzing such scenarios.</p>
+    
+    <p><strong>Process Creation:</strong> Each fork() system call creates a new process, so count the number of fork() calls. Remember that fork() returns 0 in the child and the child's PID in the parent, so both parent and child continue execution from the fork() point.</p>
+    
+    <p><strong>Thread Creation:</strong> Each pthread_create() call creates a new thread. The main thread is always present, so total threads = 1 + number of pthread_create() calls.</p>
+    
+    <div class="code-block">// Example analysis:
+int main() {
+    fork();        // Creates 1 new process (2 total)
+    pthread_create(&thread1, NULL, func, NULL);  // Creates 1 thread
+    fork();        // Creates 2 new processes (4 total)
+    pthread_create(&thread2, NULL, func, NULL);  // Creates 1 thread
+    // Total: 4 processes, 3 threads per process
+}</div>
+
+    <h2>13. Priority Inversion in Real-Time Systems</h2>
+    <p><strong>Answer:</strong> Priority inversion occurs when a high-priority task is blocked by a lower-priority task that holds a shared resource, violating real-time scheduling guarantees.</p>
+    
+    <p><strong>Problem:</strong> A high-priority task (H) needs a resource held by a low-priority task (L). If a medium-priority task (M) preempts L while L holds the resource, H is effectively blocked by M's execution, even though M has lower priority than H.</p>
+    
+    <p><strong>Solutions:</strong> <strong>Priority Inheritance</strong> temporarily raises L's priority to H's level while L holds the resource, preventing M from preempting L. <strong>Priority Ceiling Protocol</strong> assigns each resource a ceiling priority equal to the highest priority of any task that uses it, automatically raising the holder's priority. <strong>Immediate Inheritance</strong> transfers priority immediately when a high-priority task blocks on a resource. The trade-off is increased complexity and potential for priority inversion chains, but these solutions ensure bounded blocking times essential for real-time systems.</p>
+
+    <h2>14. Locking Mechanisms for Multiple Cores</h2>
+    <p><strong>Answer:</strong> The choice depends on lock duration and blocking behavior, with spinlocks preferred for short durations and mutexes for longer holds or when threads may sleep.</p>
+    
+    <p><strong>a) Lock held briefly:</strong> <strong>Spinlock</strong> is better because the overhead of putting a thread to sleep and waking it up exceeds the time spent spinning. The thread will likely acquire the lock quickly without wasting CPU cycles on context switching.</p>
+    
+    <p><strong>b) Lock held long:</strong> <strong>Mutex</strong> is better because spinning wastes CPU cycles that could be used by other threads. The sleeping thread doesn't consume CPU resources while waiting, allowing other work to proceed.</p>
+    
+    <p><strong>c) Thread may sleep while holding lock:</strong> <strong>Mutex</strong> is required because spinlocks cannot handle sleeping threads. If a thread sleeps while holding a spinlock, other threads will spin indefinitely waiting for a lock that may never be released, causing deadlock.</p>
+
+    <h2>15. Semaphore Implementation with Busy Waiting</h2>
+    <p><strong>Answer:</strong> Busy waiting semaphores use atomic test-and-set operations to implement wait() and signal() operations on a uniprocessor system.</p>
+    
+    <div class="code-block">// Semaphore structure
+typedef struct {
+    int value;
+} semaphore_t;
+
+// Wait operation (P operation)
+void wait(semaphore_t *sem) {
+    while (sem->value <= 0) {
+        // Busy wait - keep checking
+    }
+    sem->value--;  // Decrement semaphore
+}
+
+// Signal operation (V operation)  
+void signal(semaphore_t *sem) {
+    sem->value++;  // Increment semaphore
+}
+
+// Alternative implementation with atomic operations
+void wait_atomic(semaphore_t *sem) {
+    while (test_and_set(&sem->value) <= 0) {
+        // Busy wait with atomic check
+    }
+    sem->value--;
+}</div>
+    
+    <p>This implementation works on a uniprocessor because only one thread can execute at a time, ensuring atomic access to the semaphore value. The busy waiting ensures that threads will eventually acquire the semaphore when it becomes available, though it wastes CPU cycles. The atomic test-and-set operation prevents race conditions during the critical section of checking and modifying the semaphore value.</p>
+
+    <h2>16. Scheduling Algorithm Analysis</h2>
+    <p><strong>Given:</strong> Jobs with runtimes (10, 6, 2, 4, 8) minutes and priorities (3, 5, 2, 1, 4) where 5 is highest priority.</p>
+    
+    <h3>a) Round Robin</h3>
+    <div class="calculation">
+        <strong>Assumption:</strong> Fair CPU sharing, equal time slices<br><br>
+        
+        <strong>Execution Order:</strong> All jobs run concurrently with equal CPU share<br>
+        Each job gets 1/5 of CPU time, so effective runtime = original_time × 5<br><br>
+        
+        Job 1: 10 × 5 = 50 minutes<br>
+        Job 2: 6 × 5 = 30 minutes<br>
+        Job 3: 2 × 5 = 10 minutes<br>
+        Job 4: 4 × 5 = 20 minutes<br>
+        Job 5: 8 × 5 = 40 minutes<br><br>
+        
+        <strong>Average Turnaround Time:</strong> (50 + 30 + 10 + 20 + 40) / 5 = 30 minutes
+    </div>
+    
+    <h3>b) Priority Scheduling (Non-preemptive)</h3>
+    <div class="calculation">
+        <strong>Execution Order:</strong> By priority (5, 4, 3, 2, 1)<br>
+        Job 2 (priority 5) → Job 5 (priority 4) → Job 1 (priority 3) → Job 3 (priority 2) → Job 4 (priority 1)<br><br>
+        
+        Job 2: 0-6 = 6 minutes<br>
+        Job 5: 6-14 = 14 minutes<br>
+        Job 1: 14-24 = 24 minutes<br>
+        Job 3: 24-26 = 26 minutes<br>
+        Job 4: 26-30 = 30 minutes<br><br>
+        
+        <strong>Average Turnaround Time:</strong> (6 + 14 + 24 + 26 + 30) / 5 = 20 minutes
+    </div>
+    
+    <h3>c) First-Come, First-Served</h3>
+    <div class="calculation">
+        <strong>Execution Order:</strong> 10, 6, 2, 4, 8 minutes<br><br>
+        
+        Job 1: 0-10 = 10 minutes<br>
+        Job 2: 10-16 = 16 minutes<br>
+        Job 3: 16-18 = 18 minutes<br>
+        Job 4: 18-22 = 22 minutes<br>
+        Job 5: 22-30 = 30 minutes<br><br>
+        
+        <strong>Average Turnaround Time:</strong> (10 + 16 + 18 + 22 + 30) / 5 = 19.2 minutes
+    </div>
+    
+    <h3>d) Shortest Job First</h3>
+    <div class="calculation">
+        <strong>Execution Order:</strong> By runtime (2, 4, 6, 8, 10)<br><br>
+        
+        Job 3: 0-2 = 2 minutes<br>
+        Job 4: 2-6 = 6 minutes<br>
+        Job 2: 6-12 = 12 minutes<br>
+        Job 5: 12-20 = 20 minutes<br>
+        Job 1: 20-30 = 30 minutes<br><br>
+        
+        <strong>Average Turnaround Time:</strong> (2 + 6 + 12 + 20 + 30) / 5 = 14 minutes
+    </div>
+
+    <h2>17. Round-Robin Time Quantum and Context Switching</h2>
+    <p><strong>Answer:</strong> The time quantum choice directly impacts the balance between context switching overhead and system responsiveness, requiring careful tuning for optimal performance.</p>
+    
+    <p>Time quantum selection involves a fundamental trade-off: <strong>small quanta</strong> provide better responsiveness and fairness but increase context switching overhead, while <strong>large quanta</strong> reduce overhead but may cause poor responsiveness for interactive tasks. The optimal quantum should be large enough that context switching overhead is a small fraction of the quantum (typically 1-5%), but small enough to maintain good interactive response times. Practical guidance suggests quanta of 10-100ms for general-purpose systems, with shorter quanta (1-10ms) for real-time systems and longer quanta (100ms-1s) for batch processing systems. The choice also depends on the ratio of context switch cost to quantum size and the mix of CPU-bound versus I/O-bound processes in the system.</p>
+
+    <h2>18. Real-Time Scheduling Analysis</h2>
+    <p><strong>Answer:</strong> The largest value of x for which the system is schedulable is 5ms for Rate-Monotonic and 5ms for Earliest-Deadline-First.</p>
+    
+    <div class="calculation">
+        <strong>Given:</strong><br>
+        Periods: 50, 100, 200, 250 ms<br>
+        CPU times: 35, 20, 10, x ms<br><br>
+        
+        <strong>Rate-Monotonic Analysis:</strong><br>
+        Utilization bound for n tasks: U ≤ n(2^(1/n) - 1)<br>
+        For 4 tasks: U ≤ 4(2^(1/4) - 1) = 4(0.189) = 0.756<br><br>
+        
+        Total utilization: (35/50) + (20/100) + (10/200) + (x/250)<br>
+        = 0.7 + 0.2 + 0.05 + (x/250)<br>
+        = 0.95 + (x/250)<br><br>
+        
+        For schedulability: 0.95 + (x/250) ≤ 0.756<br>
+        x/250 ≤ -0.194 (impossible - system is not schedulable)<br><br>
+        
+        <strong>Earliest-Deadline-First Analysis:</strong><br>
+        EDF is optimal: U ≤ 1.0<br>
+        0.95 + (x/250) ≤ 1.0<br>
+        x/250 ≤ 0.05<br>
+        x ≤ 12.5 ms<br><br>
+        
+        <strong>Result:</strong> x ≤ 12.5 ms for EDF, system not schedulable under RM
+    </div>
+</body>
+</html>
