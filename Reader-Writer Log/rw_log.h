@@ -25,7 +25,7 @@ int     rwlog_create(size_t capacity);                             // allocate/i
 int     rwlog_destroy(void);                                       // destroy sync, unmap & unlink shm
 
 int     rwlog_begin_read(void);                                    // enter read section (may block)
-ssize_t rwlog_snapshot(rwlog_entry_t *buf, size_t max_entries);    // copy newest <= max_entries to caller buffer
+ptrdiff_t rwlog_snapshot(rwlog_entry_t *buf, size_t max_entries);    // copy newest <= max_entries to caller buffer
 int     rwlog_end_read(void);                                      // leave read section
 
 int     rwlog_begin_write(void);                                   // enter write section (may block)
