@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -pthread -O2 -g
-LDFLAGS = -lrt -lpthread
+LDFLAGS = -lpthread
 TARGET = rw_log
 SOURCES = rw_main.c rwlog.c
 OBJECTS = $(SOURCES:.c=.o)

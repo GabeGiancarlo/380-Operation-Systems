@@ -146,6 +146,7 @@ static void *reader_thread(void *arg) {
     int reader_id = params->reader_id;
     int sleep_us = params->sleep_us;
     uint64_t last_seq = 0;
+    (void)last_seq; // Suppress unused variable warning
     
     while (!stop_flag) {
         double start_time = get_time_ms();
