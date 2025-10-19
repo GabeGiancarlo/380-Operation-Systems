@@ -60,26 +60,113 @@ The implementation uses a **writer-preference** policy:
 3. **Only one writer** can write at a time
 4. **No starvation**: Writers and readers are guaranteed to make progress
 
+#### Synchronization State Variables
+- `readers_active`: Number of threads currently reading
+- `readers_waiting`: Number of readers blocked waiting to read
+- `writers_waiting`: Number of writers blocked waiting to write
+- `writer_active`: Boolean flag indicating if a writer is currently active
+
 ### Data Structures
 
-- **Circular buffer**: Fixed-size array with head/tail pointers
-- **Shared memory**: POSIX shared memory for inter-process access
-- **Synchronization primitives**: Mutex and condition variables
+#### Monitor Structure (`rwlog_monitor_t`)
+```c
+typedef struct {
+    pthread_mutex_t mutex;           // Protects all shared state
+    pthread_cond_t read_cond;       // Readers wait on this
+    pthread_cond_t write_cond;      // Writers wait on this
+    
+    // Synchronization state
+    int readers_active;
+    int readers_waiting;
+    int writers_waiting;
+    int writer_active;
+    
+    // Circular buffer state
+    rwlog_entry_t *entries;         // Shared memory buffer
+    size_t capacity;                 // Buffer size
+    size_t head;                     // Next write position
+    size_t tail;                     // Oldest entry position
+    size_t count;                    // Current entry count
+    uint64_t next_seq;               // Next sequence number
+} rwlog_monitor_t;
+```
 
-### Thread Safety
+#### Log Entry Structure (`rwlog_entry_t`)
+```c
+typedef struct {
+    uint64_t      seq;                // Global, monotonically increasing
+    pthread_t     tid;                // Writing thread's pthread id
+    struct timespec ts;               // Timestamp (CLOCK_REALTIME)
+    char          msg[RWLOG_MSG_MAX]; // Writer-supplied message
+} rwlog_entry_t;
+```
 
-- All critical sections are protected by mutexes
-- Condition variables used for efficient blocking (no busy waiting)
-- Writer-preference logic ensures proper ordering
-- Sequence numbers provide monotonicity guarantees
+### Thread Safety Mechanisms
+
+#### Critical Section Protection
+- **Single mutex** (`monitor->mutex`) protects all shared state
+- **Condition variables** eliminate busy waiting:
+  - `read_cond`: Readers wait when writers are active/waiting
+  - `write_cond`: Writers wait when readers are active or another writer is active
+
+#### Writer-Preference Algorithm
+```c
+// Reader entry logic
+while (monitor->writer_active || monitor->writers_waiting > 0) {
+    monitor->readers_waiting++;
+    pthread_cond_wait(&monitor->read_cond, &monitor->mutex);
+    monitor->readers_waiting--;
+}
+
+// Writer entry logic  
+while (monitor->readers_active > 0 || monitor->writer_active) {
+    pthread_cond_wait(&monitor->write_cond, &monitor->mutex);
+}
+```
+
+#### Signal/Broadcast Strategy
+- **Writers signal other writers** when exiting (writer preference)
+- **Writers broadcast to all readers** when no writers are waiting
+- **Readers signal writers** when the last reader exits
+
+### Shared Memory Implementation
+
+#### POSIX Shared Memory
+- **Creation**: `shm_open()` with `/rwlog_shm` name
+- **Sizing**: `ftruncate()` to set buffer size
+- **Mapping**: `mmap()` for direct memory access
+- **Cleanup**: `munmap()`, `close()`, `shm_unlink()`
+
+#### Circular Buffer Logic
+- **Head pointer**: Next position to write
+- **Tail pointer**: Oldest entry position
+- **Wraparound**: `buffer_index(pos, capacity) = pos % capacity`
+- **Overflow handling**: When full, tail advances to maintain sequence order
+
+### Performance Optimizations
+
+#### Efficient Synchronization
+- **No busy waiting**: All waits use `pthread_cond_wait()`
+- **Appropriate signaling**: `pthread_cond_signal()` vs `pthread_cond_broadcast()`
+- **Batch operations**: Writers can append multiple entries per critical section
+
+#### Memory Management
+- **Shared memory**: Eliminates data copying between processes
+- **Circular buffer**: Fixed memory footprint regardless of log size
+- **Sequence numbers**: Enable efficient ordering without sorting
 
 ### Performance Metrics
 
 The program tracks and reports:
 - **Average writer wait time** (milliseconds)
-- **Average reader critical section time** (milliseconds)
+- **Average reader critical section time** (milliseconds)  
 - **Total entries written**
 - **Throughput** (entries per second)
+
+#### Metrics Collection
+- **Thread-local timing**: Each thread measures its own wait times
+- **Global counters**: Shared statistics protected by separate mutex
+- **Real-time calculation**: Metrics computed during execution
 
 ## Testing
 
