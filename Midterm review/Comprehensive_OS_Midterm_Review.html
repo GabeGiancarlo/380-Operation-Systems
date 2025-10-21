@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Operating Systems Midterm Review</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .toc {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .toc h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .toc a:hover {
+            color: #2980b9;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            margin-top: 0;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 14px;
+            border-left: 4px solid #4a5568;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .code-block code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        /* Syntax highlighting for common C keywords */
+        .code-block:before {
+            content: '';
+            display: block;
+            background: #4a5568;
+            height: 30px;
+            margin: -20px -20px 15px -20px;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+        
+        .code-block:after {
+            content: 'C Code';
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            color: #a0aec0;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .formula {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .key-points {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .implementation-details {
+            background: #f0f8ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .performance-metrics {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 200px;
+        }
+        
+        .navigation a {
+            display: block;
+            color: #3498db;
+            text-decoration: none;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .navigation a:hover {
+            color: #2980b9;
+        }
+        
+        /* Inline code styling */
+        code {
+            background: #f1f3f4;
+            color: #d73a49;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        /* Better spacing for code blocks */
+        .code-block {
+            position: relative;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Operating Systems Midterm Review</h1>
+        <p>Comprehensive Study Guide - CPSC 380</p>
+        <p>Based on Lectures, Homework, and In-Class Materials</p>
+    </div>
+
+    <div class="toc">
+        <h2>📚 Table of Contents</h2>
+        <ul>
+            <li><a href="#introduction">1. Introduction to Operating Systems</a></li>
+            <li><a href="#processes">2. Processes and Process Management</a></li>
+            <li><a href="#threads">3. Threads and Concurrency</a></li>
+            <li><a href="#synchronization">4. Synchronization and Critical Sections</a></li>
+            <li><a href="#scheduling">5. CPU Scheduling</a></li>
+            <li><a href="#deadlocks">6. Deadlocks</a></li>
+            <li><a href="#implementations">7. Code Implementations</a></li>
+            <li><a href="#practice">8. Practice Problems</a></li>
+        </ul>
+    </div>
+
+    <div class="navigation">
+        <strong>Quick Nav</strong>
+        <a href="#introduction">Introduction</a>
+        <a href="#processes">Processes</a>
+        <a href="#threads">Threads</a>
+        <a href="#synchronization">Synchronization</a>
+        <a href="#scheduling">Scheduling</a>
+        <a href="#deadlocks">Deadlocks</a>
+        <a href="#implementations">Code</a>
+        <a href="#practice">Practice</a>
+    </div>
+
+    <div id="introduction" class="section">
+        <h2>1. Introduction to Operating Systems</h2>
+        
+        <h3>What is an Operating System?</h3>
+        <p>An operating system is a system software that manages computer hardware and software resources, and provides common services for computer programs. It acts as an intermediary between users and computer hardware.</p>
+        
+        <div class="key-points">
+            <h4>Key Functions of an OS:</h4>
+            <ul>
+                <li><strong>Process Management:</strong> Creating, scheduling, and terminating processes</li>
+                <li><strong>Memory Management:</strong> Allocating and managing memory space</li>
+                <li><strong>File System Management:</strong> Organizing and managing files and directories</li>
+                <li><strong>Device Management:</strong> Controlling and coordinating computer peripherals</li>
+                <li><strong>Security:</strong> Protecting system resources and user data</li>
+            </ul>
+        </div>
+
+        <h3>Operating System Structure</h3>
+        <div class="diagram">
+            <svg width="600" height="300" viewBox="0 0 600 300">
+                <!-- User Space -->
+                <rect x="50" y="50" width="500" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                <text x="300" y="75" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">User Space</text>
+                <text x="300" y="95" text-anchor="middle" font-family="Arial" font-size="12">Applications, User Programs</text>
+                <text x="300" y="110" text-anchor="middle" font-family="Arial" font-size="12">System Calls Interface</text>
+                
+                <!-- Kernel Space -->
+                <rect x="50" y="150" width="500" height="100" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+                <text x="300" y="175" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Kernel Space</text>
+                <text x="150" y="195" text-anchor="middle" font-family="Arial" font-size="11">Process</text>
+                <text x="250" y="195" text-anchor="middle" font-family="Arial" font-size="11">Memory</text>
+                <text x="350" y="195" text-anchor="middle" font-family="Arial" font-size="11">File</text>
+                <text x="450" y="195" text-anchor="middle" font-family="Arial" font-size="11">Device</text>
+                <text x="150" y="215" text-anchor="middle" font-family="Arial" font-size="11">Management</text>
+                <text x="250" y="215" text-anchor="middle" font-family="Arial" font-size="11">Management</text>
+                <text x="350" y="215" text-anchor="middle" font-family="Arial" font-size="11">System</text>
+                <text x="450" y="215" text-anchor="middle" font-family="Arial" font-size="11">Management</text>
+                
+                <!-- Hardware -->
+                <rect x="50" y="270" width="500" height="30" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2"/>
+                <text x="300" y="290" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Hardware</text>
+            </svg>
+        </div>
+
+        <h3>System Calls</h3>
+        <p>System calls provide the interface between a running program and the operating system. They allow user programs to request services from the kernel.</p>
+        
+        <div class="code-block">
+// Example system calls in C
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+
+int main() {
+    pid_t pid = fork();        // System call to create new process
+    if (pid == 0) {
+        execvp("ls", args);    // System call to execute program
+    } else {
+        wait(NULL);            // System call to wait for child
+    }
+    return 0;
+}
+        </div>
+    </div>
+
+    <div id="processes" class="section">
+        <h2>2. Processes and Process Management</h2>
+        
+        <h3>Process Concept</h3>
+        <p>A process is a program in execution. It includes the program code, current activity (program counter), processor registers, and process stack.</p>
+        
+        <div class="key-points">
+            <h4>Process Components:</h4>
+            <ul>
+                <li><strong>Text Section:</strong> Program code</li>
+                <li><strong>Data Section:</strong> Global variables</li>
+                <li><strong>Heap:</strong> Dynamically allocated memory</li>
+                <li><strong>Stack:</strong> Local variables and function calls</li>
+            </ul>
+        </div>
+
+        <h3>Process States</h3>
+        <div class="diagram">
+            <svg width="700" height="400" viewBox="0 0 700 400">
+                <defs>
+                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#2c3e50" stroke="#2c3e50" stroke-width="0.5"/>
+                    </marker>
+                </defs>
+                
+                <!-- New State -->
+                <rect x="50" y="50" width="100" height="60" rx="5" fill="#e8f4fd" stroke="#3498db" stroke-width="3"/>
+                <text x="100" y="85" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">New</text>
+                
+                <!-- Ready State -->
+                <rect x="250" y="50" width="100" height="60" rx="5" fill="#e8f4fd" stroke="#3498db" stroke-width="3"/>
+                <text x="300" y="85" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Ready</text>
+                
+                <!-- Running State -->
+                <rect x="450" y="50" width="100" height="60" rx="5" fill="#d4edda" stroke="#28a745" stroke-width="3"/>
+                <text x="500" y="85" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Running</text>
+                
+                <!-- Blocked State -->
+                <rect x="250" y="200" width="100" height="60" rx="5" fill="#f8d7da" stroke="#dc3545" stroke-width="3"/>
+                <text x="300" y="235" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Blocked</text>
+                
+                <!-- Terminated State -->
+                <rect x="450" y="200" width="100" height="60" rx="5" fill="#d1ecf1" stroke="#17a2b8" stroke-width="3"/>
+                <text x="500" y="235" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Terminated</text>
+                
+                <!-- Suspended Ready -->
+                <rect x="50" y="300" width="120" height="60" rx="5" fill="#fff3cd" stroke="#ffc107" stroke-width="3"/>
+                <text x="110" y="335" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Suspended Ready</text>
+                
+                <!-- Suspended Blocked -->
+                <rect x="250" y="300" width="120" height="60" rx="5" fill="#f5c6cb" stroke="#e83e8c" stroke-width="3"/>
+                <text x="310" y="335" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Suspended Blocked</text>
+                
+                <!-- Transitions -->
+                <line x1="150" y1="80" x2="250" y2="80" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="200" y="75" text-anchor="middle" font-family="Arial" font-size="10">Admit</text>
+                
+                <line x1="350" y1="80" x2="450" y2="80" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="400" y="75" text-anchor="middle" font-family="Arial" font-size="10">Dispatch</text>
+                
+                <line x1="500" y1="110" x2="300" y2="200" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="400" y="150" text-anchor="middle" font-family="Arial" font-size="10">I/O Wait</text>
+                
+                <line x1="300" y1="200" x2="300" y2="110" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="320" y="155" text-anchor="middle" font-family="Arial" font-size="10">I/O Complete</text>
+                
+                <line x1="500" y1="110" x2="500" y2="200" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="520" y="155" text-anchor="middle" font-family="Arial" font-size="10">Exit</text>
+            </svg>
+        </div>
+
+        <h3>Process Control Block (PCB)</h3>
+        <p>Each process is represented by a Process Control Block that contains information about the process.</p>
+        
+        <div class="code-block">
+struct PCB {
+    int process_id;           // Process identifier
+    int parent_id;            // Parent process identifier
+    int priority;             // Process priority
+    int status;               // Process state (new, ready, running, etc.)
+    
+    // CPU registers
+    int program_counter;       // Address of next instruction
+    int stack_pointer;        // Stack pointer
+    int base_register;        // Base register
+    int limit_register;       // Limit register
+    
+    // Memory information
+    void *memory_start;       // Starting address in memory
+    size_t memory_size;       // Size of memory allocated
+    
+    // File descriptors
+    int open_files[10];       // Open file descriptors
+    
+    // Accounting information
+    time_t creation_time;     // Process creation time
+    time_t cpu_time;          // CPU time used
+    time_t waiting_time;      // Time spent waiting
+};
+        </div>
+
+        <h3>Process Creation</h3>
+        <p>Processes are created using the <code>fork()</code> system call in Unix-like systems.</p>
+        
+        <div class="code-block">
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/wait.h&gt;
+
+int main() {
+    pid_t pid;
+    
+    printf("Before fork\n");
+    pid = fork();
+    
+    if (pid == 0) {
+        // Child process
+        printf("Child process: PID = %d\n", getpid());
+        printf("Parent PID = %d\n", getppid());
+    } else if (pid > 0) {
+        // Parent process
+        printf("Parent process: PID = %d\n", getpid());
+        printf("Child PID = %d\n", pid);
+        wait(NULL); // Wait for child to complete
+    } else {
+        // Fork failed
+        perror("fork failed");
+        return 1;
+    }
+    
+    return 0;
+}
+        </div>
+
+        <h3>Process Termination</h3>
+        <p>Processes can terminate in several ways:</p>
+        <ul>
+            <li><strong>Normal termination:</strong> Process completes execution</li>
+            <li><strong>Abnormal termination:</strong> Process terminates due to an error</li>
+            <li><strong>Killed by another process:</strong> Using kill() system call</li>
+        </ul>
+
+        <div class="implementation-details">
+            <h4>Simple Shell Implementation (sshell.c)</h4>
+            <p>Our shell implementation demonstrates process creation and management:</p>
+            <ul>
+                <li>Uses <code>fork()</code> to create child processes</li>
+                <li>Uses <code>execvp()</code> to execute commands</li>
+                <li>Handles background processes with '&' operator</li>
+                <li>Implements proper parent-child synchronization</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="threads" class="section">
+        <h2>3. Threads and Concurrency</h2>
+        
+        <h3>Thread Concept</h3>
+        <p>A thread is a basic unit of CPU utilization. It consists of a thread ID, program counter, register set, and stack. Threads within a process share code section, data section, and other OS resources.</p>
+        
+        <div class="key-points">
+            <h4>Thread vs Process:</h4>
+            <ul>
+                <li><strong>Threads:</strong> Share memory space, faster context switching, less overhead</li>
+                <li><strong>Processes:</strong> Separate memory space, slower context switching, more overhead</li>
+            </ul>
+        </div>
+
+        <h3>Multithreaded Programming</h3>
+        <p>Multithreading allows multiple threads to run concurrently within a single process, improving responsiveness and resource utilization.</p>
+        
+        <div class="code-block">
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Global variables shared by all threads
+double average;
+int minimum;
+int maximum;
+int *numbers;
+int count;
+
+// Thread function to compute average
+void* compute_average(void* arg) {
+    int sum = 0;
+    for (int i = 0; i < count; i++) {
+        sum += numbers[i];
+    }
+    average = (double) sum / count;
+    pthread_exit(0);
+}
+
+// Thread function to compute minimum
+void* compute_minimum(void* arg) {
+    int min = numbers[0];
+    for (int i = 1; i < count; i++) {
+        if (numbers[i] < min) {
+            min = numbers[i];
+        }
+    }
+    minimum = min;
+    pthread_exit(0);
+}
+
+// Thread function to compute maximum
+void* compute_maximum(void* arg) {
+    int max = numbers[0];
+    for (int i = 1; i < count; i++) {
+        if (numbers[i] > max) {
+            max = numbers[i];
+        }
+    }
+    maximum = max;
+    pthread_exit(0);
+}
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s &lt;list of integers&gt;\n", argv[0]);
+        return 1;
+    }
+
+    count = argc - 1;
+    numbers = (int*) malloc(count * sizeof(int));
+
+    for (int i = 0; i < count; i++) {
+        numbers[i] = atoi(argv[i + 1]);
+    }
+
+    pthread_t tid1, tid2, tid3;
+
+    // Create threads
+    pthread_create(&tid1, NULL, compute_average, NULL);
+    pthread_create(&tid2, NULL, compute_minimum, NULL);
+    pthread_create(&tid3, NULL, compute_maximum, NULL);
+
+    // Wait for threads to complete
+    pthread_join(tid1, NULL);
+    pthread_join(tid2, NULL);
+    pthread_join(tid3, NULL);
+
+    // Print results
+    printf("The average value is %.0f\n", average);
+    printf("The minimum value is %d\n", minimum);
+    printf("The maximum value is %d\n", maximum);
+
+    free(numbers);
+    return 0;
+}
+        </div>
+
+        <h3>Thread Models</h3>
+        <div class="diagram">
+            <svg width="600" height="200" viewBox="0 0 600 200">
+                <!-- Many-to-One Model -->
+                <rect x="50" y="50" width="150" height="100" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                <text x="125" y="30" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Many-to-One</text>
+                <text x="125" y="80" text-anchor="middle" font-family="Arial" font-size="10">User Threads</text>
+                <text x="125" y="95" text-anchor="middle" font-family="Arial" font-size="10">Thread Library</text>
+                <text x="125" y="110" text-anchor="middle" font-family="Arial" font-size="10">Kernel Thread</text>
+                <text x="125" y="125" text-anchor="middle" font-family="Arial" font-size="10">Kernel</text>
+                
+                <!-- One-to-One Model -->
+                <rect x="250" y="50" width="150" height="100" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+                <text x="325" y="30" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">One-to-One</text>
+                <text x="325" y="80" text-anchor="middle" font-family="Arial" font-size="10">User Thread</text>
+                <text x="325" y="95" text-anchor="middle" font-family="Arial" font-size="10">Kernel Thread</text>
+                <text x="325" y="110" text-anchor="middle" font-family="Arial" font-size="10">Kernel Thread</text>
+                <text x="325" y="125" text-anchor="middle" font-family="Arial" font-size="10">Kernel</text>
+                
+                <!-- Many-to-Many Model -->
+                <rect x="450" y="50" width="150" height="100" fill="#e8f5e8" stroke="#4caf50" stroke-width="2"/>
+                <text x="525" y="30" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Many-to-Many</text>
+                <text x="525" y="80" text-anchor="middle" font-family="Arial" font-size="10">User Threads</text>
+                <text x="525" y="95" text-anchor="middle" font-family="Arial" font-size="10">Thread Library</text>
+                <text x="525" y="110" text-anchor="middle" font-family="Arial" font-size="10">Kernel Threads</text>
+                <text x="525" y="125" text-anchor="middle" font-family="Arial" font-size="10">Kernel</text>
+            </svg>
+        </div>
+
+        <h3>Thread Synchronization</h3>
+        <p>When multiple threads access shared resources, synchronization mechanisms are needed to prevent race conditions.</p>
+        
+        <div class="key-points">
+            <h4>Common Synchronization Problems:</h4>
+            <ul>
+                <li><strong>Race Conditions:</strong> Multiple threads access shared data simultaneously</li>
+                <li><strong>Critical Sections:</strong> Code sections that access shared resources</li>
+                <li><strong>Mutual Exclusion:</strong> Ensuring only one thread accesses critical section at a time</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="synchronization" class="section">
+        <h2>4. Synchronization and Critical Sections</h2>
+        
+        <h3>Critical Section Problem</h3>
+        <p>The critical section problem involves ensuring that when one process is executing in its critical section, no other process is allowed to execute in its critical section.</p>
+        
+        <div class="key-points">
+            <h4>Solution Requirements:</h4>
+            <ul>
+                <li><strong>Mutual Exclusion:</strong> Only one process at a time in critical section</li>
+                <li><strong>Progress:</strong> Processes not in critical section don't block others</li>
+                <li><strong>Bounded Waiting:</strong> Process must eventually get access to critical section</li>
+            </ul>
+        </div>
+
+        <h3>Producer-Consumer Problem</h3>
+        <p>The producer-consumer problem is a classic synchronization problem where producers generate data and consumers consume data through a shared buffer.</p>
+        
+        <div class="implementation-details">
+            <h4>Our Implementation (prodcon.c)</h4>
+            <p>Key features of our producer-consumer implementation:</p>
+            <ul>
+                <li><strong>Synchronization Primitives:</strong> Uses pthread_mutex_t and sem_t</li>
+                <li><strong>Bounded Buffer:</strong> Fixed-size circular buffer (BUFFER_SIZE = 10)</li>
+                <li><strong>Data Integrity:</strong> Checksum validation for each buffer item</li>
+                <li><strong>Thread Safety:</strong> Proper mutex and semaphore usage</li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+// Buffer item structure with checksum
+typedef struct buffer_item {
+    uint8_t data[30];   // Data payload (30 bytes)
+    uint16_t cksum;     // Checksum for data integrity validation
+} BUFFER_ITEM;
+
+// Synchronization primitives
+pthread_mutex_t mutex;     // Protects critical sections
+sem_t* empty;             // Counts empty slots
+sem_t* full;               // Counts full slots
+
+// Producer function
+void* producer(void* param) {
+    int producer_id = *(int*)param;
+    BUFFER_ITEM item;
+    
+    while (true) {
+        // Generate random data
+        for (int i = 0; i < 30; i++) {
+            item.data[i] = rand() % 256;
+        }
+        
+        // Calculate checksum
+        item.cksum = calculate_checksum(item.data, 30);
+        
+        // Insert item into buffer
+        if (insert_item(item) != 0) {
+            fprintf(stderr, "Producer %d: failed to insert item\n", producer_id);
+        }
+        
+        pthread_testcancel();
+    }
+    
+    return NULL;
+}
+
+// Consumer function
+void* consumer(void* param) {
+    int consumer_id = *(int*)param;
+    BUFFER_ITEM item;
+    
+    while (true) {
+        if (remove_item(&item) == 0) {
+            // Verify checksum
+            uint16_t calculated_checksum = calculate_checksum(item.data, 30);
+            
+            if (calculated_checksum == item.cksum) {
+                printf("Consumer %d: consumed item with checksum %d\n", 
+                       consumer_id, item.cksum);
+            } else {
+                fprintf(stderr, "Consumer %d: ERROR - checksum mismatch!\n", consumer_id);
+                exit(EXIT_FAILURE);
+            }
+        }
+        
+        pthread_testcancel();
+    }
+    
+    return NULL;
+}
+        </div>
+
+        <h3>Reader-Writer Problem</h3>
+        <p>The reader-writer problem involves multiple readers and writers accessing a shared resource, where readers can access simultaneously but writers need exclusive access.</p>
+        
+        <div class="implementation-details">
+            <h4>Our Reader-Writer Implementation (rwlog.c)</h4>
+            <p>Features of our reader-writer synchronization:</p>
+            <ul>
+                <li><strong>Writer-Preference Policy:</strong> Writers get priority over readers</li>
+                <li><strong>No Starvation:</strong> Both readers and writers make progress</li>
+                <li><strong>Circular Buffer:</strong> Fixed-size log with wraparound</li>
+                <li><strong>Performance Metrics:</strong> Tracks wait times and throughput</li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+// Reader-writer synchronization state
+typedef struct {
+    pthread_mutex_t mutex;
+    pthread_cond_t read_cond;
+    pthread_cond_t write_cond;
+    
+    int readers_active;
+    int readers_waiting;
+    int writers_waiting;
+    int writer_active;
+    
+    rwlog_entry_t *entries;
+    size_t capacity;
+    size_t head;
+    size_t tail;
+    size_t count;
+    uint64_t next_seq;
+} rwlog_monitor_t;
+
+// Reader entry with writer preference
+int rwlog_begin_read(void) {
+    pthread_mutex_lock(&monitor->mutex);
+    
+    // Writer preference: block if writer is active or writers are waiting
+    while (monitor->writer_active || monitor->writers_waiting > 0) {
+        monitor->readers_waiting++;
+        pthread_cond_wait(&monitor->read_cond, &monitor->mutex);
+        monitor->readers_waiting--;
+    }
+    
+    monitor->readers_active++;
+    pthread_mutex_unlock(&monitor->mutex);
+    return 0;
+}
+
+// Writer entry
+int rwlog_begin_write(void) {
+    pthread_mutex_lock(&monitor->mutex);
+    
+    monitor->writers_waiting++;
+    
+    // Wait until no readers are active and no writer is active
+    while (monitor->readers_active > 0 || monitor->writer_active) {
+        pthread_cond_wait(&monitor->write_cond, &monitor->mutex);
+    }
+    
+    monitor->writers_waiting--;
+    monitor->writer_active = 1;
+    
+    pthread_mutex_unlock(&monitor->mutex);
+    return 0;
+}
+        </div>
+
+        <h3>Synchronization Mechanisms</h3>
+        
+        <h4>Mutexes</h4>
+        <p>Mutexes provide mutual exclusion by allowing only one thread to hold the lock at a time.</p>
+        
+        <h4>Semaphores</h4>
+        <p>Semaphores are integer variables that can be accessed only through two atomic operations: wait() and signal().</p>
+        
+        <div class="code-block">
+// Semaphore implementation with busy waiting
+typedef struct {
+    int value;
+} semaphore_t;
+
+void wait(semaphore_t *sem) {
+    while (sem->value <= 0) {
+        // Busy wait
+    }
+    sem->value--;
+}
+
+void signal(semaphore_t *sem) {
+    sem->value++;
+}
+        </div>
+
+        <h4>Condition Variables</h4>
+        <p>Condition variables allow threads to wait for a specific condition to become true.</p>
+    </div>
+
+    <div id="scheduling" class="section">
+        <h2>5. CPU Scheduling</h2>
+        
+        <h3>Scheduling Concepts</h3>
+        <p>CPU scheduling is the process of selecting which process should be executed next by the CPU. The goal is to maximize CPU utilization and throughput while minimizing waiting time and response time.</p>
+        
+        <div class="key-points">
+            <h4>Scheduling Criteria:</h4>
+            <ul>
+                <li><strong>CPU Utilization:</strong> Keep CPU as busy as possible</li>
+                <li><strong>Throughput:</strong> Number of processes completed per unit time</li>
+                <li><strong>Turnaround Time:</strong> Time from process submission to completion</li>
+                <li><strong>Waiting Time:</strong> Time spent waiting in ready queue</li>
+                <li><strong>Response Time:</strong> Time from submission to first response</li>
+            </ul>
+        </div>
+
+        <h3>Scheduling Algorithms</h3>
+        
+        <h4>First-Come, First-Served (FCFS)</h4>
+        <p>Processes are executed in the order they arrive. Simple but can cause convoy effect.</p>
+        
+        <h4>Shortest Job First (SJF)</h4>
+        <p>Processes with shortest execution time are executed first. Optimal for minimizing average waiting time.</p>
+        
+        <h4>Priority Scheduling</h4>
+        <p>Each process is assigned a priority, and processes with higher priority are executed first.</p>
+        
+        <h4>Round Robin</h4>
+        <p>Each process gets a small unit of CPU time (time quantum). Processes are executed in circular order.</p>
+        
+        <div class="formula">
+            <h4>CPU Utilization Calculation</h4>
+            <p>For multiprogramming systems:</p>
+            <p><strong>CPU Utilization = 1 - (I/O wait probability)^degree_of_multiprogramming</strong></p>
+            <p>Example: With 6 processes, each waiting 35% of time for I/O:</p>
+            <p>CPU Utilization = 1 - (0.35)^6 = 1 - 0.0018 = 99.8%</p>
+        </div>
+
+        <h3>Real-Time Scheduling</h3>
+        <p>Real-time systems require processes to complete within specific time constraints.</p>
+        
+        <h4>Rate-Monotonic Scheduling</h4>
+        <p>Assigns priorities based on task periods - shorter periods get higher priorities.</p>
+        
+        <h4>Earliest-Deadline-First (EDF)</h4>
+        <p>Processes with earliest deadlines get highest priority. Optimal for real-time systems.</p>
+        
+        <div class="formula">
+            <h4>Rate-Monotonic Utilization Bound</h4>
+            <p>For n tasks: U ≤ n(2^(1/n) - 1)</p>
+            <p>For 4 tasks: U ≤ 4(2^(1/4) - 1) = 4(0.189) = 0.756</p>
+        </div>
+    </div>
+
+    <div id="deadlocks" class="section">
+        <h2>6. Deadlocks</h2>
+        
+        <h3>Deadlock Characterization</h3>
+        <p>A deadlock occurs when a set of processes are blocked because each process is holding a resource and waiting for another resource held by another process in the set.</p>
+        
+        <div class="key-points">
+            <h4>Four Necessary Conditions for Deadlock:</h4>
+            <ul>
+                <li><strong>Mutual Exclusion:</strong> Resources cannot be shared</li>
+                <li><strong>Hold and Wait:</strong> Process holds resources while waiting for others</li>
+                <li><strong>No Preemption:</strong> Resources cannot be forcibly taken</li>
+                <li><strong>Circular Wait:</strong> Circular chain of processes waiting for resources</li>
+            </ul>
+        </div>
+
+        <h3>Deadlock Prevention</h3>
+        <p>Prevent deadlocks by ensuring that at least one of the four necessary conditions cannot hold.</p>
+        
+        <ul>
+            <li><strong>Mutual Exclusion:</strong> Allow resource sharing when possible</li>
+            <li><strong>Hold and Wait:</strong> Require processes to request all resources at once</li>
+            <li><strong>No Preemption:</strong> Allow preemption of resources</li>
+            <li><strong>Circular Wait:</strong> Impose total ordering on resource types</li>
+        </ul>
+
+        <h3>Deadlock Avoidance</h3>
+        <p>Use algorithms like Banker's Algorithm to ensure the system never enters an unsafe state.</p>
+        
+        <h3>Deadlock Detection and Recovery</h3>
+        <p>Allow deadlocks to occur, detect them, and recover by terminating processes or preempting resources.</p>
+    </div>
+
+    <div id="implementations" class="section">
+        <h2>7. Code Implementations</h2>
+        
+        <h3>Producer-Consumer Implementation</h3>
+        <div class="implementation-details">
+            <h4>Key Features:</h4>
+            <ul>
+                <li><strong>Thread Safety:</strong> Mutex and semaphore synchronization</li>
+                <li><strong>Data Integrity:</strong> Checksum validation for corruption detection</li>
+                <li><strong>Graceful Termination:</strong> pthread cancellation for clean shutdown</li>
+                <li><strong>Error Handling:</strong> Comprehensive error checking and reporting</li>
+            </ul>
+        </div>
+
+        <h3>Reader-Writer Implementation</h3>
+        <div class="implementation-details">
+            <h4>Key Features:</h4>
+            <ul>
+                <li><strong>Writer Preference:</strong> Writers get priority over readers</li>
+                <li><strong>No Starvation:</strong> Both readers and writers make progress</li>
+                <li><strong>Shared Memory:</strong> POSIX shared memory for inter-process communication</li>
+                <li><strong>Performance Metrics:</strong> Tracks wait times and throughput</li>
+            </ul>
+        </div>
+
+        <h3>Simple Shell Implementation</h3>
+        <div class="implementation-details">
+            <h4>Key Features:</h4>
+            <ul>
+                <li><strong>Process Creation:</strong> fork() and execvp() for command execution</li>
+                <li><strong>Background Processing:</strong> Support for '&' operator</li>
+                <li><strong>Error Handling:</strong> Proper error checking and reporting</li>
+                <li><strong>Input Parsing:</strong> Command line parsing and tokenization</li>
+            </ul>
+        </div>
+
+        <h3>Multithreaded Statistics Calculator</h3>
+        <div class="implementation-details">
+            <h4>Key Features:</h4>
+            <ul>
+                <li><strong>Parallel Processing:</strong> Three threads for average, minimum, maximum</li>
+                <li><strong>Shared Memory:</strong> Global variables for results</li>
+                <li><strong>Thread Synchronization:</strong> pthread_join() for coordination</li>
+                <li><strong>Memory Management:</strong> Dynamic allocation and cleanup</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="practice" class="section">
+        <h2>8. Practice Problems</h2>
+        
+        <h3>Process State Transitions</h3>
+        <div class="highlight">
+            <h4>Problem:</h4>
+            <p>Explain the additional process states beyond the basic three (Running, Ready, Blocked) and their transitions.</p>
+            
+            <h4>Solution:</h4>
+            <ul>
+                <li><strong>New:</strong> Process being created</li>
+                <li><strong>Terminated:</strong> Process completed execution</li>
+                <li><strong>Suspended Ready:</strong> Process ready but swapped out</li>
+                <li><strong>Suspended Blocked:</strong> Process blocked and swapped out</li>
+            </ul>
+        </div>
+
+        <h3>CPU Utilization Calculation</h3>
+        <div class="highlight">
+            <h4>Problem:</h4>
+            <p>Calculate expected CPU utilization with degree of multiprogramming = 6, where each process waits 35% of time for I/O.</p>
+            
+            <h4>Solution:</h4>
+            <div class="formula">
+                CPU Utilization = 1 - (I/O wait probability)^degree<br>
+                = 1 - (0.35)^6<br>
+                = 1 - 0.0018<br>
+                = 99.8%
+            </div>
+        </div>
+
+        <h3>Scheduling Algorithm Analysis</h3>
+        <div class="highlight">
+            <h4>Problem:</h4>
+            <p>Compare turnaround times for FCFS, SJF, Priority, and Round Robin scheduling with jobs (10, 6, 2, 4, 8) minutes and priorities (3, 5, 2, 1, 4).</p>
+            
+            <h4>Solution:</h4>
+            <div class="formula">
+                <strong>FCFS:</strong> (10 + 16 + 18 + 22 + 30) / 5 = 19.2 minutes<br>
+                <strong>SJF:</strong> (2 + 6 + 12 + 20 + 30) / 5 = 14 minutes<br>
+                <strong>Priority:</strong> (6 + 14 + 24 + 26 + 30) / 5 = 20 minutes<br>
+                <strong>Round Robin:</strong> Depends on time quantum
+            </div>
+        </div>
+
+        <h3>Real-Time Scheduling</h3>
+        <div class="highlight">
+            <h4>Problem:</h4>
+            <p>Determine if a real-time system with periods (50, 100, 200, 250) ms and CPU times (35, 20, 10, x) ms is schedulable under Rate-Monotonic and EDF.</p>
+            
+            <h4>Solution:</h4>
+            <div class="formula">
+                <strong>Rate-Monotonic:</strong> U ≤ 0.756, but system utilization = 0.95 + x/250<br>
+                System not schedulable under RM for any x > 0<br><br>
+                
+                <strong>EDF:</strong> U ≤ 1.0, so 0.95 + x/250 ≤ 1.0<br>
+                x ≤ 12.5 ms for EDF schedulability
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📚 Study Tips and Exam Preparation</h2>
+        
+        <div class="key-points">
+            <h4>Key Concepts to Master:</h4>
+            <ul>
+                <li>Process states and transitions</li>
+                <li>Thread synchronization mechanisms</li>
+                <li>Critical section solutions</li>
+                <li>Scheduling algorithms and their trade-offs</li>
+                <li>Deadlock prevention and avoidance</li>
+                <li>Real-time scheduling constraints</li>
+            </ul>
+        </div>
+
+        <div class="key-points">
+            <h4>Practice Areas:</h4>
+            <ul>
+                <li>Calculate CPU utilization for multiprogramming systems</li>
+                <li>Analyze scheduling algorithm performance</li>
+                <li>Identify race conditions in code</li>
+                <li>Design synchronization solutions</li>
+                <li>Evaluate real-time system schedulability</li>
+            </ul>
+        </div>
+
+        <div class="key-points">
+            <h4>Code Implementation Skills:</h4>
+            <ul>
+                <li>Producer-consumer synchronization</li>
+                <li>Reader-writer synchronization</li>
+                <li>Process creation and management</li>
+                <li>Thread creation and coordination</li>
+                <li>Error handling and resource cleanup</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔗 Resources and References</h2>
+        
+        <div class="key-points">
+            <h4>Course Materials:</h4>
+            <ul>
+                <li>Lecture Slides 1-6: Introduction, Processes, Threads, Synchronization, Scheduling, Deadlocks</li>
+                <li>Homework Assignments: Process/Thread management, Producer-Consumer, Reader-Writer</li>
+                <li>In-Class Examples: File tools, Threading, Statistics calculator</li>
+                <li>Code Implementations: All source code with detailed comments</li>
+            </ul>
+        </div>
+
+        <div class="key-points">
+            <h4>Important Formulas:</h4>
+            <ul>
+                <li>CPU Utilization = 1 - (I/O wait probability)^degree</li>
+                <li>Rate-Monotonic Bound: U ≤ n(2^(1/n) - 1)</li>
+                <li>Average Turnaround Time = (Sum of completion times) / Number of processes</li>
+                <li>Response Time = First response time - Arrival time</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px; margin-top: 30px;">
+        <p><strong>Comprehensive Operating Systems Midterm Review</strong></p>
+        <p>CPSC 380 - Based on Lectures, Homework, and In-Class Materials</p>
+        <p>Generated from complete course content analysis</p>
+    </footer>
+</body>
+</html>
