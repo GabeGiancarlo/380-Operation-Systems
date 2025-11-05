@@ -1,0 +1,146 @@
+
+Programming Assignment 4
+CPU Scheduling Simulation
+
+Objective
+In this assignment, you will build a CPU scheduling simulator that spawns one thread per
+process and coordinates their execution using semaphores. The main thread acts as the scheduler,
+deciding which process thread to “run” each CPU cycle based on the selected scheduling
+algorithm.
+
+You will implement:
+• FCFS (First Come, First Served)
+• SJF (Shortest Job First) — non-preemptive
+• RR (Round Robin) — preemptive, with configurable time quantum
+• Priority Scheduling — preemptive (lower number = higher priority)
+
+Implementation
+The implementation of this project may be completed in either C/C++. Your program will first
+need to parse a CSV-style task workload file specified as follows:
+Each record represents a process with:
+• pid — process identifier
+• arrival — time of arrival (in cycles)
+• burst — total CPU time required
+• priority — smaller = higher priority
+
+Your program must use getopt_long() to support both short and long options:
+Command Line Options
+Option Long form Description
+-f --fcfs Use FCFS scheduling
+-s --sjf Use SJF scheduling
+-r --rr Use Round Robin scheduling
+-p --priority Use Priority scheduling
+-i --input <file> Input CSV filename
+-q --quantum <n> Time quantum for RR
+
+Example Usage:
+
+Implementation Details
+When the program begins, the main thread (acting as the scheduler) reads the process list from
+the input CSV file and spawns one POSIX thread per task. Each thread represents a process in
+the system and immediately blocks on its own private semaphore, initialized to zero. These
+semaphores allow the scheduler to precisely control when each process is permitted to “run.”
+The scheduler maintains a simulation clock that advances one cycle per iteration of the main
+scheduling loop. For each clock tick, it performs the following sequence of actions:
+
+1. Check for Arrivals: Any process whose arrival time is less than or equal to the
+current clock time is admitted into the READY queue. This queue holds all threads that
+have arrived but are not currently running or finished.
+
+2. Select the Next Process: The scheduler examines the READY queue and applies the
+active scheduling policy:
+
+a. FCFS: Select the process that arrived first.
+b. SJF: Select the process with the smallest remaining burst time.
+c. RR: Select the next process in a cyclic order using a fixed time quantum
+d. Priority: Select the process with the highest priority (lowest priority value).
+
+3. Dispatch the Process: Once a process is selected, the scheduler posts (signals) that
+process’s semaphore. The corresponding thread wakes up, simulates one unit of CPU
+execution by decrementing its remaining burst time, and then either re-enters the READY
+queue (if not done) or terminates (if its remaining time reaches zero).
+
+4. Update System State: The scheduler removes completed processes from the READY
+queue, increments the clock, and repeats until all processes have finished.
+The READY queue represents the list of runnable threads waiting for CPU service. You may
+implement it as a simple FIFO queue or a sorted structure ordered by burst time or priority for
+SJF and Priority scheduling.
+
+Students are expected to design and maintain this READY queue explicitly — adding newly
+arrived processes, re-queuing preempted ones (for RR and Priority), and removing completed
+tasks. The scheduler should not post directly to arbitrary semaphores; it must make its decision
+based on the current READY queue contents.
+
+Additional Implementation details:
+Your scheduler must collect and report standard CPU scheduling metrics for each process and
+overall averages for the entire workload. These metrics reflect how efficiently and fairly your
+scheduler manages CPU time. They should be printed at the end of the simulation in a clear
+tabular format.
+
+Per-Process Metrics (each process records)
+Definition
+
+Arrival Time The simulation time when the process first enters the system.
+Start Time The first time the process is actually dispatched by the scheduler (i.e., when its
+semaphore is posted for the first time).
+
+Finish Time The simulation time when the process completes all its CPU bursts and terminates.
+Waiting Time The total time the process spends in the READY queue waiting for CPU service.
+Response Time The time between the process’s arrival and the first time it begins execution.
+Turnaround
+Time
+The total time from the process’s arrival to its completion (includes both waiting and
+execution time).
+Global Metrics
+Definition
+Average Waiting
+Time
+The average amount of time processes spend waiting in the READY queue
+before being scheduled.
+Average Response
+Time
+The average delay between a process’s arrival and its first execution, showing
+scheduler responsiveness.
+Average Turnaround
+Time
+The average total time from process arrival to completion, reflecting overall
+system efficiency.
+Throughput The number of processes completed per unit of simulated time, indicating CPU
+productivity.
+CPU Utilization The percentage of total simulated time during which the CPU was busy
+executing processes rather than idle.
+
+ßExample Output:
+===== FCFS Scheduling =====
+Timeline (Gantt Chart):
+0 5 8 16 22
+|--------|--------|--------|--------|
+| P1 | P2 | P3 | P4 |
+-------------------------------------
+-------------------------------------
+PID Arr Burst Start Finish Wait Resp Turn
+P1 0 5 0 5 0 0 5
+P2 1 3 5 8 4 4 7
+P3 2 8 8 16 6 6 14
+P4 3 6 16 22 13 13 19
+-------------------------------------
+Avg Wait = 5.75
+Avg Resp = 5.75
+Avg Turn = 11.25
+Throughput = 0.18 jobs/unit time
+CPU Utilization = 100%
+Grading
+The program will be graded on the basic functionality, error handling and how well the
+implementation description was followed based upon the categories listed below. Be sure to
+name your programming project schedsim. Note that program warnings deduct 5% and easily
+fixable compilers errors deduct 10%.
+Category Description Points
+Command-line parsing (getopt_long) Handles all required flags and errors 5
+READY queue design Properly maintains runnable processes 10
+Thread creation + per-thread semaphores Each process correctly blocked/unblocked 5
+FCFS implementation Correct scheduling order 10
+SJF implementation Correct selection by shortest burst 10
+RR implementation Correct quantum rotation and preemption 10
+Priority implementation Preemptive, lower = higher priority 10
+Output & metrics Clear timeline, per-process stats 5
+Code clarity & documentation Naming, comments, modular design 5
