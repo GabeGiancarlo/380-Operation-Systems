@@ -1,0 +1,36 @@
+# Test trace file for contiguous memory allocator
+# This file demonstrates various allocation strategies and operations
+
+# Allocate using First Fit
+RQ P1 40000 F
+
+# Allocate using Best Fit
+RQ P2 50000 B
+
+# Allocate using Worst Fit
+RQ P3 30000 W
+
+# Show status
+STAT
+
+# Release P1
+RL P1
+
+# Show status after release
+STAT -v
+
+# Allocate more memory
+RQ P4 20000 F
+
+# Show status
+STAT
+
+# Compact memory
+C
+
+# Show final status with visualization
+STAT -v
+
+# Exit
+X
+

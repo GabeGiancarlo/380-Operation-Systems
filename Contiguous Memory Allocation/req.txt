@@ -1,0 +1,109 @@
+
+Page
+1
+of 4
+Programming Assignment 5
+Contiguous Memory Allocation
+Objective
+This project extends contiguous memory allocation by simulating a simple dynamic memory
+manager. Students will implement allocation and release strategies, compaction, fragmentation
+reporting, and an optional visual memory map.
+Assignment: Implementing contiguous memory allocation
+Your program will manage a contiguous region of memory of size MAX where addresses range
+from 0 ... MAX − 1. At startup, it is initialized with a total size specified as a command-line
+argument. For example:
+$ ./allocator 1048576
+Once started, the program should display a prompt and respond to the following commands:
+Command Description Example
+RQ <process> <size>
+<F|B|W>
+Request a contiguous block of
+memory using First Fit, Best Fit, or
+Worst Fit.
+RQ P0 40000 W
+RL <process> Release memory allocated to a
+process.
+RL P0
+C Compact all unused holes into one
+region.
+C
+STAT Display a report of allocated and
+free regions.
+STAT
+X Exit the program. X
+When releasing a region, if a hole is adjacent to another hole, they must be merged into a single
+larger hole.
+Allocating Memory
+Your allocator must support three allocation strategies:
+Flag Strategy Description
+F First Fit Allocate from the first hole large enough
+to satisfy the request.
+B Best Fit Allocate from the smallest hole large
+enough to satisfy the request.
+W Worst Fit Allocate from the largest available hole.
+If insufficient memory exists to fulfill a request, print an error message and reject the request.
+Once your program has started, it will present the user with the following prompt:
+allocator>
+It will then respond to the following commands: RQ (request), RL (release), C (compact), STAT
+(status report), and X (exit). A request for 40,000 bytes will appear as follows:
+allocator>RQ P0 40000 W
+Compaction
+If the user enters the C command, the program should compact the set of holes into one large
+hole. For example, holes of size 550 KB, 375 KB, 1,900 KB, and 4,500 KB become one hole of
+size 7,325 KB. The command for compaction is entered as:
+allocator>C
+Enhanced Features
+Simulation Mode : Add a command:
+SIM <filename>
+The specified file contains a sequence of commands that the program executes automatically as
+if typed interactively.
+Example trace file:
+RQ P1 40000 F
+RQ P2 50000 B
+RL P1
+RQ P3 60000 W
+STAT
+When executed with SIM trace.txt, the program should perform the commands in order and print
+results as in interactive mode.
+Fragmentation and Utilization Metrics
+STAT command for reporting the status of memory is entered
+as: allocator>STAT
+Given this command, your program will report on the regions of memory that are allocated and
+the regions that are unused. For example, one possible arrangement of memory allocation would
+be as follows:
+Allocated memory:
+Process P0: Start = 0 KB, End = 40 KB, Size = 40 KB
+Process P2: Start = 120 KB, End = 200 KB, Size = 80 KB
+Free memory:
+Hole 1: Start = 40 KB, End = 120 KB, Size = 80 KB
+Hole 2: Start = 200 KB, End = 1024 KB, Size = 824 KB
+Summary:
+Total allocated: 120 KB
+Total free: 904 KB
+Largest hole: 824 KB
+External fragmentation: 8.8% (1-largest free block/total free memory)
+Average hole size: 452 KB
+Visualization / Memory Map Output
+Enhance STAT with an optional visualization flag STAT -v. Print a simple one-line map of
+memory regions:
+[#####.....##........####]
+^0 ^MAX
+# → Represents allocated memory regions (occupied by processes).
+• → Represents free memory (holes available for allocation).
+Each character in the 50-character bar corresponds to approximately 2% of total memory.
+This visualization provides an intuitive snapshot of how fragmented or compact the memory
+becomes as allocations and releases occur.
+Error Handling
+Include checks for invalid command formats, duplicate process names, releasing non-existent
+processes, and rejecting allocations that exceed available memory.
+Grading
+Category Points Description
+Core allocation & release 25 Correct hole management and merging.
+Compaction 10 Correct relocation and state update.
+Simulation mode 15 Executes scripted commands properly.
+Fragmentation & stats 15 Computes correct metrics.
+Error handling 10 Robust validation and fault tolerance.
+Visualization 5 Displays graphical memory map.
+Documentation & style 10 Readable, well-commented code.
+Name your program allocator.c and include a README file describing compilation, usage
+examples, and any assumptions.

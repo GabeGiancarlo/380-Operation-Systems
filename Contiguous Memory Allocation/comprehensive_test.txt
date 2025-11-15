@@ -1,0 +1,43 @@
+# Comprehensive test for contiguous memory allocator
+# Tests all three allocation strategies, release, compaction, and visualization
+
+# Test First Fit
+RQ P1 10000 F
+RQ P2 20000 F
+RQ P3 15000 F
+
+# Test Best Fit
+RQ P4 5000 B
+RQ P5 8000 B
+
+# Test Worst Fit
+RQ P6 12000 W
+RQ P7 3000 W
+
+# Show status
+STAT
+
+# Release some processes
+RL P2
+RL P4
+
+# Show status after releases (should merge holes)
+STAT -v
+
+# Allocate more with different strategies
+RQ P8 25000 F
+RQ P9 10000 B
+RQ P10 5000 W
+
+# Show fragmented state
+STAT -v
+
+# Compact memory
+C
+
+# Show compacted state
+STAT -v
+
+# Exit
+X
+
