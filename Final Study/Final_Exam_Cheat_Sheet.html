@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="print-margin" content="0">
+    <title>OS Final Exam Cheat Sheet - 4 Pages</title>
+    <style>
+        @page {
+            size: 8.5in 11in;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        @media print {
+            @page {
+                size: 8.5in 11in;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 3.8pt;
+            line-height: 1.0 !important;
+            color: #000000;
+            background: #ffffff;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .page {
+            width: 8.5in;
+            padding: 0.006in;
+            page-break-after: always;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-auto-rows: min-content;
+            gap: 0.002in !important;
+            overflow: hidden;
+            background: #ffffff;
+            align-content: start;
+            margin: 0 !important;
+            box-sizing: border-box;
+        }
+        
+        .page:last-child {
+            page-break-after: auto;
+        }
+        
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 0 !important;
+            overflow: hidden;
+            align-items: stretch;
+            justify-content: flex-start;
+            height: auto;
+            min-height: 0;
+        }
+        
+        .section {
+            border-left: 2.5px solid;
+            padding: 0.004in;
+            page-break-inside: avoid;
+            margin: 0 !important;
+            break-inside: avoid;
+            border-top: none !important;
+            border-bottom: none !important;
+            vertical-align: top;
+            display: block;
+            flex-shrink: 0;
+            flex-grow: 0;
+            height: auto;
+            min-height: 0;
+        }
+        
+        .section.intro { border-color: #2c3e50; background: #ecf0f1 !important; margin: 0 !important; }
+        .section.process { border-color: #3498db; background: #ebf5fb !important; margin: 0 !important; }
+        .section.thread { border-color: #27ae60; background: #eafaf1 !important; margin: 0 !important; }
+        .section.sync { border-color: #e67e22; background: #fef5e7 !important; margin: 0 !important; }
+        .section.sched { border-color: #e74c3c; background: #fdedec !important; margin: 0 !important; }
+        .section.deadlock { border-color: #9b59b6; background: #f4ecf7 !important; margin: 0 !important; }
+        .section.memory { border-color: #f39c12; background: #fef9e7 !important; margin: 0 !important; }
+        .section.vm { border-color: #16a085; background: #e8f8f5 !important; margin: 0 !important; }
+        .section.fs { border-color: #2980b9; background: #ebf5fb !important; margin: 0 !important; }
+        .section.io { border-color: #c0392b; background: #fadbd8 !important; margin: 0 !important; }
+        .section.assign { border-color: #34495e; background: #eaeded !important; margin: 0 !important; }
+        .section.questions { border-color: #8e44ad; background: #f4ecf7 !important; margin: 0 !important; }
+        .section.helpful { border-color: #1abc9c; background: #d5f4e6 !important; margin: 0 !important; }
+        
+        .section h3 {
+            font-size: 4.5pt;
+            font-weight: bold;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 0.1px;
+            line-height: 1.0 !important;
+        }
+        
+        .section h4 {
+            font-size: 3.8pt;
+            font-weight: bold;
+            margin: 0 !important;
+            padding: 0 !important;
+            margin-top: 0.0005in !important;
+            color: #000;
+            line-height: 1.0 !important;
+        }
+        
+        .section p, .section li {
+            font-size: 3.4pt;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #000;
+            line-height: 1.0 !important;
+        }
+        
+        .section ul, .section ol {
+            margin-left: 0.04in !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            margin-right: 0 !important;
+            list-style: none;
+            padding: 0 !important;
+        }
+        
+        .section li:before {
+            content: "• ";
+            font-weight: bold;
+            margin-right: 0.003in;
+        }
+        
+        table {
+            width: 100%;
+            font-size: 3.2pt;
+            border-collapse: collapse;
+            margin: 0;
+        }
+        
+        table th, table td {
+            border: 0.5px solid #000;
+            padding: 0.5px 1px;
+            text-align: left;
+        }
+        
+        table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        
+        .formula {
+            background: #f8f8f8;
+            border: 0.5px solid #000;
+            padding: 0.5px;
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 3.4pt;
+            text-align: center;
+        }
+        
+        .code {
+            font-family: 'Courier New', monospace;
+            font-size: 3.0pt;
+            background: #f5f5f5;
+            padding: 0.5px 1px;
+            white-space: pre-wrap;
+        }
+        
+        .code-block {
+            font-family: 'Courier New', monospace;
+            font-size: 2.8pt;
+            background: #f5f5f5;
+            border: 0.5px solid #ccc;
+            padding: 0.005in;
+            margin: 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        
+        .example {
+            background: #fff9e6;
+            border: 0.5px solid;
+            border-color: inherit;
+            padding: 0.005in;
+            margin: 0;
+            font-size: 3.2pt;
+        }
+        
+        .example h5 {
+            color: #000;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            font-size: 3.5pt;
+        }
+        
+        .lay-explanation {
+            font-style: italic;
+            color: #555;
+            font-size: 3.1pt;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tech-explanation {
+            color: #333;
+            font-size: 3.2pt;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .compact {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .compact li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            html, body {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                background: #ffffff !important;
+            }
+            
+            .page {
+                margin: 0 auto !important;
+                padding: 0.006in !important;
+                background: #ffffff !important;
+                width: 8.5in !important;
+                max-width: 8.5in !important;
+                min-width: 8.5in !important;
+                height: auto !important;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                grid-template-rows: auto !important;
+                grid-auto-rows: min-content !important;
+                gap: 0.002in !important;
+                align-content: start !important;
+                justify-content: stretch !important;
+                box-sizing: border-box !important;
+            }
+            
+            .column {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                align-items: stretch !important;
+                justify-content: flex-start !important;
+                flex: 1 1 auto !important;
+            }
+            
+            .section {
+                background: inherit !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0.004in !important;
+                flex-grow: 0 !important;
+                flex-shrink: 0 !important;
+                height: auto !important;
+            }
+            
+            .section.intro { background: #ecf0f1 !important; }
+            .section.process { background: #ebf5fb !important; }
+            .section.thread { background: #eafaf1 !important; }
+            .section.sync { background: #fef5e7 !important; }
+            .section.sched { background: #fdedec !important; }
+            .section.deadlock { background: #f4ecf7 !important; }
+            .section.memory { background: #fef9e7 !important; }
+            .section.vm { background: #e8f8f5 !important; }
+            .section.fs { background: #ebf5fb !important; }
+            .section.io { background: #fadbd8 !important; }
+            .section.assign { background: #eaeded !important; }
+            .section.questions { background: #f4ecf7 !important; }
+            .section.helpful { background: #d5f4e6 !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1 -->
+    <div class="page">
+        <div class="column">
+            <!-- INTRODUCTION -->
+            <div class="section intro">
+                <h3>1. Introduction</h3>
+                <h4>OS Definition:</h4>
+                <p>System software managing hardware/software resources, providing services for programs. Acts as intermediary between users and hardware.</p>
+                <h4>System Structure:</h4>
+                <p>1. Hardware 2. OS (kernel) 3. Application Programs 4. Users</p>
+                <h4>System Calls:</h4>
+                <p><strong>Process:</strong> <span class="code">fork()</span> duplicate, <span class="code">execv()</span> load, <span class="code">wait()</span> wait child, <span class="code">exit()</span> terminate</p>
+                <p><strong>File:</strong> <span class="code">open()</span>, <span class="code">read()</span>, <span class="code">write()</span>, <span class="code">close()</span></p>
+                <h4>Bootstrap:</h4>
+                <p>BIOS loads bootloader → bootloader loads kernel → kernel initializes</p>
+                <h4>Interrupts:</h4>
+                <p>Hardware/software signal CPU. Process: Save state → Jump to handler → Execute → Restore state</p>
+                <h4>DMA:</h4>
+                <p>Device→Memory transfer without CPU. CPU sets up DMA → DMA transfers → DMA interrupts when done</p>
+                <h4>Storage Hierarchy:</h4>
+                <p>Registers → L1 Cache → L2 Cache → RAM → Disk → Tape (fast→slow, small→large)</p>
+                <h4>OS Structures:</h4>
+                <p><strong>Monolithic:</strong> All in kernel, fast but hard to maintain</p>
+                <p><strong>Layered:</strong> OS in layers, modular</p>
+                <p><strong>Microkernel:</strong> Minimal kernel, services in user space, secure but slower</p>
+                <h4>Kernel vs User Mode:</h4>
+                <p><strong>Kernel:</strong> Privileged, access all resources</p>
+                <p><strong>User:</strong> Restricted, system calls needed</p>
+            </div>
+            
+            <!-- PROCESSES -->
+            <div class="section process">
+                <h3>2. Processes</h3>
+                <h4>Process Model:</h4>
+                <p>Program in execution. Components: Text (code), Data (globals), Stack (locals), Heap (dynamic), PC (current instruction)</p>
+                <h4>Process States & Transitions:</h4>
+                <p><strong>New:</strong> Process being created → <strong>Ready:</strong> Waiting for CPU (admitted by scheduler) → <strong>Running:</strong> Executing on CPU (dispatched) → <strong>Waiting:</strong> Waiting for event/I/O (I/O wait, event wait) → <strong>Terminated:</strong> Finished (exit/killed)</p>
+                <p><strong>Running→Ready:</strong> Interrupt, time quantum expires</p>
+                <p><strong>Waiting→Ready:</strong> I/O complete, event occurs</p>
+                <h4>PCB Contains:</h4>
+                <ul class="compact">
+                    <li><strong>State:</strong> New/Ready/Running/Waiting/Terminated</li>
+                    <li><strong>PC:</strong> Next instruction address</li>
+                    <li><strong>CPU registers:</strong> Saved when not running</li>
+                    <li><strong>Stack pointer:</strong> Stack location</li>
+                    <li><strong>CPU scheduling:</strong> Priority, queue pointers, scheduling params</li>
+                    <li><strong>Memory:</strong> Base/limit registers, page table pointer</li>
+                    <li><strong>Accounting:</strong> CPU time used, time limits, process number</li>
+                    <li><strong>I/O status:</strong> Devices allocated, open files</li>
+                </ul>
+                <h4>Process Creation Events:</h4>
+                <p>1. System initialization 2. Process creation syscall (fork) 3. User request (shell command) 4. Batch job initiation</p>
+                <h4>Process Termination:</h4>
+                <p><strong>Normal:</strong> Process completes, calls exit()</p>
+                <p><strong>Error:</strong> Process detects error, calls exit() with error code</p>
+                <p><strong>Fatal:</strong> OS kills process (illegal instruction, segmentation fault)</p>
+                <p><strong>Killed:</strong> Another process kills it (kill())</p>
+                <p><strong>Zombie:</strong> Terminated but parent hasn't called wait()</p>
+                <p><strong>Orphan:</strong> Parent terminated, child adopted by init (PID 1)</p>
+                <h4>Process Hierarchies:</h4>
+                <p>Parent-child relationships form process tree. Init process (PID 1) is root. Children inherit parent's environment. Process groups for signal handling</p>
+                <h4>fork() System Call:</h4>
+                <div class="code-block">pid_t pid = fork();
+if (pid == 0) {
+    // Child process
+} else if (pid > 0) {
+    // Parent process
+}</div>
+                <p class="lay-explanation">Creates duplicate process. Returns child PID in parent, 0 in child.</p>
+                <p class="tech-explanation">Parent and child share: code segment, open files. Separate: stack, heap (copy-on-write), registers, PC.</p>
+                <h4>execv() System Call:</h4>
+                <div class="code-block">execvp(args[0], args);
+// Replaces current process image</div>
+                <p class="lay-explanation">Loads new program, replaces current process. Process continues with new program, same PID.</p>
+                <p class="tech-explanation">Parameters: path to program, argv array (NULL-terminated). Process image replaced in memory.</p>
+                <h4>wait() & exit():</h4>
+                <div class="code-block">int status;
+waitpid(pid, &status, 0);
+exit(0);</div>
+                <p class="lay-explanation">Parent blocks until child terminates, gets exit status. Child calls exit() to terminate.</p>
+                <h4>Context Switch:</h4>
+                <p>Steps: 1. Save current state (registers, PC) to PCB 2. Load new process PCB 3. Update MMU (memory mapping) 4. Restore registers/PC 5. Resume execution. Overhead: No useful work, pure overhead. Triggered by: Interrupt, time quantum expires, I/O wait, process blocks</p>
+                <h4>IPC:</h4>
+                <p><strong>Shared Memory:</strong> Fastest, processes share memory region. Need synchronization (mutex, semaphores). <span class="code">shm_open()</span> create, <span class="code">mmap()</span> map to address space</p>
+                <p><strong>Message Passing:</strong> Slower, built-in synchronization. Direct (send to specific process) or Indirect (mailbox/port). Blocking vs Non-blocking</p>
+                <p><strong>Pipes:</strong> FIFO buffer, unidirectional. <span class="code">pipe()</span> creates pipe, returns two file descriptors (read, write). Parent-child communication</p>
+                <h4>Independent vs Cooperating Processes:</h4>
+                <p><strong>Independent:</strong> No shared data, don't affect each other</p>
+                <p><strong>Cooperating:</strong> Share data, can affect each other. Need synchronization</p>
+            </div>
+            
+            <!-- THREADS -->
+            <div class="section thread">
+                <h3>3. Threads</h3>
+                <h4>Benefits:</h4>
+                <ul class="compact">
+                    <li>Responsiveness (continue if part blocked)</li>
+                    <li>Resource sharing (address space)</li>
+                    <li>Economy (cheaper than processes)</li>
+                    <li>Scalability (multiprocessor)</li>
+                </ul>
+                <h4>Thread vs Process:</h4>
+                <p>Thread: shares address space, has own stack/registers/PC. Process: own address space</p>
+                <h4>Thread Models:</h4>
+                <p><strong>Many-to-One:</strong> Many user → 1 kernel. Blocking blocks all, can't use multiprocessor</p>
+                <p><strong>One-to-One:</strong> 1 user → 1 kernel. Better concurrency, more overhead, can use multiprocessor</p>
+                <p><strong>Many-to-Many:</strong> Many user → Many kernel. Flexible, good balance, can use multiprocessor</p>
+                <h4>Thread Cancellation:</h4>
+                <p>Asynchronous (immediate) vs Deferred (at cancellation point). Cleanup handlers</p>
+                <h4>Signal Handling:</h4>
+                <p>Per-process signals. Thread can block signals. Signal delivered to one thread</p>
+                <h4>Thread Resources:</h4>
+                <p>Thread uses: Stack (own), Registers (own), PC (own). Shares: Code, Data, Heap, Open files</p>
+                <p>Process uses: All of above + Address space (own)</p>
+                <h4>Pthreads:</h4>
+                <div class="code-block">pthread_create(&tid, NULL, func, arg);
+pthread_join(tid, NULL);
+pthread_exit(NULL);</div>
+                <p class="lay-explanation">Create thread, wait for completion, exit thread.</p>
+                <h4>Amdahl's Law:</h4>
+                <div class="formula">Speedup = 1 / ((1-P) + P/N)</div>
+                <p>P = parallel portion, N = processors</p>
+                <div class="example">
+                    <p><strong>P=0.8, N=4:</strong> Speedup = 1/(0.2+0.2) = 2.5x</p>
+                </div>
+            </div>
+            
+            <!-- SYNCHRONIZATION -->
+            <div class="section sync">
+                <h3>4. Synchronization</h3>
+                <h4>Race Condition:</h4>
+                <p>Multiple processes/threads access shared data concurrently, final result depends on execution order. Example: counter++ (read, increment, write) - if two processes do this, may lose one increment</p>
+                <div class="example">
+                    <p><strong>Example:</strong> P1: read counter (5), increment (6), write (6). P2: read counter (5), increment (6), write (6). Result: 6 instead of 7!</p>
+                </div>
+                <h4>Critical Section Problem:</h4>
+                <p>Code segment accessing shared data. Must ensure only one process executes CS at a time</p>
+                <h4>Critical Section Requirements (ALL must be satisfied):</h4>
+                <ol>
+                    <li><strong>Mutual Exclusion:</strong> Only one process in CS at a time</li>
+                    <li><strong>Progress:</strong> If no process in CS and some want to enter, must select one (no blocking outside CS)</li>
+                    <li><strong>Bounded Waiting:</strong> Process must eventually enter CS (no infinite wait)</li>
+                </ol>
+                <h4>Peterson's Solution (2 processes, software-only):</h4>
+                <div class="code-block">flag[i]=true; turn=j;
+while(flag[j]&&turn==j);
+// CS
+flag[i]=false;</div>
+                <p class="lay-explanation">Uses two shared variables: flag[2] (intent to enter), turn (whose turn). Satisfies all 3 requirements. Only works for 2 processes.</p>
+                <h4>TestAndSet:</h4>
+                <div class="code-block">boolean TestAndSet(boolean *target) {
+    boolean rv = *target;
+    *target = true;
+    return rv;
+}
+// Usage:
+while(TestAndSet(&lock));
+// CS
+lock = false;</div>
+                <p class="lay-explanation">Atomic instruction that reads and sets value. Used for mutual exclusion.</p>
+                <p class="tech-explanation">Hardware instruction, atomic operation. Returns old value, sets to true.</p>
+                <h4>CompareAndSwap:</h4>
+                <div class="code-block">boolean CAS(ptr, expected, new) {
+    if(*ptr==expected) {
+        *ptr=new;
+        return true;
+    }
+    return false;
+}
+// Usage:
+while(!CAS(&lock, false, true));
+// CS
+lock = false;</div>
+                <p class="tech-explanation">Hardware instruction, atomic operation. Compares and swaps if equal. Returns true if swapped.</p>
+                <h4>Semaphores:</h4>
+                <div class="code-block">wait(S): S--; if(S<0) block();
+signal(S): S++; if(S≤0) wakeup();</div>
+                <p><strong>Binary:</strong> S = 0 or 1 (Mutex)</p>
+                <p><strong>Counting:</strong> S can be any non-negative integer</p>
+                <h4>Mutex (Mutual Exclusion Lock):</h4>
+                <div class="code-block">pthread_mutex_lock(&mutex);
+// Critical section
+pthread_mutex_unlock(&mutex);</div>
+                <p class="lay-explanation">Lock that ensures only one thread enters critical section.</p>
+                <p class="tech-explanation"><strong>Spinlock:</strong> Mutex with busy waiting. Good for multiprocessor (short waits), bad for single processor (wastes CPU)</p>
+                <h4>Busy Waiting:</h4>
+                <p>Process continuously checks condition (spins). Wastes CPU cycles. Alternative: Blocking (sleep until condition met)</p>
+                <h4>Producer-Consumer:</h4>
+                <p>Circular buffer. Need: Mutex + Empty sem (init=N) + Full sem (init=0)</p>
+                <div class="code-block">Producer: wait(empty), wait(mutex),
+    buffer[in]=item, in=(in+1)%N,
+    signal(mutex), signal(full)
+Consumer: wait(full), wait(mutex),
+    item=buffer[out], out=(out+1)%N,
+    signal(mutex), signal(empty)</div>
+                <p class="lay-explanation">Producer waits for empty slot, adds item. Consumer waits for full slot, removes item.</p>
+                <p class="tech-explanation">Order matters: wait(empty) before wait(mutex) prevents deadlock. Circular buffer with in/out pointers.</p>
+                <h4>Readers-Writers Problem:</h4>
+                <p>Multiple readers can read simultaneously, only one writer at a time, no readers while writing</p>
+                <p><strong>Reader-preference:</strong> Readers get priority, writers may starve</p>
+                <p><strong>Writer-preference:</strong> Writers get priority, new readers blocked if writer waiting</p>
+                <p>Uses: read_count variable, mutex for read_count, rw_mutex for writer exclusion</p>
+                <h4>Dining Philosophers Problem:</h4>
+                <p>5 philosophers, 5 forks, need 2 forks to eat. Solutions: 1) Allow only 4 philosophers (break circular wait) 2) Atomic fork pickup (both or none) 3) Odd/even strategy (odd picks left then right, even picks right then left)</p>
+                <h4>Monitors:</h4>
+                <p>High-level synchronization construct. Only one process active in monitor at a time. Condition variables: <span class="code">wait()</span> (block), <span class="code">signal()</span> (wake one), <span class="code">broadcast()</span> (wake all)</p>
+                <p>Java: <span class="code">synchronized</span> methods/blocks. C: Manual with <span class="code">pthread_mutex_t</span> + <span class="code">pthread_cond_t</span></p>
+                <h4>Priority Inversion:</h4>
+                <p>Low-priority process holds lock needed by high-priority process, medium-priority process runs instead. Solutions: <strong>Priority inheritance</strong> (low inherits high priority while holding lock), <strong>Priority ceiling</strong> (mutex has priority = highest process that uses it)</p>
+                <h4>Example: Semaphore Deadlock</h4>
+                <div class="example">
+                    <p><strong>P1:</strong> wait(S), wait(Q), CS, signal(Q), signal(S)</p>
+                    <p><strong>P2:</strong> wait(Q), wait(S), CS, signal(S), signal(Q)</p>
+                    <p>If P1 gets S and P2 gets Q → deadlock! Solution: Request in same order (both request S then Q)</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="column">
+            <!-- CPU SCHEDULING -->
+            <div class="section sched">
+                <h3>5. CPU Scheduling</h3>
+                <h4>Metrics:</h4>
+                <table>
+                    <tr><th>Metric</th><th>Formula</th></tr>
+                    <tr><td>Turnaround</td><td>Completion - Arrival</td></tr>
+                    <tr><td>Waiting</td><td>Turnaround - Burst</td></tr>
+                    <tr><td>Response</td><td>First Response - Arrival</td></tr>
+                    <tr><td>Throughput</td><td>Jobs / Time</td></tr>
+                </table>
+                <h4>When to Schedule:</h4>
+                <p>Process exits, blocks on I/O, new process created, interrupt occurs, time quantum expires</p>
+                <h4>Algorithms:</h4>
+                <p><strong>FCFS:</strong> FIFO, non-preemptive, convoy effect (short wait behind long)</p>
+                <p><strong>SJF:</strong> Shortest next burst, optimal waiting time, need prediction</p>
+                <div class="formula">τ<sub>n+1</sub> = αt<sub>n</sub> + (1-α)τ<sub>n</sub></div>
+                <p>α=1/2 common. Preemptive = SRTF (Shortest Remaining Time First), better response</p>
+                <p><strong>RR:</strong> Time quantum q, preemptive. q large = FCFS, q small = overhead. q typically 10-100ms</p>
+                <p><strong>Priority:</strong> Higher priority first (lower number = higher typically), aging prevents starvation</p>
+                <p><strong>Guaranteed/Fair-Share:</strong> Each gets 1/N CPU time, pick smallest ratio (entitled/actual)</p>
+                <p><strong>Lottery:</strong> Random ticket selection, tickets = priority, can trade tickets</p>
+                <h4>Thread Scheduling:</h4>
+                <p>Process-contention scope (PCS) vs System-contention scope (SCS). Many-to-many: PCS, One-to-one: SCS</p>
+                <h4>Example: FCFS</h4>
+                <div class="example">
+                    <p><strong>P1(arr=0,burst=5), P2(arr=1,burst=3), P3(arr=2,burst=8), P4(arr=3,burst=6)</strong></p>
+                    <p><strong>Gantt:</strong> [P1:0-5][P2:5-8][P3:8-16][P4:16-22]</p>
+                    <p>Wait: P1=0, P2=4, P3=6, P4=13. <strong>Avg Wait:</strong> 5.75</p>
+                </div>
+                <h4>Example: SJF</h4>
+                <div class="example">
+                    <p><strong>Same processes:</strong> [P1:0-5][P2:5-8][P4:8-14][P3:14-22]</p>
+                    <p>P4 chosen over P3 (burst 6 < 8). <strong>Avg Wait:</strong> 3.75 (better!)</p>
+                </div>
+                <h4>Example: RR (q=4)</h4>
+                <div class="example">
+                    <p><strong>Gantt:</strong> [P1:0-4][P2:4-7][P3:7-11][P4:11-15][P1:15-16][P3:16-20][P4:20-22]</p>
+                    <p><strong>Avg Response:</strong> (0+3+5+8)/4 = 4.0 (good for interactive!)</p>
+                </div>
+                <h4>Example: SRTF</h4>
+                <div class="example">
+                    <p><strong>P1(arr=0,burst=8), P2(arr=1,burst=4), P3(arr=2,burst=9), P4(arr=3,burst=5)</strong></p>
+                    <p>t=0: P1 starts (remaining=8). t=1: P2 arrives (burst=4 < P1's remaining 7), preempt P1, P2 runs. t=5: P2 completes, P4 runs (burst=5 < P1's 7, P3's 9). t=10: P4 completes, P1 runs. t=17: P1 completes, P3 runs</p>
+                    <p><strong>Gantt:</strong> [P1:0-1][P2:1-5][P4:5-10][P1:10-17][P3:17-26]</p>
+                    <p><strong>Avg Wait:</strong> 6.5, <strong>Avg Turn:</strong> 13.0, <strong>Avg Resp:</strong> 4.25</p>
+                </div>
+                <h4>Burst Time Prediction (Exponential Average):</h4>
+                <div class="formula">τ<sub>n+1</sub> = αt<sub>n</sub> + (1-α)τ<sub>n</sub></div>
+                <p>τ<sub>n+1</sub> = predicted next burst, t<sub>n</sub> = actual last burst, τ<sub>n</sub> = previous prediction, α = smoothing factor (0≤α≤1). α=1/2 common. Higher α = more weight on recent</p>
+                <h4>Real-Time:</h4>
+                <p><strong>Rate-Monotonic:</strong> Shorter period = higher priority</p>
+                <div class="formula">U ≤ n(2<sup>1/n</sup> - 1)</div>
+                <p><strong>EDF:</strong> Earlier deadline = higher priority, can achieve 100%</p>
+            </div>
+            
+            <!-- DEADLOCKS -->
+            <div class="section deadlock">
+                <h3>6. Deadlocks</h3>
+                <h4>4 Necessary Conditions (ALL required):</h4>
+                <ol>
+                    <li>Mutual Exclusion (non-sharable resource)</li>
+                    <li>Hold and Wait (hold one, wait for another)</li>
+                    <li>No Preemption (can't take resource)</li>
+                    <li>Circular Wait (circular chain)</li>
+                </ol>
+                <h4>Prevention (Break Condition):</h4>
+                <ul class="compact">
+                    <li>Mutual Ex: Make sharable</li>
+                    <li>Hold&Wait: Request all before start</li>
+                    <li>No Preempt: Release all if can't get</li>
+                    <li>Circular: Resource ordering</li>
+                </ul>
+                <h4>Resource-Allocation Graph:</h4>
+                <p>Processes (circles), Resources (rectangles with dots). Request edge (P→R), Assignment edge (R→P)</p>
+                <p>No cycle → No deadlock. Cycle + 1 instance → Deadlock. Cycle + multiple instances → Maybe</p>
+                <h4>Prevention (Break Condition):</h4>
+                <ul class="compact">
+                    <li>Mutual Ex: Make sharable (not always possible)</li>
+                    <li>Hold&Wait: Request all before start, OR only request when holding none</li>
+                    <li>No Preempt: Release all if can't get resource</li>
+                    <li>Circular: Resource ordering, request in increasing order</li>
+                </ul>
+                <h4>Avoidance - Banker's Algorithm:</h4>
+                <p>Check if allocation leaves safe state. Safe = can complete all processes in some order</p>
+                <p>Need[i,j] = Max[i,j] - Allocation[i,j]</p>
+                <p>Safety: Find process with Need ≤ Available, pretend allocate, repeat</p>
+                <h4>Example: Banker's Safety</h4>
+                <div class="example">
+                    <p><strong>System:</strong> 3 resources (A=10,B=5,C=7). Available=(3,3,2)</p>
+                    <p><strong>Need:</strong> P0(7,4,3), P1(1,2,2), P2(6,0,0), P3(0,1,1), P4(4,3,1)</p>
+                    <p><strong>Safety:</strong> P1(1,2,2)≤(3,3,2)✓, P3(0,1,1)≤(5,3,2)✓, P4(4,3,1)≤(7,4,3)✓, P0(7,4,3)≤(7,4,5)✓, P2(6,0,0)≤(7,5,7)✓</p>
+                    <p><strong>Safe sequence:</strong> P1→P3→P4→P0→P2</p>
+                </div>
+                <h4>Example: Banker's Request</h4>
+                <div class="example">
+                    <p><strong>P1 requests (0,2,0):</strong> Step 1: Request ≤ Need? ✓ Step 2: Request ≤ Available? ✓ Step 3: Pretend allocate. Step 4: Safety check finds safe sequence. <strong>Granted</strong></p>
+                </div>
+                <h4>Detection:</h4>
+                <p>Find cycles in resource-allocation graph. If cycle exists and resources are single-instance → deadlock</p>
+                <h4>Recovery:</h4>
+                <p>Process Termination: Abort all or one at a time. Resource Preemption: Select victim, rollback, prevent starvation</p>
+            </div>
+            
+            <!-- MEMORY MANAGEMENT -->
+            <div class="section memory">
+                <h3>7. Memory Management</h3>
+                <h4>Logical vs Physical:</h4>
+                <p>Logical: CPU-generated. Physical: Memory unit address. MMU maps logical→physical</p>
+                <h4>Base & Limit Registers:</h4>
+                <p>Base = start, Limit = size. Check: base ≤ addr < base+limit. Protection + relocation</p>
+                <h4>MMU:</h4>
+                <p>Maps logical → physical addresses. Relocation register = base register</p>
+                <h4>Dynamic Loading:</h4>
+                <p>Routine loaded when called, better utilization</p>
+                <h4>Dynamic Linking:</h4>
+                <p>Linking at execution, stub replaces with address, shared libraries</p>
+                <h4>Swapping:</h4>
+                <p>Process → Backing store → Memory. Roll out/roll in for priority</p>
+                <h4>Allocation Strategies:</h4>
+                <p><strong>First Fit:</strong> First hole large enough, fast, fragments</p>
+                <p><strong>Best Fit:</strong> Smallest hole large enough, min waste, many small holes</p>
+                <p><strong>Worst Fit:</strong> Largest hole, large remainders, poor</p>
+                <h4>Fragmentation:</h4>
+                <p><strong>Internal:</strong> Waste within allocated block</p>
+                <p><strong>External:</strong> Holes between blocks</p>
+                <h4>Example: Memory Allocation</h4>
+                <div class="example">
+                    <p><strong>Holes:</strong> 100K, 500K, 200K, 300K, 600K. <strong>Request:</strong> 150K</p>
+                    <p><strong>First Fit:</strong> Scan from start, find first hole ≥150K. Allocate at 100K (first ≥150K), leaves [50K][200K][300K][100K]</p>
+                    <p><strong>Best Fit:</strong> Scan all holes, find smallest ≥150K. Allocate at 200K (smallest ≥150K), leaves [100K][50K][300K][100K]</p>
+                    <p><strong>Worst Fit:</strong> Scan all holes, find largest. Allocate at 600K (largest), leaves [100K][200K][300K][100K][450K]</p>
+                </div>
+                <h4>How to Solve Memory Allocation:</h4>
+                <p>1. List all holes sorted by address (start, end, size) 2. For each request: Find hole by strategy (First: first ≥size, Best: smallest ≥size, Worst: largest) 3. Allocate: Update hole (start += size, size -= request) or remove if exact 4. Calculate fragmentation: External = (1 - largest_free/total_free) × 100%</p>
+                <h4>Hole Merging:</h4>
+                <p>When process releases memory, check adjacent blocks. If both free, merge into one larger hole. Prevents external fragmentation</p>
+                <h4>Compaction Process:</h4>
+                <p>1. Collect all allocated blocks 2. Move all allocated to start of memory (address 0) 3. Create one large free block at end. Requires dynamic relocation (update all addresses)</p>
+            </div>
+            
+            <!-- VIRTUAL MEMORY -->
+            <div class="section vm">
+                <h3>8. Virtual Memory</h3>
+                <h4>Paging:</h4>
+                <p>Logical: Pages, Physical: Frames (same size). Address: (page#, offset) → (frame#, offset)</p>
+                <p>Page size typically 4KB (2^12). Page# = addr / page_size, Offset = addr % page_size</p>
+                <h4>TLB:</h4>
+                <p>Fast cache for page table entries. Reduces memory access (2→1 if hit)</p>
+                <div class="formula">EAT = (1+ε)α + (2+ε)(1-α)</div>
+                <p>α = hit ratio, ε = TLB search time</p>
+                <h4>Example: Address Translation</h4>
+                <div class="example">
+                    <p><strong>Logical:</strong> 0x3A7F, Page size = 4KB (0x1000)</p>
+                    <p>Page# = 0x3A7F / 0x1000 = 14 (0xE), Offset = 0x7F</p>
+                    <p>Page table: Page 14 → Frame 5</p>
+                    <p><strong>Physical = (5 × 0x1000) + 0x7F = 0x507F</strong></p>
+                </div>
+                <h4>Page Fault Steps:</h4>
+                <p>1. Trap to OS 2. Save state 3. Check legal 4. Find free frame 5. Read from disk 6. Update tables 7. Restart</p>
+                <h4>Page Table Structures:</h4>
+                <p><strong>Hierarchical:</strong> Two-level, three-level (page the page table)</p>
+                <p><strong>Hashed:</strong> Hash table for large address spaces</p>
+                <p><strong>Inverted:</strong> One entry per frame, reduces memory but slower search</p>
+                <h4>Segmentation:</h4>
+                <p>Logical units (code, data, stack). Address: &lt;segment#, offset&gt;</p>
+                <p>Segment table: base + limit. STBR, STLR</p>
+                <h4>Demand Paging:</h4>
+                <p>Load page on fault. Less I/O, less memory, faster response, more users</p>
+                <h4>Page Fault Steps:</h4>
+                <p>1. Trap to OS 2. Save state 3. Check legal 4. Find free frame 5. Read from disk 6. Update tables 7. Restart instruction</p>
+                <h4>Page Replacement:</h4>
+                <p><strong>FIFO:</strong> Oldest page, Belady's anomaly (more frames = more faults)</p>
+                <p><strong>Optimal:</strong> Replace unused longest, theoretical optimal</p>
+                <p><strong>LRU:</strong> Replace least recently used, good approximation</p>
+                <p><strong>Clock/Second-Chance:</strong> FIFO + reference bit, give second chance</p>
+                <p><strong>Enhanced:</strong> Use (reference, modify) bits, 4 classes</p>
+                <h4>Example: FIFO Page Replacement</h4>
+                <div class="example">
+                    <p><strong>Ref string:</strong> 1,2,3,4,1,2,5,1,2,3,4,5 (3 frames)</p>
+                    <p>1→[1], 2→[1,2], 3→[1,2,3], 4→[4,2,3] (replace 1), 1→[4,1,3] (replace 2), 2→[4,1,2] (replace 3), 5→[5,1,2] (replace 4), 1→hit, 2→hit, 3→[3,1,2] (replace 5), 4→[3,4,2] (replace 1), 5→[3,4,5] (replace 2)</p>
+                    <p><strong>Total faults:</strong> 9</p>
+                </div>
+                <h4>Example: LRU</h4>
+                <div class="example">
+                    <p><strong>Ref string:</strong> 1,2,3,4,1,2,5,1,2,3,4,5 (3 frames)</p>
+                    <p>1→[1], 2→[1,2], 3→[1,2,3], 4→[4,2,3] (replace 1, LRU), 1→[4,1,3] (replace 2, LRU), 2→[4,1,2] (replace 3, LRU), 5→[5,1,2] (replace 4, LRU), 1→hit, 2→hit, 3→[3,1,2] (replace 5, LRU), 4→[3,4,2] (replace 1, LRU), 5→[3,4,5] (replace 2, LRU)</p>
+                    <p><strong>Total faults:</strong> 8 (better than FIFO's 9!)</p>
+                </div>
+                <h4>How to Solve Page Replacement:</h4>
+                <p>1. Track frames currently in use 2. For each reference: Check if page in frames (hit), if miss: find victim by algorithm, replace, count fault 3. Update frame state (for LRU: update access order) 4. Calculate hit rate = (total - faults) / total</p>
+                <h4>Page Replacement Algorithm Comparison:</h4>
+                <p><strong>FIFO:</strong> Simple, Belady's anomaly possible, not optimal</p>
+                <p><strong>Optimal:</strong> Theoretical best, need future knowledge, not practical</p>
+                <p><strong>LRU:</strong> Good approximation of optimal, expensive to implement (need access time tracking)</p>
+                <p><strong>Clock/Second-Chance:</strong> Practical, FIFO with reference bit, give second chance if referenced</p>
+                <p><strong>Enhanced Second-Chance:</strong> Use (reference, modify) bits, 4 classes: (0,0) best to replace, (0,1) next, (1,0) next, (1,1) last</p>
+                <h4>Frame Allocation:</h4>
+                <p>Fixed (equal/proportional), Priority-based. Global (all frames) vs Local (own frames)</p>
+                <h4>Thrashing:</h4>
+                <p>More paging than executing. Cause: Insufficient frames. Solution: Increase frames or reduce multiprogramming</p>
+                <h4>Working Set:</h4>
+                <p>Pages in recent Δ references. If Σ working sets > available frames → thrashing</p>
+                <h4>Copy-on-Write:</h4>
+                <p>Parent/child share pages, copy only on write. Efficient fork()</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PAGE 2 -->
+    <div class="page">
+        <div class="column">
+            <!-- FILE SYSTEMS -->
+            <div class="section fs">
+                <h3>9. File Systems</h3>
+                <h4>File Attributes:</h4>
+                <p>Name, Type, Location, Size, Protection, Time/Date, User ID</p>
+                <h4>File Operations:</h4>
+                <p>Create, Delete, Open, Close, Read, Write, Append, Seek, Get/Set attributes, Rename</p>
+                <h4>Access Methods:</h4>
+                <p>Sequential (tape-like), Direct/Random (disk-like)</p>
+                <h4>Directory Structures:</h4>
+                <p><strong>Single-Level:</strong> All files in one directory</p>
+                <p><strong>Tree:</strong> Hierarchical, subdirectories</p>
+                <p><strong>Acyclic-Graph:</strong> Sharing via hard/soft links</p>
+                <h4>Allocation Methods:</h4>
+                <p><strong>Contiguous:</strong> Consecutive blocks, simple, external fragmentation</p>
+                <p><strong>Linked:</strong> Linked list of blocks, no external frag, sequential only</p>
+                <p><strong>Indexed:</strong> Index block with pointers, supports direct access</p>
+                <p><strong>UNIX i-node:</strong> Direct (12), single indirect, double indirect, triple indirect</p>
+                <h4>Free-Space Management:</h4>
+                <p><strong>Bit Vector:</strong> 1=free, 0=allocated. Easy contiguous space</p>
+                <p><strong>Linked List:</strong> Free blocks linked, no waste</p>
+                <p><strong>Grouping:</strong> Store addresses of free blocks in free blocks</p>
+                <p><strong>Counting:</strong> Store (start, count) for contiguous free blocks</p>
+                <h4>Directory Implementation:</h4>
+                <p><strong>Linear List:</strong> Simple but slow, use hash table for speed</p>
+                <p><strong>Hash Table:</strong> Fast lookup, collisions possible</p>
+                <h4>VFS:</h4>
+                <p>Virtual File System, unified interface to multiple FS types</p>
+                <h4>Inode:</h4>
+                <p>File metadata: type, permissions, links, size, blocks, times</p>
+                <h4>Hard vs Soft Links:</h4>
+                <p>Hard: Share inode, removed when no links. Soft: Reference name, invalid if target removed</p>
+                <h4>On-Disk Structures:</h4>
+                <p>Boot block, Superblock, Inode list, Data blocks</p>
+                <h4>In-Memory Structures:</h4>
+                <p>Mount table, Directory cache, System-wide open file table, Per-process open file table</p>
+                <h4>Protection:</h4>
+                <p>Owner/Group/Other, Read/Write/Execute bits. chmod, chown. ACLs (Access Control Lists)</p>
+            </div>
+            
+            <!-- I/O SUBSYSTEM -->
+            <div class="section io">
+                <h3>10. I/O Subsystem</h3>
+                <h4>Device Types:</h4>
+                <p><strong>Block:</strong> Fixed-size blocks, random access (disk, SSD)</p>
+                <p><strong>Character:</strong> Stream, sequential (keyboard, printer)</p>
+                <h4>I/O Methods:</h4>
+                <p><strong>Memory-Mapped:</strong> I/O registers in memory space</p>
+                <p><strong>Port-Mapped:</strong> Special I/O ports, IN/OUT instructions</p>
+                <h4>I/O Software Layers:</h4>
+                <ol>
+                    <li>User-level I/O (libraries, spooling)</li>
+                    <li>Device-independent (buffering, error handling)</li>
+                    <li>Device drivers (device-specific)</li>
+                    <li>Interrupt handlers (I/O completion)</li>
+                </ol>
+                <h4>DMA:</h4>
+                <p>Direct Memory Access. CPU sets up (source, dest, size), DMA transfers, interrupts when done</p>
+                <h4>Polling vs Interrupts:</h4>
+                <p>Polling: CPU checks status (busy wait). Interrupts: Device signals when done (efficient)</p>
+                <h4>Device Controller:</h4>
+                <p>Hardware between device and computer. I/O registers for communication</p>
+                <h4>Disk Scheduling:</h4>
+                <p><strong>FCFS:</strong> First-come-first-served, simple, poor performance</p>
+                <p><strong>SSTF:</strong> Shortest seek time first, better, may starve</p>
+                <p><strong>SCAN:</strong> Elevator, one end to other, uniform wait</p>
+                <p><strong>C-SCAN:</strong> Circular SCAN, return without service, more uniform</p>
+                <p><strong>C-LOOK:</strong> Only to last request, most efficient</p>
+                <h4>Example: Disk Scheduling</h4>
+                <div class="example">
+                    <p><strong>Queue:</strong> 98,183,37,122,14,124,65,67. <strong>Head:</strong> 53</p>
+                    <p><strong>FCFS:</strong> 53→98→183→37→122→14→124→65→67. <strong>Seek:</strong> 810</p>
+                    <p><strong>SSTF:</strong> 53→65→67→37→14→98→122→124→183. <strong>Seek:</strong> 236</p>
+                    <p><strong>SCAN:</strong> 53→37→14→65→67→98→122→124→183. <strong>Seek:</strong> 208</p>
+                </div>
+                <h4>Disk Time:</h4>
+                <p>Seek time (arm movement) + Rotational delay + Transfer time. Seek dominates</p>
+                <h4>RAID:</h4>
+                <p>RAID 0: Striping (performance), RAID 1: Mirroring (redundancy), RAID 3-6: Parity</p>
+                <h4>SSD vs HDD:</h4>
+                <p>SSD: No moving parts, faster, wear leveling, garbage collection. HDD: Mechanical, seek time</p>
+                <h4>Disk Management:</h4>
+                <p>Low-level formatting, Partitioning, Bootstrapping</p>
+                <h4>Buffering/Caching/Spooling:</h4>
+                <p>Buffering: Hold data in memory. Caching: Fast storage copy. Spooling: Simultaneous Peripheral Operations On-Line</p>
+            </div>
+            
+            <!-- ASSIGNMENT 1: PRODUCER-CONSUMER -->
+            <div class="section assign">
+                <h3>Assignment 1: Producer-Consumer</h3>
+                <h4>Task:</h4>
+                <p>Bounded buffer with multiple producers/consumers using synchronization</p>
+                <h4>Implementation:</h4>
+                <div class="code-block">// Circular buffer (size=10)
+pthread_mutex_t mutex;
+sem_t *empty;  // init=BUFFER_SIZE
+sem_t *full;   // init=0
+
+// Producer
+sem_wait(empty);  // Wait for empty slot
+pthread_mutex_lock(&mutex);
+buffer[in] = item;
+in = (in + 1) % BUFFER_SIZE;
+pthread_mutex_unlock(&mutex);
+sem_post(full);   // Signal one more item
+
+// Consumer
+sem_wait(full);   // Wait for item
+pthread_mutex_lock(&mutex);
+item = buffer[out];
+out = (out + 1) % BUFFER_SIZE;
+pthread_mutex_unlock(&mutex);
+sem_post(empty);  // Signal one more slot</div>
+                <p class="lay-explanation">Producers add items to circular buffer, consumers remove items. Mutex ensures only one thread modifies buffer at a time. Semaphores track available slots and items.</p>
+                <p class="tech-explanation">Uses mutex for mutual exclusion, counting semaphores for resource tracking. Order matters: wait(empty) before wait(mutex) prevents deadlock. Circular buffer with modulo arithmetic for wraparound.</p>
+                <h4>Why Important:</h4>
+                <p>Classic sync problem, demonstrates mutex+semaphores coordination, prevents race conditions, shows bounded buffer pattern used in OS (I/O buffers, print queues, network packet queues)</p>
+                <h4>Key Concepts:</h4>
+                <p>Critical section, mutual exclusion, semaphore counting, circular buffer, thread safety</p>
+            </div>
+            
+            <!-- ASSIGNMENT 2: READER-WRITER -->
+            <div class="section assign">
+                <h3>Assignment 2: Reader-Writer Log</h3>
+                <h4>Task:</h4>
+                <p>Thread-safe logging with writer-preference synchronization</p>
+                <h4>Implementation:</h4>
+                <div class="code-block">// Monitor pattern
+pthread_mutex_t mutex;
+pthread_cond_t read_cond, write_cond;
+int readers_active, writers_waiting, writer_active;
+
+// Reader
+pthread_mutex_lock(&mutex);
+while (writer_active || writers_waiting > 0) {
+    pthread_cond_wait(&read_cond, &mutex);
+}
+readers_active++;
+pthread_mutex_unlock(&mutex);
+// ... read ...
+pthread_mutex_lock(&mutex);
+readers_active--;
+if (readers_active == 0) {
+    pthread_cond_signal(&write_cond);
+}
+pthread_mutex_unlock(&mutex);
+
+// Writer
+pthread_mutex_lock(&mutex);
+writers_waiting++;
+while (readers_active > 0 || writer_active) {
+    pthread_cond_wait(&write_cond, &mutex);
+}
+writers_waiting--;
+writer_active = true;
+pthread_mutex_unlock(&mutex);
+// ... write ...
+pthread_mutex_lock(&mutex);
+writer_active = false;
+if (writers_waiting > 0) {
+    pthread_cond_signal(&write_cond);
+} else {
+    pthread_cond_broadcast(&read_cond);
+}
+pthread_mutex_unlock(&mutex);</div>
+                <p class="lay-explanation">Multiple readers can read simultaneously, but only one writer at a time. Writers get priority - new readers blocked if writer waiting.</p>
+                <p class="tech-explanation">Monitor pattern with condition variables. Writer-preference: Block new readers if writer active OR writers waiting. Uses shared memory (shm_open, mmap) for circular buffer. No busy waiting, efficient blocking.</p>
+                <h4>Why Important:</h4>
+                <p>Demonstrates monitors, condition variables, writer-preference policy, shared memory IPC, real-world pattern (databases, file systems, logging systems), shows how to prevent starvation</p>
+                <h4>Key Concepts:</h4>
+                <p>Monitor, condition variables, writer-preference, shared memory, IPC, starvation prevention</p>
+            </div>
+        </div>
+        
+        <div class="column">
+            <!-- ASSIGNMENT 3: CPU SCHEDULER -->
+            <div class="section assign">
+                <h3>Assignment 3: CPU Scheduler</h3>
+                <h4>Task:</h4>
+                <p>Simulate FCFS, SJF, RR, Priority scheduling algorithms</p>
+                <h4>Implementation:</h4>
+                <div class="code-block">// Each process = POSIX thread
+// Main thread = scheduler
+ReadyQueue ready_queue;  // Linked list
+
+// Scheduler loop
+while (!all_finished) {
+    check_arrivals(current_time);
+    
+    // Select by algorithm
+    Process *next = NULL;
+    switch (algorithm) {
+        case FCFS:
+            next = dequeue(ready_queue);
+            break;
+        case SJF:
+            next = find_min_burst(ready_queue);
+            break;
+        case RR:
+            if (quantum_expired) {
+                enqueue(ready_queue, current);
+            }
+            next = dequeue(ready_queue);
+            quantum_remaining = quantum;
+            break;
+        case PRIORITY:
+            next = find_min_priority(ready_queue);
+            break;
+    }
+    
+    // Dispatch process
+    pthread_cond_signal(&process->cond);
+    // Process executes one cycle
+    current_time++;
+}</div>
+                <p class="lay-explanation">Each process is a thread that blocks until scheduler dispatches it. Scheduler maintains ready queue, selects process by algorithm, signals thread to run.</p>
+                <p class="tech-explanation">Process threads block on condition variables. Scheduler maintains READY queue (linked list), checks arrivals each cycle, selects by algorithm (FCFS: FIFO, SJF: min burst, RR: round-robin, Priority: min priority), signals process, waits for cycle completion, updates metrics (start, finish, wait, turnaround, response).</p>
+                <h4>Why Important:</h4>
+                <p>Shows how OS scheduler works, demonstrates preemptive vs non-preemptive, thread coordination via condition variables, performance metrics comparison, core OS function</p>
+                <h4>Key Concepts:</h4>
+                <p>CPU scheduling, preemptive vs non-preemptive, ready queue, Gantt chart, scheduling metrics, thread synchronization</p>
+            </div>
+            
+            <!-- ASSIGNMENT 4: MEMORY ALLOCATOR -->
+            <div class="section assign">
+                <h3>Assignment 4: Memory Allocator</h3>
+                <h4>Task:</h4>
+                <p>First/Best/Worst fit allocation with compaction</p>
+                <h4>Implementation:</h4>
+                <div class="code-block">// Linked list of MemoryBlock
+typedef struct {
+    size_t start, end, size;
+    MemoryBlockType type;
+    char process_name[64];
+    struct MemoryBlock *next;
+} MemoryBlock;
+
+// First Fit
+MemoryBlock *current = blocks;
+while (current) {
+    if (current->type == FREE && current->size >= size) {
+        // Allocate from this hole
+        if (current->size == size) {
+            current->type = ALLOCATED;
+        } else {
+            // Split block
+            allocated = create_block(current->start, 
+                current->start + size, ALLOCATED, name);
+            current->start += size;
+            current->size -= size;
+        }
+        return allocated;
+    }
+    current = current->next;
+}
+
+// Best Fit: Find smallest hole >= size
+// Worst Fit: Find largest hole >= size
+
+// Hole Merging
+void merge_adjacent_holes() {
+    MemoryBlock *current = blocks;
+    while (current && current->next) {
+        if (current->type == FREE && 
+            current->next->type == FREE &&
+            current->end == current->next->start) {
+            // Merge
+            current->end = current->next->end;
+            current->size = current->end - current->start;
+            remove_block(current->next);
+        } else {
+            current = current->next;
+        }
+    }
+}
+
+// Compaction
+void compact_memory() {
+    // Collect all allocated blocks
+    // Free all blocks
+    // Rebuild: allocated at start (address 0)
+    // Create one large free block at end
+}</div>
+                <p class="lay-explanation">Manages memory as linked list of blocks. First Fit finds first hole large enough. Best Fit finds smallest hole. Worst Fit finds largest hole. When process releases memory, adjacent free blocks merge. Compaction moves all allocated blocks to start.</p>
+                <p class="tech-explanation">Linked list sorted by address. First Fit: traverse from start, find first hole ≥ size. Best Fit: traverse all, find smallest hole ≥ size. Worst Fit: traverse all, find largest hole. Hole merging: on release, check prev/next blocks, if both free and adjacent, merge. Compaction: collect allocated blocks, free all, rebuild with allocated at address 0, create one large free block.</p>
+                <h4>Why Important:</h4>
+                <p>Core memory management, shows fragmentation (internal/external), allocation strategies trade-offs, compaction technique, how OS manages physical memory, demonstrates why paging is better</p>
+                <h4>Key Concepts:</h4>
+                <p>Contiguous allocation, fragmentation, allocation strategies, compaction, memory layout, linked list</p>
+            </div>
+            
+            <!-- ASSIGNMENT 5: VIRTUAL MEMORY MANAGER -->
+            <div class="section assign">
+                <h3>Assignment 5: Virtual Memory Manager</h3>
+                <h4>Task:</h4>
+                <p>Translate logical→physical using TLB + page table with demand paging</p>
+                <h4>Implementation:</h4>
+                <div class="code-block">// 16-bit logical address
+int page_num = (logical_addr >> 8) & 0xFF;
+int offset = logical_addr & 0xFF;
+
+// Check TLB first
+int frame_num;
+if (check_tlb(page_num, &frame_num)) {
+    // TLB hit
+    tlb_hits++;
+} else {
+    // TLB miss - check page table
+    if (check_page_table(page_num, &frame_num)) {
+        // Page table hit
+        update_tlb(page_num, frame_num);
+    } else {
+        // Page fault
+        frame_num = handle_page_fault(page_num);
+        page_faults++;
+    }
+}
+
+// Calculate physical address
+int physical_addr = (frame_num * PAGE_SIZE) + offset;
+
+// TLB update (LRU)
+void update_tlb(int page_num, int frame_num) {
+    // Find invalid entry or LRU entry
+    int lru_index = find_lru_entry();
+    tlb[lru_index].page_num = page_num;
+    tlb[lru_index].frame_num = frame_num;
+    tlb[lru_index].access_time = current_time++;
+}
+
+// Page fault handler
+int handle_page_fault(int page_num) {
+    int frame_num = get_free_frame();  // FIFO replacement
+    fseek(BACKING_STORE, page_num * PAGE_SIZE, SEEK_SET);
+    fread(physical_memory[frame_num * PAGE_SIZE], 
+          PAGE_SIZE, 1, BACKING_STORE);
+    update_page_table(page_num, frame_num);
+    update_tlb(page_num, frame_num);
+    return frame_num;
+}</div>
+                <p class="lay-explanation">Translates virtual addresses to physical addresses. First checks TLB (fast cache), if miss checks page table, if page fault loads page from disk. Uses LRU for TLB replacement, FIFO for page replacement.</p>
+                <p class="tech-explanation">16-bit logical: page# = (addr >> 8) & 0xFF, offset = addr & 0xFF. Check TLB first (16 entries, LRU replacement). If TLB miss, check page table (256 entries). If page fault, find free frame (FIFO queue), fseek to page_num * PAGE_SIZE in BACKING_STORE, fread PAGE_SIZE bytes into physical_memory[frame_num * PAGE_SIZE], update page table and TLB. Physical = frame_num * PAGE_SIZE + offset.</p>
+                <h4>Why Important:</h4>
+                <p>Core virtual memory concept, TLB reduces 2→1 memory access, demand paging, page replacement algorithms, how MMU works, performance impact</p>
+                <h4>Key Concepts:</h4>
+                <p>Virtual memory, paging, TLB, page table, demand paging, page replacement, address translation, MMU</p>
+            </div>
+            
+            <!-- ASSIGNMENT 6: SIMPLE SHELL -->
+            <div class="section assign">
+                <h3>Assignment 6: Simple Shell</h3>
+                <h4>Task:</h4>
+                <p>Shell that executes commands in child processes</p>
+                <h4>Implementation:</h4>
+                <div class="code-block">// Parse command line
+char *args[MAX_ARGS];
+int arg_count = 0;
+int background = 0;
+
+token = strtok(input, " \t");
+while (token) {
+    if (strcmp(token, "&") == 0) {
+        background = 1;
+    } else {
+        args[arg_count++] = token;
+    }
+    token = strtok(NULL, " \t");
+}
+args[arg_count] = NULL;
+
+// Fork child process
+pid_t pid = fork();
+
+if (pid == 0) {
+    // Child: execute command
+    execvp(args[0], args);
+    perror("execvp failed");
+    exit(1);
+} else if (pid > 0) {
+    // Parent
+    if (!background) {
+        waitpid(pid, &status, 0);
+    } else {
+        printf("Background process: %d\n", pid);
+    }
+}</div>
+                <p class="lay-explanation">Parses command into arguments. Forks child process. Child executes command using execvp (replaces process image). Parent waits for child if foreground, continues if background.</p>
+                <p class="tech-explanation">Parse command line (tokenize by spaces), check for '&' at end for background. fork() creates child (returns PID in parent, 0 in child). Child: execvp(argv[0], argv) loads program (replaces process image, argv ends with NULL). Parent: if foreground, waitpid() blocks until child exits; if background, continues immediately.</p>
+                <h4>Why Important:</h4>
+                <p>Process creation (fork/exec), parent-child relationship, process replacement, how shells work, fundamental OS interface</p>
+                <h4>Key Concepts:</h4>
+                <p>Process creation, fork/exec, parent-child, process replacement, shell interface, command execution</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PAGE 3 -->
+    <div class="page">
+        <div class="column">
+            <!-- KEY FORMULAS -->
+            <div class="section intro">
+                <h3>Key Formulas</h3>
+                <h4>Scheduling:</h4>
+                <div class="formula">Turnaround = Completion - Arrival</div>
+                <div class="formula">Waiting = Turnaround - Burst</div>
+                <div class="formula">Response = First Response - Arrival</div>
+                <div class="formula">Throughput = Jobs / Time</div>
+                <div class="formula">CPU Util = (Busy / Total) × 100%</div>
+                <div class="formula">τ<sub>n+1</sub> = αt<sub>n</sub> + (1-α)τ<sub>n</sub></div>
+                <div class="formula">U ≤ n(2<sup>1/n</sup> - 1) [Rate-Monotonic]</div>
+                <div class="formula">Speedup = 1 / ((1-P) + P/N) [Amdahl's]</div>
+                <h4>Memory:</h4>
+                <div class="formula">Ext Frag = (1 - Largest/Total) × 100%</div>
+                <h4>Virtual Memory:</h4>
+                <div class="formula">EAT = (1+ε)α + (2+ε)(1-α)</div>
+                <div class="formula">Page# = Addr / Page_Size</div>
+                <div class="formula">Offset = Addr % Page_Size</div>
+                <div class="formula">Physical = (Frame# × Page_Size) + Offset</div>
+            </div>
+            
+            <!-- PROBLEM-SOLVING APPROACHES -->
+            <div class="section process">
+                <h3>Problem-Solving Approaches</h3>
+                <h4>Scheduling Problems:</h4>
+                <p>1. List processes with arrival/burst/priority 2. Build Gantt chart step-by-step 3. Calculate wait/turnaround/response for each 4. Compute averages</p>
+                <h4>Page Replacement:</h4>
+                <p>1. Track frames in use 2. For each reference: check hit, if miss find victim by algorithm 3. Count faults 4. Calculate hit rate</p>
+                <h4>Memory Allocation:</h4>
+                <p>1. List all holes (sorted by address) 2. For request: find hole by strategy 3. Allocate, update holes 4. Calculate fragmentation</p>
+                <h4>Banker's Algorithm:</h4>
+                <p>1. Calculate Need = Max - Allocation 2. Safety: Find process with Need ≤ Available, pretend allocate, repeat 3. Request: Check Request ≤ Need and Available, pretend allocate, check safety</p>
+                <h4>Address Translation:</h4>
+                <p>1. Extract page# and offset 2. Check TLB 3. If miss, check page table 4. If fault, load page 5. Calculate physical = frame × size + offset</p>
+            </div>
+            
+            <!-- SYSTEM CALLS QUICK REF -->
+            <div class="section intro">
+                <h3>System Calls Quick Reference</h3>
+                <h4>Process:</h4>
+                <p><span class="code">fork()</span> - duplicate, <span class="code">execv()</span> - load program</p>
+                <p><span class="code">wait()</span> - wait child, <span class="code">exit()</span> - terminate</p>
+                <p><span class="code">kill()</span> - send signal</p>
+                <h4>File:</h4>
+                <p><span class="code">open()</span>, <span class="code">read()</span>, <span class="code">write()</span></p>
+                <p><span class="code">close()</span>, <span class="code">lseek()</span></p>
+                <h4>Directory:</h4>
+                <p><span class="code">mkdir()</span>, <span class="code">rmdir()</span>, <span class="code">link()</span>, <span class="code">unlink()</span></p>
+                <h4>IPC:</h4>
+                <p><span class="code">shm_open()</span>, <span class="code">mmap()</span> - shared memory</p>
+                <p><span class="code">pipe()</span> - create pipe</p>
+            </div>
+            
+            <!-- SYNCHRONIZATION DETAILS -->
+            <div class="section sync">
+                <h3>Synchronization Details</h3>
+                <h4>Semaphore Implementation:</h4>
+                <div class="code-block">wait(S): S--; if(S<0) block();
+signal(S): S++; if(S≤0) wakeup();</div>
+                <h4>Pthreads Sync:</h4>
+                <div class="code-block">pthread_mutex_lock/unlock()
+sem_wait/post()
+pthread_cond_wait/signal/broadcast()</div>
+                <h4>Producer-Consumer Code:</h4>
+                <div class="code-block">Producer: wait(empty), wait(mutex),
+    buffer[in]=item, in=(in+1)%size,
+    signal(mutex), signal(full)
+Consumer: wait(full), wait(mutex),
+    item=buffer[out], out=(out+1)%size,
+    signal(mutex), signal(empty)</div>
+                <h4>Readers-Writers (Writer-pref):</h4>
+                <div class="code-block">Reader: wait(mutex),
+    if(writer_active||writers_waiting) wait(read_cond),
+    readers_active++, signal(mutex),
+    read, wait(mutex), readers_active--,
+    if(readers_active==0) signal(write_cond),
+    signal(mutex)
+Writer: wait(mutex),
+    while(readers_active||writer_active) wait(write_cond),
+    writer_active=true, signal(mutex),
+    write, wait(mutex), writer_active=false,
+    if(writers_waiting) signal(write_cond)
+    else broadcast(read_cond), signal(mutex)</div>
+            </div>
+        </div>
+        
+        <div class="column">
+            <!-- SCHEDULING COMPARISON -->
+            <div class="section sched">
+                <h3>Scheduling Comparison</h3>
+                <table>
+                    <tr><th>Algorithm</th><th>Type</th><th>Characteristics</th></tr>
+                    <tr><td>FCFS</td><td>Non-pre</td><td>Simple, convoy effect, fair order</td></tr>
+                    <tr><td>SJF</td><td>Non-pre</td><td>Optimal waiting, need prediction</td></tr>
+                    <tr><td>SRTF</td><td>Pre</td><td>Preemptive SJF, better response</td></tr>
+                    <tr><td>RR</td><td>Pre</td><td>Fair, good response, q critical</td></tr>
+                    <tr><td>Priority</td><td>Pre/Non</td><td>Starvation possible, aging helps</td></tr>
+                    <tr><td>Rate-Mono</td><td>Pre</td><td>Real-time, periodic, bounded U</td></tr>
+                    <tr><td>EDF</td><td>Pre</td><td>Real-time, dynamic, 100% possible</td></tr>
+                </table>
+            </div>
+            
+            <!-- PAGE REPLACEMENT COMPARISON -->
+            <div class="section vm">
+                <h3>Page Replacement Comparison</h3>
+                <table>
+                    <tr><th>Algorithm</th><th>Replace</th><th>Notes</th></tr>
+                    <tr><td>FIFO</td><td>Oldest</td><td>Belady's anomaly, simple</td></tr>
+                    <tr><td>Optimal</td><td>Unused longest</td><td>Theoretical, need future</td></tr>
+                    <tr><td>LRU</td><td>Least recent</td><td>Good approximation, expensive</td></tr>
+                    <tr><td>Clock</td><td>FIFO+ref bit</td><td>Second chance, practical</td></tr>
+                    <tr><td>Enhanced</td><td>(ref,mod) bits</td><td>4 classes, best practical</td></tr>
+                </table>
+                <h4>Belady's Anomaly:</h4>
+                <p>More frames can cause more page faults (FIFO can have this)</p>
+            </div>
+            
+            <!-- MEMORY ALLOCATION COMPARISON -->
+            <div class="section memory">
+                <h3>Memory Allocation Comparison</h3>
+                <table>
+                    <tr><th>Strategy</th><th>Method</th><th>Trade-off</th></tr>
+                    <tr><td>First Fit</td><td>First hole ≥ size</td><td>Fast, leaves fragments</td></tr>
+                    <tr><td>Best Fit</td><td>Smallest hole ≥ size</td><td>Min waste, many small holes</td></tr>
+                    <tr><td>Worst Fit</td><td>Largest hole</td><td>Large remainders, poor</td></tr>
+                </table>
+                <h4>Fragmentation:</h4>
+                <p>Internal: Within allocated block (page not full). External: Holes between blocks</p>
+            </div>
+            
+            <!-- DEADLOCK HANDLING SUMMARY -->
+            <div class="section deadlock">
+                <h3>Deadlock Handling Summary</h3>
+                <h4>Prevention (Break Condition):</h4>
+                <ul class="compact">
+                    <li>Mutual Ex: Make sharable (read-only files OK)</li>
+                    <li>Hold&Wait: Request all before start (low utilization)</li>
+                    <li>No Preempt: Release all if can't get (rollback)</li>
+                    <li>Circular: Resource ordering (request in order)</li>
+                </ul>
+                <h4>Banker's Algorithm Data:</h4>
+                <p>Available[m], Max[n×m], Allocation[n×m], Need[n×m] = Max - Allocation</p>
+                <p>Safety: Find i with Need[i] ≤ Work, Work += Allocation[i], repeat</p>
+                <p>Request: If Request ≤ Need and Request ≤ Available, pretend allocate, check safe</p>
+            </div>
+            
+            <!-- ADDITIONAL EXAMPLES -->
+            <div class="section vm">
+                <h3>Additional Examples: Virtual Memory</h3>
+                <h4>Complete: LRU Page Replacement</h4>
+                <div class="example">
+                    <p><strong>Ref:</strong> 7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1 (3 frames)</p>
+                    <p>7→[7], 0→[7,0], 1→[7,0,1], 2→[0,1,2] (replace 7), 0→hit, 3→[1,2,3] (replace 0), 0→[2,3,0] (replace 1), 4→[3,0,4] (replace 2), 2→[0,4,2] (replace 3), 3→[4,2,3] (replace 0), 0→[2,3,0] (replace 4), 3→hit, 2→hit, 1→[3,0,1] (replace 2), 2→[0,1,2] (replace 3), 0→hit, 1→hit, 7→[1,2,7] (replace 0), 0→[2,7,0] (replace 1), 1→[7,0,1] (replace 2)</p>
+                    <p><strong>Total faults:</strong> 12</p>
+                </div>
+            </div>
+            
+            <div class="section memory">
+                <h3>Additional Examples: Memory</h3>
+                <h4>Complete: Memory Allocation</h4>
+                <div class="example">
+                    <p><strong>Holes:</strong> 100K,500K,200K,300K,600K. <strong>Requests:</strong> 212K,417K,112K,426K</p>
+                    <p><strong>First Fit:</strong> 212K→500K, 417K→600K, 112K→288K, 426K→Cannot (max=300K)</p>
+                    <p><strong>Best Fit:</strong> 212K→300K, 417K→500K, 112K→200K, 426K→600K. <strong>All allocated!</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PAGE 4 -->
+    <div class="page">
+        <div class="column">
+            <!-- COMPREHENSIVE EXAMPLES -->
+            <div class="section sched">
+                <h3>Comprehensive Scheduling Example</h3>
+                <h4>SRTF (Shortest Remaining Time First)</h4>
+                <div class="example">
+                    <p><strong>P1(arr=0,burst=8), P2(arr=1,burst=4), P3(arr=2,burst=9), P4(arr=3,burst=5)</strong></p>
+                    <p>t=0: P1 starts (remaining=8). t=1: P2 arrives (burst=4 < P1's remaining 7), preempt P1, P2 runs. t=2: P3 arrives. t=3: P4 arrives. t=5: P2 completes, P4 runs (burst=5 < P1's 7, P3's 9). t=10: P4 completes, P1 runs (remaining=7). t=17: P1 completes, P3 runs (remaining=9). t=26: P3 completes</p>
+                    <p><strong>Gantt:</strong> [P1:0-1][P2:1-5][P4:5-10][P1:10-17][P3:17-26]</p>
+                    <table>
+                        <tr><th>PID</th><th>Wait</th><th>Turn</th><th>Resp</th></tr>
+                        <tr><td>P1</td><td>9</td><td>17</td><td>0</td></tr>
+                        <tr><td>P2</td><td>0</td><td>4</td><td>0</td></tr>
+                        <tr><td>P3</td><td>15</td><td>24</td><td>15</td></tr>
+                        <tr><td>P4</td><td>2</td><td>7</td><td>2</td></tr>
+                    </table>
+                    <p><strong>Avg Wait:</strong> 6.5, <strong>Avg Turn:</strong> 13.0, <strong>Avg Resp:</strong> 4.25</p>
+                </div>
+            </div>
+            
+            <div class="section deadlock">
+                <h3>Comprehensive Deadlock Example</h3>
+                <h4>Banker's Request Algorithm</h4>
+                <div class="example">
+                    <p><strong>System:</strong> 3 resources (A=10,B=5,C=7). Available=(3,3,2)</p>
+                    <p><strong>Allocation:</strong> P0(0,1,0), P1(2,0,0), P2(3,0,2), P3(2,1,1), P4(0,0,2)</p>
+                    <p><strong>Max:</strong> P0(7,5,3), P1(3,2,2), P2(9,0,2), P3(2,2,2), P4(4,3,3)</p>
+                    <p><strong>Need:</strong> P0(7,4,3), P1(1,2,2), P2(6,0,0), P3(0,1,1), P4(4,3,1)</p>
+                    <p><strong>P1 requests (0,2,0):</strong></p>
+                    <p>Step 1: Request ≤ Need? (0,2,0) ≤ (1,2,2) ✓</p>
+                    <p>Step 2: Request ≤ Available? (0,2,0) ≤ (3,3,2) ✓</p>
+                    <p>Step 3: Pretend allocate. Available=(3,1,2), Allocation P1=(2,2,0), Need P1=(1,0,2)</p>
+                    <p>Step 4: Safety check finds safe sequence P1→P3→P4→P0→P2. <strong>Granted</strong></p>
+                </div>
+            </div>
+            
+            <div class="section vm">
+                <h3>Comprehensive Virtual Memory Example</h3>
+                <h4>Complete Address Translation with TLB</h4>
+                <div class="example">
+                    <p><strong>Logical Address:</strong> 0x3A7F, Page Size = 4KB (0x1000)</p>
+                    <p><strong>Step 1:</strong> Extract page# and offset</p>
+                    <p>Page# = 0x3A7F / 0x1000 = 14 (0xE), Offset = 0x3A7F % 0x1000 = 0x7F</p>
+                    <p><strong>Step 2:</strong> Check TLB (16 entries)</p>
+                    <p>TLB miss → Check page table</p>
+                    <p><strong>Step 3:</strong> Check page table (256 entries)</p>
+                    <p>Page table: Page 14 → Frame 5, Valid = 1</p>
+                    <p><strong>Step 4:</strong> Update TLB (LRU replacement)</p>
+                    <p>Find LRU entry (oldest access_time), replace with Page 14 → Frame 5</p>
+                    <p><strong>Step 5:</strong> Calculate physical address</p>
+                    <p>Physical = (Frame# × Page_Size) + Offset = (5 × 0x1000) + 0x7F = 0x507F</p>
+                    <p><strong>Step 6:</strong> Read byte from physical_memory[0x507F]</p>
+                </div>
+                <h4>TLB EAT Calculation</h4>
+                <div class="example">
+                    <p><strong>Memory access = 100ns, TLB search = 20ns, TLB hit ratio = 90%</strong></p>
+                    <p>EAT = (100+20)(0.9) + (200+20)(0.1) = 108 + 22 = 130ns</p>
+                    <p><strong>Without TLB:</strong> 200ns (page table lookup + memory access)</p>
+                    <p><strong>Speedup:</strong> 200/130 = 1.54x</p>
+                </div>
+            </div>
+            
+            <div class="section memory">
+                <h3>Comprehensive Memory Allocation Example</h3>
+                <h4>Complete Allocation Sequence</h4>
+                <div class="example">
+                    <p><strong>Initial:</strong> One free block [0-1000KB]</p>
+                    <p><strong>RQ P1 200KB F:</strong> First Fit allocates [0-200KB] to P1, leaves [200-1000KB] free</p>
+                    <p><strong>RQ P2 150KB B:</strong> Best Fit finds smallest hole ≥150KB. [200-1000KB] is 800KB, allocate [200-350KB] to P2, leaves [350-1000KB] free</p>
+                    <p><strong>RQ P3 100KB W:</strong> Worst Fit finds largest hole. [350-1000KB] is 650KB, allocate [350-450KB] to P3, leaves [450-1000KB] free</p>
+                    <p><strong>RL P2:</strong> Release [200-350KB], merge with [450-1000KB]? No (not adjacent), leaves holes [200-350KB] and [450-1000KB]</p>
+                    <p><strong>RL P1:</strong> Release [0-200KB], merge with [200-350KB]? Yes (adjacent), leaves [0-350KB] and [450-1000KB]</p>
+                    <p><strong>STAT:</strong> Total allocated=100KB, Total free=900KB, Largest hole=550KB, External frag=(1-550/900)×100%=38.9%</p>
+                    <p><strong>C:</strong> Compaction moves P3 to [0-100KB], creates one free block [100-1000KB]</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="column">
+            <!-- ADDITIONAL SCHEDULING EXAMPLES -->
+            <div class="section sched">
+                <h3>Additional Scheduling Examples</h3>
+                <h4>Priority Scheduling</h4>
+                <div class="example">
+                    <p><strong>P1(arr=0,burst=4,pri=3), P2(arr=0,burst=3,pri=1), P3(arr=6,burst=2,pri=4), P4(arr=8,burst=1,pri=2)</strong></p>
+                    <p>Lower number = higher priority</p>
+                    <p><strong>Gantt:</strong> [P2:0-3][P1:3-7][P4:8-9][P3:9-11]</p>
+                    <p>Wait: P1=3, P2=0, P3=7, P4=0. <strong>Avg Wait:</strong> 2.5</p>
+                </div>
+                <h4>Rate-Monotonic Scheduling</h4>
+                <div class="example">
+                    <p><strong>T1(p=50,t=20), T2(p=100,t=30), T3(p=150,t=40)</strong></p>
+                    <p>U = 20/50 + 30/100 + 40/150 = 0.4 + 0.3 + 0.267 = 0.967</p>
+                    <p>Bound for n=3: 3(2^(1/3)-1) = 3(1.26-1) = 0.78</p>
+                    <p>0.967 > 0.78: <strong>May not be schedulable</strong></p>
+                </div>
+            </div>
+            
+            <!-- ADDITIONAL PAGE REPLACEMENT -->
+            <div class="section vm">
+                <h3>Additional Page Replacement Examples</h3>
+                <h4>Optimal Page Replacement</h4>
+                <div class="example">
+                    <p><strong>Ref:</strong> 1,2,3,4,1,2,5,1,2,3,4,5 (3 frames)</p>
+                    <p>1→[1], 2→[1,2], 3→[1,2,3], 4→[4,2,3] (replace 1, unused longest), 1→[4,1,3] (replace 2, unused longest), 2→[4,1,2] (replace 3, unused longest), 5→[5,1,2] (replace 4, unused longest), 1→hit, 2→hit, 3→[3,1,2] (replace 5, unused longest), 4→[3,4,2] (replace 1, unused longest), 5→[3,4,5] (replace 2, unused longest)</p>
+                    <p><strong>Total faults:</strong> 7 (optimal!)</p>
+                </div>
+                <h4>Clock/Second-Chance</h4>
+                <div class="example">
+                    <p><strong>Ref:</strong> 1,2,3,4,1,2,5 (3 frames, reference bit)</p>
+                    <p>1→[1(r)], 2→[1(r),2(r)], 3→[1(r),2(r),3(r)], 4→[4(r),2(r),3(r)] (replace 1, ref bit cleared), 1→[1(r),2(r),3(r)] (replace 4, ref bit cleared), 2→hit (set ref bit), 5→[5(r),2(r),3(r)] (replace 1, ref bit cleared)</p>
+                    <p>Clock hand moves, gives second chance if ref bit set</p>
+                </div>
+            </div>
+            
+            <!-- DISK SCHEDULING DETAILS -->
+            <div class="section io">
+                <h3>Disk Scheduling Details</h3>
+                <h4>Complete Example</h4>
+                <div class="example">
+                    <p><strong>Queue:</strong> 98,183,37,122,14,124,65,67. <strong>Head:</strong> 53, <strong>Direction:</strong> Right</p>
+                    <p><strong>FCFS:</strong> 53→98→183→37→122→14→124→65→67</p>
+                    <p>Seek = |53-98|+|98-183|+|183-37|+|37-122|+|122-14|+|14-124|+|124-65|+|65-67| = 810</p>
+                    <p><strong>SSTF:</strong> 53→65→67→37→14→98→122→124→183</p>
+                    <p>Seek = |53-65|+|65-67|+|67-37|+|37-14|+|14-98|+|98-122|+|122-124|+|124-183| = 236</p>
+                    <p><strong>SCAN:</strong> 53→65→67→98→122→124→183→37→14</p>
+                    <p>Seek = |53-65|+|65-67|+|67-98|+|98-122|+|122-124|+|124-183|+|183-37|+|37-14| = 208</p>
+                    <p><strong>C-SCAN:</strong> 53→65→67→98→122→124→183→14→37</p>
+                    <p>Seek = |53-65|+|65-67|+|67-98|+|98-122|+|122-124|+|124-183|+|183-199|+|199-0|+|0-14|+|14-37| = 322</p>
+                    <p><strong>C-LOOK:</strong> 53→65→67→98→122→124→183→14→37</p>
+                    <p>Seek = |53-65|+|65-67|+|67-98|+|98-122|+|122-124|+|124-183|+|183-14|+|14-37| = 299</p>
+                </div>
+            </div>
+            
+            <!-- FILE SYSTEM DETAILS -->
+            <div class="section fs">
+                <h3>File System Details</h3>
+                <h4>Inode Structure (UNIX)</h4>
+                <div class="example">
+                    <p><strong>Direct blocks:</strong> 12 blocks (12 × 4KB = 48KB)</p>
+                    <p><strong>Single indirect:</strong> 1 block points to 1024 blocks (1024 × 4KB = 4MB)</p>
+                    <p><strong>Double indirect:</strong> 1 block points to 1024 blocks, each points to 1024 blocks (1024² × 4KB = 4GB)</p>
+                    <p><strong>Triple indirect:</strong> 1 block points to 1024 blocks, each points to 1024 blocks, each points to 1024 blocks (1024³ × 4KB = 4TB)</p>
+                    <p><strong>Max file size:</strong> 48KB + 4MB + 4GB + 4TB</p>
+                </div>
+                <h4>Free-Space Management</h4>
+                <div class="example">
+                    <p><strong>Bit Vector:</strong> 1 bit per block. 1=free, 0=allocated</p>
+                    <p>For 1GB disk with 4KB blocks: 262,144 blocks, 32,768 bytes (32KB) for bit vector</p>
+                    <p><strong>Linked List:</strong> Each free block contains pointer to next free block</p>
+                    <p><strong>Grouping:</strong> Store addresses of N-1 free blocks in first free block</p>
+                    <p><strong>Counting:</strong> Store (start block, count) for contiguous free blocks</p>
+                </div>
+            </div>
+            
+            <!-- QUICK REFERENCE TABLES -->
+            <div class="section intro">
+                <h3>Quick Reference Tables</h3>
+                <h4>Process States</h4>
+                <table>
+                    <tr><th>State</th><th>Description</th></tr>
+                    <tr><td>New</td><td>Process being created</td></tr>
+                    <tr><td>Ready</td><td>Waiting to be assigned to CPU</td></tr>
+                    <tr><td>Running</td><td>Executing on CPU</td></tr>
+                    <tr><td>Waiting</td><td>Waiting for event (I/O, signal)</td></tr>
+                    <tr><td>Terminated</td><td>Finished execution</td></tr>
+                </table>
+                <h4>Page Replacement Algorithms</h4>
+                <table>
+                    <tr><th>Algorithm</th><th>Victim Selection</th><th>Complexity</th></tr>
+                    <tr><td>FIFO</td><td>Oldest page</td><td>O(1)</td></tr>
+                    <tr><td>Optimal</td><td>Unused longest</td><td>O(n)</td></tr>
+                    <tr><td>LRU</td><td>Least recent</td><td>O(n)</td></tr>
+                    <tr><td>Clock</td><td>FIFO+ref bit</td><td>O(1)</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PAGE 5 - EXAMPLE QUESTIONS -->
+    <div class="page">
+        <div class="column">
+            <!-- CHAPTER 1 QUESTIONS -->
+            <div class="section questions">
+                <h3>Example Questions: Ch1-Introduction</h3>
+                <h4>Q1: Three main purposes of OS?</h4>
+                <p><strong>A:</strong> 1) Provide convenient environment for users 2) Execute user programs 3) Make computer system easy to use</p>
+                <h4>Q2: Should OS include browsers/mail?</h4>
+                <p><strong>Should:</strong> Convenience, integration, user experience</p>
+                <p><strong>Should Not:</strong> Bloat, security, maintenance, flexibility</p>
+                <h4>Q3: Kernel vs User mode protection?</h4>
+                <p><strong>A:</strong> Kernel mode: privileged instructions, access all resources. User mode: restricted, system calls needed. Mode bit prevents user from executing privileged instructions, protects system integrity</p>
+                <h4>Q4: Why caches useful? Problems?</h4>
+                <p><strong>Useful:</strong> Reduce access time, improve performance. <strong>Problems:</strong> Coherence (multiple copies), Consistency (updates). <strong>Why not eliminate device:</strong> Cache is volatile, device is persistent</p>
+                <h4>Q5: Client-server vs Peer-to-peer?</h4>
+                <p><strong>Client-server:</strong> Centralized, dedicated servers, clients request services</p>
+                <p><strong>Peer-to-peer:</strong> Distributed, all nodes equal, share resources directly</p>
+                <h4>Q6: Purpose of system calls?</h4>
+                <p><strong>A:</strong> Interface between user programs and OS. Provide controlled access to OS services, abstract hardware details, ensure security</p>
+                <h4>Q7: Five major OS activities (process mgmt)?</h4>
+                <p><strong>A:</strong> 1) Create/delete processes 2) Schedule processes 3) Suspend/resume processes 4) Synchronize processes 5) Handle deadlocks</p>
+                <h4>Q8: Command interpreter purpose? Why separate?</h4>
+                <p><strong>Purpose:</strong> Parse and execute user commands. <strong>Why separate:</strong> Easy to change, user-level program, can have multiple shells, not part of kernel</p>
+                <h4>Q9: Purpose of system programs?</h4>
+                <p><strong>A:</strong> Provide convenient environment for program development and execution. File manipulation, status info, programming language support, program loading/execution, communications</p>
+                <h4>Q10: OS in firmware vs disk?</h4>
+                <p><strong>Firmware:</strong> Embedded systems, faster boot, limited updates</p>
+                <p><strong>Disk:</strong> General purpose, easier updates, slower boot</p>
+            </div>
+            
+            <!-- CHAPTER 2 QUESTIONS -->
+            <div class="section questions">
+                <h3>Example Questions: Ch2-Processes/Threads</h3>
+                <h4>Q1: Multiple register sets context switch?</h4>
+                <p><strong>A:</strong> If new context in register set: Just switch register set pointer (fast). If in memory and all sets used: Save current set, load new context (slower)</p>
+                <h4>Q2: fork() shared state?</h4>
+                <p><strong>A:</strong> c) Shared Memory. Stack and Heap are separate (copy-on-write)</p>
+                <h4>Q3: Three complications of concurrent processing?</h4>
+                <p><strong>A:</strong> 1) Race conditions 2) Deadlocks 3) Synchronization overhead</p>
+                <h4>Q4: Three multithreading examples?</h4>
+                <p><strong>A:</strong> 1) Web server (handle multiple requests) 2) Word processor (UI + spell check) 3) Matrix multiplication (parallel computation)</p>
+                <h4>Q5: Kernel-level thread context switch?</h4>
+                <p><strong>A:</strong> Save thread state (registers, PC), update thread control block, switch to new thread's stack, restore new thread's registers, resume execution</p>
+                <h4>Q6: User vs Kernel threads differences?</h4>
+                <p><strong>User-level:</strong> Managed by library, fast creation, blocking blocks all. <strong>Kernel-level:</strong> Managed by OS, slower creation, one blocks doesn't block others. <strong>Better:</strong> User for many threads, Kernel for blocking I/O</p>
+                <h4>Q7: Thread vs Process resources?</h4>
+                <p><strong>Thread:</strong> Stack, registers, PC (minimal). <strong>Process:</strong> All of above + address space, file descriptors, process ID</p>
+                <h4>Q8: Busy waiting meaning? Other waiting?</h4>
+                <p><strong>Busy waiting:</strong> Continuously checking condition (spins). <strong>Other:</strong> Blocking (sleep until condition). <strong>Avoidable:</strong> Yes, use blocking synchronization</p>
+                <h4>Q9: Spinlocks single vs multiprocessor?</h4>
+                <p><strong>Single:</strong> Wastes CPU, no other process can run. <strong>Multiprocessor:</strong> OK for short waits, avoids context switch overhead</p>
+                <h4>Q10: Non-atomic semaphore operations?</h4>
+                <p><strong>A:</strong> If wait()/signal() not atomic, two processes could both check S>0, both decrement, violating mutual exclusion</p>
+                <h4>Q11: Binary semaphore for n processes?</h4>
+                <p><strong>A:</strong> Initialize semaphore to 1. Each process: wait(sem) before CS, signal(sem) after CS. Ensures only one in CS</p>
+            </div>
+        </div>
+        
+        <div class="column">
+            <!-- CHAPTER 3 QUESTIONS -->
+            <div class="section questions">
+                <h3>Example Questions: Ch3-Memory</h3>
+                <h4>Q1: Advantage of dynamic loading?</h4>
+                <p><strong>A:</strong> Routine loaded only when called. Better memory utilization, unused routines never loaded</p>
+                <h4>Q2: When external fragmentation occurs?</h4>
+                <p><strong>A:</strong> When total free memory is sufficient but not contiguous. Occurs with dynamic memory allocation</p>
+                <h4>Q2a: Internal vs External fragmentation?</h4>
+                <p><strong>Internal:</strong> Waste within allocated block (e.g., page not full)</p>
+                <p><strong>External:</strong> Holes between blocks, enough total but not contiguous</p>
+                <h4>Q3: How TLB assists address translation?</h4>
+                <p><strong>A:</strong> TLB caches recent page table entries. Check TLB first (fast), if hit get frame# directly. If miss, check page table (slower). Reduces memory accesses from 2 to 1 on hit</p>
+                <h4>Q4: Limit register for memory protection?</h4>
+                <p><strong>A:</strong> Limit register stores maximum address. Check: address < base + limit. If violation, trap to OS. Prevents access outside process memory</p>
+                <h4>Q5: Demand-paging vs paging with swapping?</h4>
+                <p><strong>Demand-paging:</strong> Load pages on fault, process stays in memory</p>
+                <p><strong>Paging with swapping:</strong> Entire process swapped out/in, all pages loaded together</p>
+                <h4>Q6: Page fault sequence of events?</h4>
+                <p><strong>A:</strong> 1) Trap to OS 2) Save state 3) Check if legal address 4) Find free frame (or replace) 5) Read page from disk 6) Update page table 7) Restart instruction</p>
+                <h4>Q7: How copy-on-write operates?</h4>
+                <p><strong>A:</strong> Parent/child share pages initially. Mark pages read-only. On write: trap to OS, copy page, update page tables, mark writable. Efficient fork()</p>
+                <h4>Q8: Global vs Local allocation?</h4>
+                <p><strong>Global:</strong> All frames available to any process, better utilization</p>
+                <p><strong>Local:</strong> Each process has fixed frames, prevents one process from taking all frames</p>
+                <h4>Q9: Usefulness of modify bit?</h4>
+                <p><strong>A:</strong> Tracks if page modified. If not modified, no need to write to disk on replacement (just discard). Saves I/O time</p>
+            </div>
+            
+            <!-- CHAPTER 4 QUESTIONS -->
+            <div class="section questions">
+                <h3>Example Questions: Ch4-File Systems</h3>
+                <h4>Q1: Common file attributes?</h4>
+                <p><strong>A:</strong> Name, Type, Location, Size, Protection, Time/Date (created, modified, accessed), User ID, File pointer</p>
+                <h4>Q2: Absolute vs Relative path?</h4>
+                <p><strong>Absolute:</strong> Full path from root (/usr/bin/ls)</p>
+                <p><strong>Relative:</strong> Path from current directory (../bin/ls)</p>
+                <h4>Q3: Why all FS suffer internal fragmentation?</h4>
+                <p><strong>A:</strong> Files allocated in blocks. Last block rarely full. Internal fragmentation = block size - (file size % block size)</p>
+                <h4>Q4: ACL advantages/disadvantages?</h4>
+                <p><strong>Advantages:</strong> Fine-grained control, per-user permissions</p>
+                <p><strong>Disadvantages:</strong> Complex management, overhead, harder to understand</p>
+                <h4>Q5: Raw vs Cooked partition?</h4>
+                <p><strong>Raw:</strong> No file system, direct access to blocks</p>
+                <p><strong>Cooked:</strong> Has file system, structured access</p>
+                <h4>Q6: In-memory FS structures?</h4>
+                <p><strong>A:</strong> Mount table, Directory cache, System-wide open file table, Per-process open file table, Buffer cache</p>
+                <h4>Q7: Linear list directory disadvantage? Solution?</h4>
+                <p><strong>Disadvantage:</strong> Slow search (O(n)). <strong>Solution:</strong> Use hash table for fast lookup, keep sorted, use cache</p>
+                <h4>Q8: Unified buffer cache benefit?</h4>
+                <p><strong>A:</strong> Single cache for file system and virtual memory. Better utilization, fewer copies, simpler management</p>
+                <h4>Additional File System Concepts:</h4>
+                <p><strong>File Operations:</strong> Create, Delete, Open, Close, Read, Write, Append, Seek, Get/Set attributes, Rename</p>
+                <p><strong>Access Methods:</strong> Sequential (tape-like, must read in order), Direct/Random (disk-like, can access any block directly)</p>
+                <p><strong>Directory Structures:</strong> Single-Level (all files in one dir), Tree (hierarchical with subdirs), Acyclic-Graph (sharing via links), General Graph (cycles allowed)</p>
+                <p><strong>Allocation Methods Trade-offs:</strong> Contiguous (simple, fast, external frag), Linked (no external frag, sequential only), Indexed (direct access, supports large files, overhead)</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PAGE 6 - MORE QUESTIONS & HELPFUL TIPS -->
+    <div class="page">
+        <div class="column">
+            <!-- CHAPTER 5 QUESTIONS -->
+            <div class="section questions">
+                <h3>Example Questions: Ch5-I/O Systems</h3>
+                <h4>Q1: Polling between host and controller?</h4>
+                <p><strong>A:</strong> Host repeatedly checks controller status register. CPU busy-waits until device ready. Simple but wastes CPU</p>
+                <h4>Q2: Why DMA for large transfers?</h4>
+                <p><strong>A:</strong> CPU sets up DMA once, DMA transfers data directly to memory, CPU free during transfer. Without DMA: CPU involved in every byte transfer (slow)</p>
+                <h4>Q3: Nonblocking I/O example?</h4>
+                <p><strong>A:</strong> Network socket read when data may not be ready. Application can do other work, check later. Prevents blocking</p>
+                <h4>Q4: Serial-port vs SCSI controller?</h4>
+                <p><strong>Serial-port:</strong> One device, simple, slow</p>
+                <p><strong>SCSI:</strong> Bus with multiple devices, complex, fast, daisy-chained</p>
+                <h4>Q5: Programmable interval timer purpose?</h4>
+                <p><strong>A:</strong> Generate interrupts at fixed intervals. Used for: time slicing, scheduling, timeouts, periodic tasks</p>
+                <h4>Q6: SSTF disadvantage?</h4>
+                <p><strong>A:</strong> May cause starvation. Requests far from head may never be serviced if new requests keep arriving near head</p>
+                <h4>Q7: Disk scheduling algorithm factors?</h4>
+                <p><strong>A:</strong> Workload (sequential vs random), Performance goals (throughput vs response), Fairness requirements, Real-time constraints</p>
+            </div>
+            
+            <!-- CHAPTER 6 QUESTIONS -->
+            <div class="section questions">
+                <h3>Example Questions: Ch6-Deadlock</h3>
+                <h4>Q1: OS most often handle deadlocks?</h4>
+                <p><strong>A:</strong> A) Pretend that deadlocks never occur. Most systems ignore deadlock problem</p>
+                <h4>Q2: Four conditions for deadlock?</h4>
+                <p><strong>A:</strong> 1) Mutual Exclusion 2) Hold and Wait 3) No Preemption 4) Circular Wait. ALL must hold simultaneously</p>
+                <h4>Q3: Three ways to handle deadlock?</h4>
+                <p><strong>A:</strong> 1) Prevention (break one condition) 2) Avoidance (Banker's algorithm) 3) Detection and Recovery</p>
+                <h4>Q4: Prevention vs Avoidance?</h4>
+                <p><strong>Prevention:</strong> Design system to prevent one of four conditions (always safe, but restrictive)</p>
+                <p><strong>Avoidance:</strong> Check if allocation leaves safe state before granting (more flexible, but need future knowledge)</p>
+                <h4>Additional Deadlock Concepts:</h4>
+                <p><strong>Resource-Allocation Graph:</strong> Processes (circles), Resources (rectangles). Request edge (P→R), Assignment edge (R→P). No cycle = no deadlock. Cycle + single instance = deadlock</p>
+                <p><strong>Recovery Methods:</strong> Process Termination (abort all or one at a time), Resource Preemption (select victim, rollback, prevent starvation)</p>
+                <p><strong>Deadlock Detection Algorithm:</strong> Find cycles in resource-allocation graph. For multiple instances: use wait-for graph, detect cycles</p>
+                <p><strong>Starvation Prevention:</strong> Use cost factor (how long waiting, how many times preempted), prevent same process from being victim repeatedly</p>
+            </div>
+            
+            <!-- COMMON EXAM QUESTIONS -->
+            <div class="section questions">
+                <h3>Common Exam Questions</h3>
+                <h4>Short Answer:</h4>
+                <p><strong>Q: Primary goal of CPU scheduling?</strong> Optimize performance metrics (utilization, throughput, turnaround, waiting, response time)</p>
+                <p><strong>Q: Define thrashing?</strong> System spends more time paging than executing. More page faults than useful work</p>
+                <p><strong>Q: Preemptive vs Non-preemptive?</strong> Preemptive: OS can interrupt running process. Non-preemptive: Process runs to completion</p>
+                <p><strong>Q: What is page fault?</strong> Access to page not in physical memory. OS must load from disk</p>
+                <p><strong>Q: Two page replacement algorithms?</strong> LRU (least recently used), FIFO (first in first out)</p>
+                <p><strong>Q: Critical section problem?</strong> Code accessing shared data. Must ensure mutual exclusion, progress, bounded waiting</p>
+                <p><strong>Q: Mutex vs Semaphore?</strong> Mutex: binary semaphore (0 or 1). Semaphore: counting (0 to N)</p>
+                <p><strong>Q: Race condition?</strong> Multiple processes access shared data, final result depends on execution order</p>
+                <p><strong>Q: What is TLB?</strong> Translation Lookaside Buffer - fast cache for page table entries. Reduces memory access from 2 to 1 on hit</p>
+                <p><strong>Q: Belady's anomaly?</strong> More frames can cause more page faults (occurs with FIFO, not with LRU or Optimal)</p>
+                <p><strong>Q: Working set model?</strong> Pages accessed in recent Δ time references. If sum of working sets > available frames → thrashing</p>
+                <p><strong>Q: Copy-on-write benefit?</strong> Parent/child share pages initially, copy only on write. Efficient fork(), saves memory</p>
+                <p><strong>Q: Priority inversion problem?</strong> Low-priority holds lock needed by high-priority, medium-priority runs instead. Solution: Priority inheritance</p>
+            </div>
+        </div>
+        
+        <div class="column">
+            <!-- HELPFUL TIPS SECTION -->
+            <div class="section helpful">
+                <h3>All-Inclusive Helpful Tips</h3>
+                <h4>Quick Problem-Solving Checklist:</h4>
+                <ul class="compact">
+                    <li><strong>Scheduling:</strong> Always build Gantt chart, track arrivals each time unit</li>
+                    <li><strong>Page Replacement:</strong> Track frame state, count faults carefully</li>
+                    <li><strong>Memory Allocation:</strong> Sort holes by address, update after each allocation</li>
+                    <li><strong>Banker's:</strong> Calculate Need first, check safety systematically</li>
+                    <li><strong>Address Translation:</strong> Extract page# and offset, check TLB→page table→fault</li>
+                </ul>
+                <h4>Common Mistakes to Avoid:</h4>
+                <ul class="compact">
+                    <li>Forgetting to check arrivals in scheduling</li>
+                    <li>Not updating remaining burst in preemptive algorithms</li>
+                    <li>Counting page faults incorrectly (hits vs misses)</li>
+                    <li>Forgetting to merge holes in memory allocation</li>
+                    <li>Not checking all conditions in Banker's safety</li>
+                    <li>Mixing up logical and physical addresses</li>
+                </ul>
+                <h4>Key Formulas to Memorize:</h4>
+                <ul class="compact">
+                    <li>Turnaround = Finish - Arrival</li>
+                    <li>Waiting = Turnaround - Burst</li>
+                    <li>Response = First Start - Arrival</li>
+                    <li>EAT = (1+ε)α + (2+ε)(1-α)</li>
+                    <li>τ<sub>n+1</sub> = αt<sub>n</sub> + (1-α)τ<sub>n</sub></li>
+                    <li>Speedup = 1 / ((1-P) + P/N)</li>
+                </ul>
+                <h4>System Call Patterns:</h4>
+                <ul class="compact">
+                    <li><strong>Process creation:</strong> fork() → exec() → wait() → exit()</li>
+                    <li><strong>File operations:</strong> open() → read()/write() → close()</li>
+                    <li><strong>IPC:</strong> shm_open() → mmap() → use → munmap()</li>
+                    <li><strong>Threads:</strong> pthread_create() → work → pthread_join()</li>
+                </ul>
+                <h4>Synchronization Order Matters:</h4>
+                <ul class="compact">
+                    <li>Producer: wait(empty) BEFORE wait(mutex) prevents deadlock</li>
+                    <li>Always acquire locks in same order to prevent deadlock</li>
+                    <li>Release locks in reverse order of acquisition</li>
+                </ul>
+                <h4>Memory Management Tips:</h4>
+                <ul class="compact">
+                    <li>First Fit: Fast but fragments</li>
+                    <li>Best Fit: Min waste but many small holes</li>
+                    <li>Worst Fit: Poor performance</li>
+                    <li>Always merge adjacent holes on release</li>
+                    <li>Compaction requires dynamic relocation</li>
+                </ul>
+                <h4>Virtual Memory Tips:</h4>
+                <ul class="compact">
+                    <li>TLB hit: 1 memory access, TLB miss: 2 memory accesses</li>
+                    <li>Page fault: Load from disk (slow!)</li>
+                    <li>LRU approximates optimal but expensive</li>
+                    <li>FIFO can have Belady's anomaly</li>
+                    <li>Working set prevents thrashing</li>
+                </ul>
+                <h4>Deadlock Prevention Strategies:</h4>
+                <ul class="compact">
+                    <li>Break Mutual Ex: Make sharable (read-only)</li>
+                    <li>Break Hold&Wait: Request all before start</li>
+                    <li>Break No Preempt: Release all if can't get</li>
+                    <li>Break Circular: Resource ordering</li>
+                </ul>
+                <h4>File System Tips:</h4>
+                <ul class="compact">
+                    <li>Contiguous: Simple but external fragmentation</li>
+                    <li>Linked: No external frag but sequential only</li>
+                    <li>Indexed: Direct access, supports large files</li>
+                    <li>Inode: Direct (12) + indirect pointers</li>
+                </ul>
+                <h4>I/O Tips:</h4>
+                <ul class="compact">
+                    <li>DMA: CPU sets up, device transfers directly</li>
+                    <li>Interrupts: Efficient, device signals when done</li>
+                    <li>Polling: Simple but wastes CPU</li>
+                    <li>SSTF: Better than FCFS but may starve</li>
+                    <li>SCAN: Elevator algorithm, uniform wait</li>
+                </ul>
+            </div>
+            
+            <!-- LONG ANSWER QUESTIONS -->
+            <div class="section questions">
+                <h3>Long Answer Questions</h3>
+                <h4>Q: Round Robin advantages/disadvantages?</h4>
+                <p><strong>Advantages:</strong> Fair (equal time), Responsive (short processes complete quickly), Preemptive</p>
+                <p><strong>Disadvantages:</strong> Context switch overhead, Higher turnaround for long processes</p>
+                <p><strong>Time Quantum:</strong> Small = more overhead, Large = less responsive</p>
+                <h4>Q: Virtual memory enables large processes?</h4>
+                <p><strong>Mechanism:</strong> Pages mapped to frames or disk. Page table tracks mapping. Page fault loads from disk</p>
+                <p><strong>Benefits:</strong> Efficient memory use, Multitasking, Isolation</p>
+                <p><strong>Challenges:</strong> Page faults (slow), Thrashing, Overhead</p>
+                <h4>Q: FCFS vs SJF comparison?</h4>
+                <p><strong>FCFS:</strong> Simple, fair order, convoy effect, not optimal</p>
+                <p><strong>SJF:</strong> Optimal waiting time, need prediction, may starve long processes</p>
+                <p><strong>Preference:</strong> FCFS for batch, SJF when times known</p>
+                <h4>Q: Page table role in address translation?</h4>
+                <p><strong>Role:</strong> Maps virtual page# to physical frame#. Stores control bits (valid, read/write)</p>
+                <p><strong>Translation:</strong> VPN indexes page table → get PFN → combine with offset → physical address</p>
+                <p><strong>Benefits:</strong> Non-contiguous allocation, Isolation, Security</p>
+                <p><strong>Challenges:</strong> Overhead, Large tables, TLB helps</p>
+                <h4>Additional Long Answer Topics:</h4>
+                <p><strong>Q: Compare paging vs segmentation?</strong> Paging: Fixed-size pages, no external frag, transparent to programmer. Segmentation: Variable-size segments, logical units, visible to programmer, external frag possible</p>
+                <p><strong>Q: Explain multilevel page tables?</strong> Page the page table itself. Reduces memory for page tables. Two-level: outer page table + inner page tables. Three-level for 64-bit systems</p>
+                <p><strong>Q: Describe monitor implementation?</strong> High-level sync construct. Only one process active in monitor. Condition variables: wait() blocks, signal() wakes one, broadcast() wakes all. Java: synchronized keyword</p>
+                <p><strong>Q: Explain multilevel queue scheduling?</strong> Multiple ready queues, each with own algorithm. Processes permanently assigned to queue. Example: Interactive (RR) in high-priority queue, Batch (FCFS) in low-priority queue</p>
+                <p><strong>Q: Describe multilevel feedback queue?</strong> Multiple queues, processes can move between queues. Start in highest priority, demote if use full quantum, promote if I/O bound. Adapts to process behavior</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

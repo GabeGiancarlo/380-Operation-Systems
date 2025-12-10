@@ -1,0 +1,700 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter 4
+File Systems
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Systems
+Think of a disk as a linear sequence of fixed-size blocks and
+supporting two operations:
+1. Read block k.
+2. Write block k
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Systems
+Questions that quickly arise:
+– How do you find information?
+– How do you keep one user from reading another user’s data?
+– How do you know which blocks are free?
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Systems
+File Systems are:
+• A way to organize and (persistently) store information
+• An abstraction over storage devices:
+– Hard disk, SS D, network, RA
+
+M,
+• Organized in files and (typically) directories.
+• Examples:
+– FA T12/FA T16: M S-DO S
+– NTF S: Windows
+– Ext4: Linux
+– APF S: mac O S/iO S
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Overview
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Files
+• Abstract storage nodes
+• File access:
+– Sequential v s. random access
+• File types:
+– Regular files, directories, soft links
+– Special files (e.g., device files, metadata files)
+• File structure:
+– O S’ perspective: Files as streams of bytes
+– Program’s perspective: Archives, Executables, etc.
+ersu
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Quiz Question
+Q: When does the O S itself care about the contents of a file?
+A: Only when the O S uses the file itself (directories, executables, boot
+image, etc.)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Naming
+• Different file systems have different limitations/conventions for file
+names
+• File extensions
+• File name length
+–
+FAT12: 8.3 characters (later extended to 255)
+–
+Ext4: 255 characters
+• Special characters in file names
+–
+FAT12: No "*/:<>?\| and more
+–
+Ext4: No '\0' and '/', or the special names "." and ".."
+• Case sensitivity
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Types – Name, Extension
+
+Operating System Concepts – 10th Edition
+
+13.9
+
+Silberschatz, Galvin and Gagne ©2018
+
+File Operations
+• Create
+• Delete
+• Op
+• Close
+• Read
+• Write
+• Append
+• Seek
+• Get attributes
+• Set attributes
+• Rename
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Operations
+• Seeking in files:
+int fd = open(“foo.txt”, O_RDONLY);
+lseek(fd, 128, SEEK_CUR);
+char buf[8];
+read(fd, buf, 8);
+close(fd);
+• Move current position in file forwards or backwards.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File Operations
+• Removing file:
+– unlink(“foo.txt”);
+• Renaming file:
+– rename(“foo.txt”, “bar.txt”);
+• Change file permission attribute:
+– chmod(“foo.txt”, 0755);
+• Change file owner attribute:
+– ch o w n(“foo.txt”, ui d, gi d);
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Directories
+• Data structures organizing and maintaining information about files
+• Often stored as file entries with special attributes
+• Directories are denoted by “/” (Unix) or “\” (Windows)
+• Special directory entries:
+– . Current directory
+– .. Parent directory
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Single-Level Directory
+
+
+A single directory for all users
+
+
+
+Naming problem
+
+
+
+Grouping problem
+
+Operating System Concepts – 10th Edition
+
+13.14
+
+Silberschatz, Galvin and Gagne ©2018
+
+Tree-Structured Directories
+
+Operating System Concepts – 10th Edition
+
+13.15
+
+Silberschatz, Galvin and Gagne ©2018
+
+General Graph Directory
+
+Operating System Concepts – 10th Edition
+
+13.16
+
+Silberschatz, Galvin and Gagne ©2018
+
+Operations Performed on Directory
+ Search for a file
+ Create a file
+ Delete a file
+ List a directory
+ Rename a file
+ Traverse the file system
+
+Operating System Concepts – 10th Edition
+
+13.17
+
+Silberschatz, Galvin and Gagne ©2018
+
+Protection
+ File owner/creator should be able to control:
+ what can be done
+ by whom
+
+ Types of access
+ Read
+ Write
+ Execute
+ Append
+ Delete
+ List
+
+Operating System Concepts – 10th Edition
+
+13.18
+
+Silberschatz, Galvin and Gagne ©2018
+
+Access Lists and Groups
+Mode of access: read, write, execute
+ Three classes of users on Unix / Linux
+
+
+a) owner access
+
+7
+
+b) group access
+
+6
+
+c) public access
+
+1
+
+RWX
+
+RWX
+
+RWX
+
+
+111
+110
+001
+
+Ask manager to create a group (unique name), say G, and add
+some users to the group.
+ For a particular file (say game) or subdirectory, define an
+appropriate access.
+
+
+Attach a group to a file
+chgrp
+
+Operating System Concepts – 10th Edition
+
+G
+
+game
+
+13.19
+
+Silberschatz, Galvin and Gagne ©2018
+
+A Sample UNIX Directory Listing
+
+Operating System Concepts – 10th Edition
+
+13.20
+
+Silberschatz, Galvin and Gagne ©2018
+
+Virtual File Systems
+
+Figure 4.21 Position of the virtual file system.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File System Implementation
+• How to store files?
+• How to implement directories?
+• How to manage disk space?
+• How to ensure file system performance?
+• How to ensure file system dependability?
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File System Layout
+
+Figure 4.10 A possible file system layout.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Unified Extensible Firmware Interface (UEF I)
+
+Figure 4.11 Layout for UEF I with partition
+table
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+How to Store Files on the Disk?
+Contiguous allocation
+• Store files as a contiguous stream of bytes
+• Requires max file size, prone to fragmentation
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Contiguous Allocation
+
+
+Mapping from logical to physical
+
+Q
+LA/512
+R
+Block to be accessed = Q + starting address
+Displacement into block = R
+
+Operating System Concepts – 10th Edition
+
+14.26
+
+Silberschatz, Galvin and Gagne ©2018
+
+How to Store Files on the Disk?
+Contiguous allocation
+• Store files as a contiguous stream of bytes
+• Requires max file size, prone to fragmentation
+Block-based strategies
+• Linked List
+• File Allocation Table
+• i-nodes
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Linked Allocation
+
+Operating System Concepts – 10th Edition
+
+14.28
+
+Silberschatz, Galvin and Gagne ©2018
+
+File-Allocation Table
+
+Operating System Concepts – 10th Edition
+
+14.29
+
+Silberschatz, Galvin and Gagne ©2018
+
+Indexed Allocation
+
+Operating System Concepts – 10th Edition
+
+14.30
+
+Silberschatz, Galvin and Gagne ©2018
+
+Combined Scheme: UNIX UFS
+4K bytes per block, 32-bit addresses
+
+More index blocks than can be addressed with 32-bit file pointer
+
+Operating System Concepts – 10th Edition
+
+14.31
+
+Silberschatz, Galvin and Gagne ©2018
+
+Implementing Files I-nodes
+
+Figure 4.15 An example i-node
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+FAT 12/FAT 16 Layout
+
+• Reserved later used for F S information
+• FA T #1/#2: preallocated File Allocation Tables
+• Preallocated root directory
+• Clusters represent addressable blocks:
+– FA T contains chains indexed by starting cluster
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+UNI X Directory Entry
+
+• Directory entry stores only name and #i-node
+• Attributes are stored in the i-node
+• One i-node per file, first i-node is the root
+• Where are i-nodes stored?
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hard Links v s. Soft Links
+ersu
+
+• Hard links reference a shared file (i-node)
+– The file is removed only with no hard links left
+– Space-efficient (only 1 directory entry per hard link)
+– Good to manage shared files across owners
+• Soft (or symbolic) links reference a file name
+– Removing the file renders its soft links invalid
+– Less space-efficient (need 1 i-node per soft link)
+– More flexible (can reference file names across F Ses)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Block Size
+• How do choose the block size?
+• Important speed-space tradeoff to consider
+• Larger block sizes allow transferring more data per block
+– Better overall data rates
+• Smaller block sizes reduce space overhead for small files
+– Less fragmentation
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Block Size Impact
+
+Figure 4.23 The dashed curve (left-hand scale) gives the data rate of a disk. The
+solid curve (right-hand scale) gives the disk space efficiency. All files are 4 K B.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Free-Space Management
+
+
+File system maintains free-space list to track available blocks/clusters
+
+
+
+
+(Using term “block” for simplicity)
+
+Bit vector or bit map (n blocks)
+0
+
+1
+
+2
+
+n-1
+
+bit[i] =
+
+
+
+…
+1  block[i] free
+0  block[i] occupied
+
+Block number calculation
+(number of bits per word) *
+(number of 0-value words) +
+offset of first 1 bit
+CPUs have instructions to return offset within word of first “1” bit
+
+Operating System Concepts – 10th Edition
+
+14.38
+
+Silberschatz, Galvin and Gagne ©2018
+
+Free-Space Management (Cont.)
+
+
+Bit map requires extra space
+ Example:
+block size = 4KB = 212 bytes
+disk size = 240 bytes (1 terabyte)
+n = 240/212 = 228 bits (or 32MB)
+if clusters of 4 blocks -> 8MB of memory
+
+
+
+Easy to get contiguous files
+
+Operating System Concepts – 10th Edition
+
+14.39
+
+Silberschatz, Galvin and Gagne ©2018
+
+Linked Free Space List on Disk
+
+
+Operating System Concepts – 10th Edition
+
+Linked list (free list)
+
+Cannot get contiguous space
+easily
+
+No waste of space
+
+No need to traverse the entire
+list (if # free blocks recorded)
+
+14.40
+
+Silberschatz, Galvin and Gagne ©2018
+
+Efficiency and Performance
+ Efficiency dependent on:
+ Disk allocation and directory algorithms
+ Types of data kept in file’s directory entry
+ Pre-allocation or as-needed allocation of metadata
+
+structures
+
+ Fixed-size or varying-size data structures
+
+Operating System Concepts – 10th Edition
+
+14.41
+
+Silberschatz, Galvin and Gagne ©2018
+
+Efficiency and Performance (Cont.)
+ Performance
+ Keeping data and metadata close together
+ Buffer cache – separate section of main memory for frequently
+
+used blocks
+
+ Synchronous writes sometimes requested by apps or needed by
+
+OS
+
+ No buffering / caching – writes must hit disk before
+
+acknowledgement
+
+ Asynchronous writes more common, buffer-able, faster
+
+ Free-behind and read-ahead – techniques to optimize sequential
+
+access
+
+ Reads frequently slower than writes
+
+Operating System Concepts – 10th Edition
+
+14.42
+
+Silberschatz, Galvin and Gagne ©2018
+
+Minimize Disk Access: Caching
+
+• Buffer cache: Cache disk blocks in RA M
+• Page cache: Cache VF S pages (before going to driver)
+– Often same data as buffer cache, so O S may merge them
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Page Cache
+ A page cache caches pages rather than disk blocks
+
+using virtual memory techniques and addresses
+
+ Memory-mapped I/O uses a page cache
+ Routine I/O through the file system uses the buffer (disk)
+
+cache
+
+ This leads to the following figure
+
+Operating System Concepts – 10th Edition
+
+14.44
+
+Silberschatz, Galvin and Gagne ©2018
+
+I/O Without a Unified Buffer Cache
+
+Operating System Concepts – 10th Edition
+
+14.45
+
+Silberschatz, Galvin and Gagne ©2018
+
+Unified Buffer Cache
+ A unified buffer cache uses the same page cache
+
+to cache both memory-mapped pages and ordinary
+file system I/O to avoid double caching
+
+ But which caches get priority, and what replacement
+
+algorithms to use?
+
+Operating System Concepts – 10th Edition
+
+14.46
+
+Silberschatz, Galvin and Gagne ©2018
+
+I/O Using a Unified Buffer Cache
+
+Operating System Concepts – 10th Edition
+
+14.47
+
+Silberschatz, Galvin and Gagne ©2018
+
+Quiz Question
+A unified buffer cache ________ .
+A) is used for both I/O read() and write() operations in a single cache.
+B) is used for both memory-mapped I/O and I/O read() and write()
+operations in a single cache.
+C) is used as both the page cache and buffer cache.
+
+B) is used for both memory-mapped I/O and I/O read() and write() operations in a
+single cache.
+
+Operating System Concepts – 10th Edition
+
+14.48
+
+Silberschatz, Galvin and Gagne ©2018
+
+Techniques Used in Flash-Based File Systems
+
+Figure 4.20 Components inside a typical flash SS
+D.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Quiz Question
+Q: Why is yanking out a US B stick considered “unsafe”?
+A: Because there could be ”dirty” blocks in the cache that won’t be
+written back to the stick, losing their information
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File System Dependability Threats
+• Disk failures:
+– Bad blocks
+– Whole-disk errors
+• Power failures:
+– (Meta)-data inconsistently written to disk
+• Software bugs:
+– Bad (meta)-data written to disk
+• User errors:
+–
+• Lost or stolen computer
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File System Backups
+Backups to disk are generally made to handle one of two potential
+problems:
+1. Recover from disaster.
+2. Recover from stupidity.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Backups: Properties
+• Incremental vs . full
+• Online vs . offline
+• Physical vs . logical
+• Compressed vs . uncompressed
+• Local vs . remote
+er
+
+er
+
+us
+
+us
+
+er
+
+us
+
+er
+
+er
+
+us
+
+us
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+RAID: Redundant Array of Independent Disks
+
+• RAID 0 & 2: Expand file system over multiple disks (+storage)
+• RAID 1: Duplicate file system over disks (+redundancy)
+• RAID 3-6: Store parity information (+storage, +redundancy)
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+RAI D (1)
+
+Figure 5.26 RAI D levels 0 through 3. Backup and parity drives are shown shaded.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+RAI D (2)
+
+Figure 5.26 RAI D levels 4 through 6. Backup and parity drives are shown shaded.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Quiz Question
+Does RAID help with the following threats:
+• Physical failure (disk stops working)? Yes
+• Computer catching fire or getting stolen? No
+• Power failure (inconsistent write)? Yes
+• Bug in driver? Maybe, depends on the bug
+• User error? No
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Modern Operating Systems
+Fifth Edition
+
+Chapter 4- End
+File Systems
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+

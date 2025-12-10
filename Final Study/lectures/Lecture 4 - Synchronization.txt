@@ -1,0 +1,1261 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter 2
+Synchronization and
+Inter-Process
+Communication
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Synchronization and Inter-Process Communication
+(IP C)
+• Why?
+• Processes need some way to communicate:
+– To share data throughout the execution
+• No explicit cross-process sharing:
+–  Data must be normally exchanged between processes
+• Processes need some way to synchronize:
+– To account for dependencies
+– To avoid they get in each other’s way
+– Also applies to multithreaded execution
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Producer
+while (true) {
+/* produce an item in next produced */
+while (counter == BUFFER_SIZE) ;
+/* do nothing */
+buffer[in] = next_produced;
+in = (in + 1) % BUFFER_SIZE;
+counter++;
+}
+
+Operating System Concepts – 10th Edition
+
+6.3
+
+Silberschatz, Galvin and Gagne ©2018
+
+Consumer
+while (true) {
+while (counter == 0)
+; /* do nothing */
+next_consumed = buffer[out];
+out = (out + 1) % BUFFER_SIZE;
+counter--;
+/* consume the item in next consumed
+*/
+}
+
+Operating System Concepts – 10th Edition
+
+6.4
+
+Silberschatz, Galvin and Gagne ©2018
+
+Race Condition
+
+
+counter++ could be implemented as
+register1 = counter
+register1 = register1 + 1
+counter = register1
+
+
+
+counter-- could be implemented as
+register2 = counter
+register2 = register2 - 1
+counter = register2
+
+
+
+Consider this execution interleaving with “count = 5” initially:
+S0: producer execute register1 = counter
+S1: producer execute register1 = register1 + 1
+S2: consumer execute register2 = counter
+S3: consumer execute register2 = register2 – 1
+S4: producer execute counter = register1
+S5: consumer execute counter = register2
+
+Operating System Concepts – 10th Edition
+
+6.5
+
+{register1 = 5}
+{register1 = 6}
+{register2 = 5}
+{register2 = 4}
+{counter = 6 }
+{counter = 4}
+
+Silberschatz, Galvin and Gagne ©2018
+
+Critical Regions
+Requirements to avoid race conditions:
+1. No two processes may be simultaneously inside their critical regions.
+2. No assumptions may be made about speeds or the number of C P U s.
+3. No process running outside its critical region may block other
+processes.
+4. No process should have to wait forever to enter its critical region.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Critical Regions
+• Critical region: a code region with access to shared resources
+– No two processes may be simultaneously in their critical regions
+– No assumptions may be made about speeds or nr. of CPU s
+– No process running outside its critical region may block others
+– No process should have to wait forever to enter its critical region
+• (Non)solutions:
+– Disable interrupts: simply prevent that the CP U can be
+reallocated. Works for single-CP U systems only
+– Lock variables: guard critical regions with 0/1 variables. Races
+now occur on the lock variables themselves
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Critical Regions
+
+Figure 2.22 Mutual exclusion using critical regions.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Peterson’s Solution
+Good algorithmic description of solving the problem
+ Two process solution
+
+
+Assume that the load and store machine-language
+instructions are atomic; that is, cannot be interrupted
+ The two processes share two variables:
+
+
+
+
+int turn;
+ Boolean flag[2]
+
+The variable turn indicates whose turn it is to enter the critical
+section
+ The flag array is used to indicate if a process is ready to enter
+the critical section. flag[i] = true implies that process Pi is
+ready!
+
+
+Operating System Concepts – 10th Edition
+
+6.9
+
+Silberschatz, Galvin and Gagne ©2018
+
+Algorithm for Process Pi
+do {
+flag[i] = true;
+turn = j;
+while (flag[j] && turn = = j);
+critical section
+flag[i] = false;
+remainder section
+} while (true);
+
+Operating System Concepts – 10th Edition
+
+6.10
+
+Silberschatz, Galvin and Gagne ©2018
+
+Mutual Exclusion with Busy Waiting: The TS L
+Instruction
+• Hardware-assisted solution to the mutual exclusion problem
+• Atomic test and set of a memory value
+• Spin until LOCK is acquired
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Producer-Consumer Problem
+ Paradigm for cooperating processes, producer process produces
+
+information that is consumed by a consumer process
+
+ unbounded-buffer places no practical limit on the size of the
+
+buffer
+
+ bounded-buffer assumes that there is a fixed buffer size
+
+Operating System Concepts – 10th Edition
+
+3.12
+
+Silberschatz, Galvin and Gagne ©2018
+
+Bounded-Buffer – Shared-Memory Solution
+ Shared data
+
+#define BUFFER_SIZE 10
+typedef struct {
+. . .
+} item;
+item buffer[BUFFER_SIZE];
+int in = 0;
+int out = 0;
+ Solution is correct, but can only use BUFFER_SIZE-1
+
+elements
+
+Operating System Concepts – 10th Edition
+
+3.13
+
+Silberschatz, Galvin and Gagne ©2018
+
+Bounded-Buffer – Producer
+item next_produced;
+while (true) {
+/* produce an item in next produced */
+while (((in + 1) % BUFFER_SIZE) == out)
+; /* do nothing */
+buffer[in] = next_produced;
+in = (in + 1) % BUFFER_SIZE;
+}
+
+Operating System Concepts – 10th Edition
+
+3.14
+
+Silberschatz, Galvin and Gagne ©2018
+
+Bounded Buffer – Consumer
+item next_consumed;
+while (true) {
+while (in == out)
+; /* do nothing */
+next_consumed = buffer[out];
+out = (out + 1) % BUFFER_SIZE;
+/* consume the item in next consumed */
+}
+
+Operating System Concepts – 10th Edition
+
+3.15
+
+Silberschatz, Galvin and Gagne ©2018
+
+Spinlocks and Spinlock Problems
+
+What would happen when we get an interrupt after the syscall handler
+has taken the lock?
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Avoiding Busy Waiting
+• The solutions so far let a process keep the CP U busy waiting until it
+can enter its critical region (spin lock)
+• Solution: let a process waiting to enter its critical region return the C
+P U to the scheduler voluntarily
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Producer-Consumer (1 of 4)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Producer-Consumer (2 of 4)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Producer-Consumer (3 of 4)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Producer-Consumer (4 of 4)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Mutex Locks
+Previous solutions are complicated and generally inaccessible
+to application programmers
+ OS designers build software tools to solve critical section
+problem
+
+
+
+
+Simplest is mutex lock
+
+
+
+Protect a critical section by first acquire() a lock then
+release() the lock
+ Boolean variable indicating if lock is available or not
+
+Calls to acquire() and release() must be atomic
+ Usually implemented via hardware atomic instructions
+ But this solution requires busy waiting
+ This lock therefore called a spinlock
+
+
+Operating System Concepts – 10th Edition
+
+6.22
+
+Silberschatz, Galvin and Gagne ©2018
+
+acquire() and release()
+
+
+acquire() {
+while (!available)
+; /* busy wait */
+available = false;;
+}
+
+
+
+release() {
+available = true;
+}
+
+
+
+do {
+acquire lock
+critical section
+release lock
+remainder section
+} while (true);
+
+Operating System Concepts – 10th Edition
+
+6.23
+
+Silberschatz, Galvin and Gagne ©2018
+
+Mutexes in Pthreads
+
+Thread Call
+
+Description
+
+pthread_mutex_init
+
+Create a mutex
+
+pthread_mutex_destroy
+
+Destroy an existing mutex
+
+pthread _mutex_lock
+
+Acquire a lock or block
+
+pthread_mutex_trylock
+
+Acquire a lock or fail
+
+pthread_mutex_unlock
+
+Release a lock
+
+Figure 2.31 Some of the Pthreads calls relating to mutexes.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Mutexes in Pthreads
+
+Thread Call
+
+Description
+
+pthread_cond_init
+
+Create a condition variable
+
+pthread_cond_destroy
+
+Destroy a condition variable
+
+pthread _cond_wait
+
+Block waiting for a signal
+
+pthread_cond_signal
+
+Signal another thread and wake it up
+
+pthread_cond_broadcast Signal multiple threads and wake all of them
+
+Figure 2.32 Some of the Pthreads calls relating to condition variables.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Semaphore
+
+
+
+
+Synchronization tool that provides more sophisticated ways (than Mutex locks) for
+process to synchronize their activities.
+Semaphore S – integer variable
+Can only be accessed via two indivisible (atomic) operations
+
+wait() and signal()
+ Originally called P() and V()
+ Definition of the wait() operation
+wait(S) {
+
+
+while (S <= 0)
+; // busy wait
+S--;
+}
+
+
+Definition of the signal() operation
+
+signal(S) {
+S++;
+}
+
+Operating System Concepts – 10th Edition
+
+6.26
+
+Silberschatz, Galvin and Gagne ©2018
+
+Semaphore Usage
+
+
+Counting semaphore – integer value can range over an unrestricted
+domain
+
+
+
+Binary semaphore – integer value can range only between 0 and 1
+
+
+Same as a mutex lock
+
+
+
+Can solve various synchronization problems
+
+
+
+Consider P1 and P2 that require S1 to happen before S2
+Create a semaphore “synch” initialized to 0
+P1:
+S1;
+signal(synch);
+P2:
+wait(synch);
+S2;
+
+
+
+Can implement a counting semaphore S as a binary semaphore
+
+Operating System Concepts – 10th Edition
+
+6.27
+
+Silberschatz, Galvin and Gagne ©2018
+
+Semaphore Implementation
+
+
+Must guarantee that no two processes can execute the wait()
+and signal() on the same semaphore at the same time
+
+
+
+Thus, the implementation becomes the critical section problem
+where the wait and signal code are placed in the critical
+section
+
+
+Could now have busy waiting in critical section
+implementation
+ But implementation code is short
+ Little busy waiting if critical section rarely occupied
+
+
+
+Note that applications may spend lots of time in critical sections
+and therefore this is not a good solution
+
+Operating System Concepts – 10th Edition
+
+6.28
+
+Silberschatz, Galvin and Gagne ©2018
+
+Semaphore Implementation with no Busy waiting
+
+
+With each semaphore there is an associated waiting queue
+
+
+
+Each entry in a waiting queue has two data items:
+
+
+
+
+
+
+
+value (of type integer)
+
+
+
+pointer to next record in the list
+
+Two operations:
+
+
+block – place the process invoking the operation on the
+appropriate waiting queue
+
+
+
+wakeup – remove one of processes in the waiting queue
+and place it in the ready queue
+
+typedef struct{
+int value;
+struct process *list;
+} semaphore;
+
+Operating System Concepts – 10th Edition
+
+6.29
+
+Silberschatz, Galvin and Gagne ©2018
+
+Implementation with no Busy waiting (Cont.)
+wait(semaphore *S) {
+S->value--;
+if (S->value < 0) {
+add this process to S->list;
+block();
+}
+}
+signal(semaphore *S) {
+S->value++;
+if (S->value <= 0) {
+remove a process P from S->list;
+wakeup(P);
+}
+}
+
+Operating System Concepts – 10th Edition
+
+6.30
+
+Silberschatz, Galvin and Gagne ©2018
+
+Full Example on Linux
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Readers-Writers Problem
+
+
+
+
+A data set is shared among a number of concurrent processes
+
+
+Readers – only read the data set; they do not perform any updates
+
+
+
+Writers – can both read and write
+
+Problem – allow multiple readers to read at the same time
+
+
+Only one single writer can access the shared data at the same time
+
+
+
+Several variations of how readers and writers are considered – all
+involve some form of priorities
+
+
+
+Shared Data
+
+Operating System Concepts – 10th Edition
+
+
+
+Data set
+
+
+
+Semaphore rw_mutex initialized to 1
+
+
+
+Semaphore mutex initialized to 1
+
+
+
+Integer read_count initialized to 0
+
+7.32
+
+Silberschatz, Galvin and Gagne ©2018
+
+Readers/Writers
+• Idea: Build a queue of readers and writers
+• Let several readers in at the same time
+• Allow 1 writer when no readers are active
+• How long may the writer have to wait?
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Readers-Writers Problem (Cont.)
+
+
+The structure of a writer process
+do {
+wait(rw_mutex);
+...
+/* writing is performed */
+...
+signal(rw_mutex);
+} while (true);
+
+Operating System Concepts – 10th Edition
+
+7.34
+
+Silberschatz, Galvin and Gagne ©2018
+
+Readers-Writers Problem (Cont.)
+
+
+The structure of a reader process
+do {
+wait(mutex);
+read_count++;
+if (read_count == 1)
+wait(rw_mutex);
+signal(mutex);
+...
+/* reading is performed */
+...
+wait(mutex);
+read count--;
+if (read_count == 0)
+signal(rw_mutex);
+signal(mutex);
+} while (true);
+
+Operating System Concepts – 10th Edition
+
+7.35
+
+Silberschatz, Galvin and Gagne ©2018
+
+Monitors
+• Semaphores have been heavily criticized for the chaos they can
+introduce
+• Monitors: more structured approach towards process
+synchronization:
+– Serialize the procedure calls on a given module
+– Use condition variables to wait / signal processes
+• Monitors require language support
+• Popular in managed languages, e.g., Java:
+– Synchronized methods / blocks
+– Wait, notify, notifyall primitives
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Schematic view of a Monitor
+
+Operating System Concepts – 10th Edition
+
+6.37
+
+Silberschatz, Galvin and Gagne ©2018
+
+Condition Variables
+ condition x, y;
+
+
+Two operations are allowed on a condition variable:
+ x.wait() – a process that invokes the operation is
+
+suspended until x.signal()
+
+ x.signal() – resumes one of processes (if any) that
+
+invoked x.wait()
+
+ If no x.wait() on the variable, then it has no effect on
+
+the variable
+
+Operating System Concepts – 10th Edition
+
+6.38
+
+Silberschatz, Galvin and Gagne ©2018
+
+Monitor with Condition Variables
+
+Operating System Concepts – 10th Edition
+
+6.39
+
+Silberschatz, Galvin and Gagne ©2018
+
+Monitors: Producer-Consumer (1 of 5)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Monitors: Producer-Consumer (2 of 5)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Monitors: Producer-Consumer (3 of 5)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Monitors: Producer-Consumer (4 of 5)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Monitors: Producer-Consumer (5 of 5)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Interprocess Communication
+
+
+Processes within a system may be independent or cooperating
+
+
+
+Cooperating process can affect or be affected by other processes,
+including sharing data
+
+
+
+Reasons for cooperating processes:
+
+
+Information sharing
+
+
+
+Computation speedup
+
+
+
+Modularity
+
+
+
+Convenience
+
+
+
+Cooperating processes need interprocess communication (IPC)
+
+
+
+Two models of IPC
+
+Operating System Concepts – 10th Edition
+
+
+
+Shared memory
+
+
+
+Message passing
+
+3.45
+
+Silberschatz, Galvin and Gagne ©2018
+
+Communications Models
+(a) Message passing.
+
+Operating System Concepts – 10th Edition
+
+(b) shared memory.
+
+3.46
+
+Silberschatz, Galvin and Gagne ©2018
+
+Cooperating Processes
+
+
+Independent process cannot affect or be affected by the execution
+of another process
+
+
+
+Cooperating process can affect or be affected by the execution of
+another process
+
+
+
+Advantages of process cooperation
+
+Operating System Concepts – 10th Edition
+
+
+
+Information sharing
+
+
+
+Computation speed-up
+
+
+
+Modularity
+
+
+
+Convenience
+
+3.47
+
+Silberschatz, Galvin and Gagne ©2018
+
+Interprocess Communication – Shared Memory
+
+ An area of memory shared among the processes
+
+that wish to communicate
+ The communication is under the control of the
+users processes not the operating system.
+ Major issues is to provide mechanism that will
+allow the user processes to synchronize their
+actions when they access shared memory.
+
+Operating System Concepts – 10th Edition
+
+3.48
+
+Silberschatz, Galvin and Gagne ©2018
+
+Interprocess Communication – Message Passing
+
+
+Mechanism for processes to communicate and to synchronize
+their actions
+
+
+
+Message system – processes communicate with each other
+without resorting to shared variables
+
+
+
+IPC facility provides two operations:
+ send(message)
+ receive(message)
+
+
+
+The message size is either fixed or variable
+
+Operating System Concepts – 10th Edition
+
+3.49
+
+Silberschatz, Galvin and Gagne ©2018
+
+Message Passing (Cont.)
+If processes P and Q wish to communicate, they need to:
+ Establish a communication link between them
+ Exchange messages via send/receive
+ Implementation issues:
+
+
+Operating System Concepts – 10th Edition
+
+
+
+How are links established?
+
+
+
+Can a link be associated with more than two processes?
+
+
+
+How many links can there be between every pair of
+communicating processes?
+
+
+
+What is the capacity of a link?
+
+
+
+Is the size of a message that the link can accommodate fixed or
+variable?
+
+
+
+Is a link unidirectional or bi-directional?
+
+3.50
+
+Silberschatz, Galvin and Gagne ©2018
+
+Message Passing (Cont.)
+
+
+Operating System Concepts – 10th Edition
+
+Implementation of communication link
+ Physical:
+ Shared memory
+ Hardware bus
+ Network
+ Logical:
+ Direct or indirect
+ Synchronous or asynchronous
+ Automatic or explicit buffering
+
+3.51
+
+Silberschatz, Galvin and Gagne ©2018
+
+Examples of IPC Systems - POSIX
+
+
+POSIX Shared Memory
+
+
+Process first creates shared memory segment
+shm_fd = shm_open(name, O CREAT | O RDWR, 0666);
+
+
+
+Also used to open an existing segment to share it
+
+
+
+Set the size of the object
+ftruncate(shm fd, 4096);
+
+
+
+Now the process could write to the shared memory
+sprintf(shared memory, "Writing to shared
+memory");
+
+Operating System Concepts – 10th Edition
+
+3.52
+
+Silberschatz, Galvin and Gagne ©2018
+
+IPC POSIX Producer
+
+Operating System Concepts – 10th Edition
+
+3.53
+
+Silberschatz, Galvin and Gagne ©2018
+
+IPC POSIX Consumer
+
+Operating System Concepts – 10th Edition
+
+3.54
+
+Silberschatz, Galvin and Gagne ©2018
+
+Sockets
+
+
+A socket is defined as an endpoint for communication
+
+
+
+Concatenation of IP address and port – a number included at
+start of message packet to differentiate network services on a
+host
+
+
+
+The socket 161.25.19.8:1625 refers to port 1625 on host
+161.25.19.8
+
+
+
+Communication consists between a pair of sockets
+
+
+
+All ports below 1024 are well known, used for standard
+services
+
+
+
+Special IP address 127.0.0.1 (loopback) to refer to system on
+which process is running
+
+Operating System Concepts – 10th Edition
+
+3.55
+
+Silberschatz, Galvin and Gagne ©2018
+
+Socket Communication
+
+Operating System Concepts – 10th Edition
+
+3.56
+
+Silberschatz, Galvin and Gagne ©2018
+
+Remote Procedure Calls
+
+
+Remote procedure call (RPC) abstracts procedure calls
+between processes on networked systems
+
+
+Again uses ports for service differentiation
+
+
+
+Stubs – client-side proxy for the actual procedure on the
+server
+
+
+
+The client-side stub locates the server and marshalls the
+parameters
+
+
+
+The server-side stub receives this message, unpacks the
+marshalled parameters, and performs the procedure on the
+server
+
+
+
+On Windows, stub code compile from specification written in
+Microsoft Interface Definition Language (MIDL)
+
+Operating System Concepts – 10th Edition
+
+3.57
+
+Silberschatz, Galvin and Gagne ©2018
+
+Remote Procedure Calls (Cont.)
+
+
+Data representation handled via External Data
+Representation (XDL) format to account for different
+architectures
+
+
+
+
+Remote communication has more failure scenarios than local
+
+
+
+
+Big-endian and little-endian
+Messages can be delivered exactly once rather than at
+most once
+
+OS typically provides a rendezvous (or matchmaker) service
+to connect client and server
+
+Operating System Concepts – 10th Edition
+
+3.58
+
+Silberschatz, Galvin and Gagne ©2018
+
+Execution of RPC
+
+Operating System Concepts – 10th Edition
+
+3.59
+
+Silberschatz, Galvin and Gagne ©2018
+
+Pipes
+
+
+Acts as a conduit allowing two processes to communicate
+
+
+
+Issues:
+
+
+Is communication unidirectional or bidirectional?
+
+
+
+In the case of two-way communication, is it half or fullduplex?
+
+
+
+Must there exist a relationship (i.e., parent-child) between
+the communicating processes?
+
+
+
+Can the pipes be used over a network?
+
+
+
+Ordinary pipes – cannot be accessed from outside the process
+that created it. Typically, a parent process creates a pipe and
+uses it to communicate with a child process that it created.
+
+
+
+Named pipes – can be accessed without a parent-child
+relationship.
+
+Operating System Concepts – 10th Edition
+
+3.60
+
+Silberschatz, Galvin and Gagne ©2018
+
+Ordinary Pipes
+
+
+Ordinary Pipes allow communication in standard producer-consumer
+style
+
+
+
+Producer writes to one end (the write-end of the pipe)
+
+
+
+Consumer reads from the other end (the read-end of the pipe)
+
+
+
+Ordinary pipes are therefore unidirectional
+
+
+
+Require parent-child relationship between communicating processes
+
+
+
+Windows calls these anonymous pipes
+
+
+
+See Unix and Windows code samples in textbook
+
+Operating System Concepts – 10th Edition
+
+3.61
+
+Silberschatz, Galvin and Gagne ©2018
+
+Named Pipes
+
+
+Named Pipes are more powerful than ordinary pipes
+
+
+
+Communication is bidirectional
+
+
+
+No parent-child relationship is necessary between the
+communicating processes
+
+
+
+Several processes can use the named pipe for communication
+
+
+
+Provided on both UNIX and Windows systems
+
+Operating System Concepts – 10th Edition
+
+3.62
+
+Silberschatz, Galvin and Gagne ©2018
+
+Priority Inversion
+Consider the Mars Pathfinder
+• It had three subsystems
+– A data-distribution system (High Prio)
+– A Communication system (Med Prio)
+– A meteorological data gathering (Low Prio)
+There was also a common hardware
+subsystem:
+The data bus used by Task 1 and 3.
+It is protected by a semaphore
+
+NAS A/JP L-Caltech
+
+Question: What can happen?
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Priority Inversion
+Consider the Mars Pathfinder
+• It had three subsystems
+– A data-distribution system (High Prio)
+– A Communication system (Med Prio)
+– A meteorological data gathering (Low Prio)
+There was also a common hardware subsystem:
+The data bus used by Task 1 and 3.
+It is protected by a semaphore
+
+NAS A/JP L-Caltech
+
+Question: What can happen?
+Imagine the following scenario: (1) Low Prio task takes mutex, (2) gets interrupted
+by Med Prio task, (3) which is interrupted by High Prio task (which blocks because
+Low Prio task holds lock) Medium Prio task runs even though there is a High Prio
+task to run (priority is inverted)
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Priority Inversion
+• Several methods to solve priority inversion
+– Disable all interrupts while in the critical region
+– Priority ceiling: associate a priority with the mutex and assign that
+to the process holding it
+– Priority inheritance: A low-priority task holding the mutex
+temporarily inherits the priority of the high-priority task trying to
+obtain it
+– Random boosting: randomly assigning mutex-holding threads a
+high priority until they exit the critical region
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Modern Operating Systems
+Fifth Edition
+
+Chapter 2
+Synchronization and
+Inter-Process
+Communication - End
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+

@@ -1,0 +1,344 @@
+﻿CPSC 380 Operating System Principles
+Final Exam Study Guide 
+
+Chapter 1 - Introduction
+      Know the definition of an operating system
+      Familiar with the general system structure
+1. Hardware
+2. Operating Systems
+3. Application Programs
+4. Users
+      Computer startup (i.e. bootstrap programs)
+      Computer system organizations (CPUs, device controllers, bus memory cycles)
+      Interrupts and Interrupt Handling
+      I/O Structure
+1. System calls
+2. Device-status tables
+      Storage Structure
+1. Storage Hierarchy
+2. Caching
+      Direct Memory Access Structure
+1. How DMA works
+      System Calls
+1. Process Management
+2. File Management
+3. Directory Management
+4. Misc System Calls	
+      Operating Systems Interface
+1. CLI or GUI
+a. Shells (i.e. csh, bash, ...)
+Operating System Structure
+1. Monolithic Systems
+2. Layered Systems
+3. Microkernels
+Chapter 2 - Processes and Threads
+	Process Concept
+1. Process Model
+a. Process Creation
+b. Process Termination
+c. Process Hierarchies
+d. Process Stats
+2. Process Implementation
+a. Text section, data section, program counter, stack, heap
+3. Process in memory
+4. Process state
+a. New, running, waiting, ...
+5. Process Control Block
+6. Threads of execution
+Context-Switch
+      Threads
+1. Thread Usage 
+2. Thread Model
+3. Posix threads
+4. User Space/Kernel Space thread implementation
+	Multithreaded Architectures
+1. Benefits
+2. Multicore programming
+      Concurrency/Parallelism
+1. Amdahl's Law
+Signal Handling
+Thread Cancellation
+Inter-process Communications
+1. Shared memory
+2. Message passing
+3. Independent/Cooperating Processes
+4. 4. Indirect Communication
+Synchronization
+1. Race Conditions
+2. Critical Regions
+a. Describe the Critical Section Problem.
+b. Know the three requirements the critical-section problem must satisfy
+3. Mutual Exclusion (busy waiting)
+4. Semaphores/Mutexes
+5. Know the definition of the hardware instructions (i.e. TestAndSet)
+6. Know/Describe some classic problems of synchronization
+a. Bounded-Buffer Problem
+b. Reader-Writers Problem
+c. Dining-Philosophers Problem
+7. Monitors
+8. Priority Inversion
+      CPU Scheduling
+1. Basic Concepts
+2. I/O Burst Cycles
+3. Scheduler/Dispatcher
+4. Scheduling Algorithms
+a. FCFS, RR, Priority, ...
+5. Thread Scheduling
+a. Scope/Contention
+
+Chapter 3 - Memory Management
+      Memory Abstraction
+1. Define Logical-Verses-Physical Address Space
+2. Define Dynamic Loading
+3. Describe Dynamic Linking and Shared Libraries
+4. Describe/Define Swapping
+5. Describe Contiguous Memory Allocation
+6. What is the purpose of memory protection?
+Memory Allocation
+1. Describe Contiguous Memory Allocation
+2. What is the purpose of memory protection?
+3. Knowing the memory allocation techniques
+a. First Fit
+b. Best Fit
+c. Worst Fit
+4. What is memory fragmentation?
+a. Internal fragmentation
+b. External fragmentation
+Virtual Memory
+1. Paging
+a. Understand how paging works (basic method)
+b. What is the purpose of the TLB
+c. How is memory protected?
+d. Page table structures
+i. Hierarchical Paging
+ii. Hashed Paging
+iii. Inverted Paging
+e. What is Segmentation? How does it work?
+2. What is demand paging? What are the basic concepts?
+a. How are page faults handled?
+b. What techniques are used for page replacement? What is the basic scheme?
+c. Know the page replacement algorithms
+i. FIFO Page Replacement
+ii. Optimal Page Replacement
+iii. LRU Page Replacement
+d. How are memory frames allocated?
+e. Page allocation algorithms
+i. Global Replacement
+ii. Local Replacement
+f. What is thrashing?
+i. What are the causes of thrashing?
+g. Describe the Working-Set model	
+
+Chapter 4 - File Systems
+1. What are some typical file attributes?
+2. What are some typical file operations?
+3. What are some common file types?
+4. Knowing the different access methods
+a. Sequential
+b. Direct
+5. Know the different directory structures
+a. Single-Level
+b. Tree-Structures
+c. Acyclic-Graph
+6. How is a filesystem implemented?
+a. Describe the on-disk and in-memory structures
+b. Partitions and Mounting
+7. What is a Virtual-File System (VFS)
+8. Directory implementations
+a. Linear List
+b. Hash Table
+9. Allocation methods and their advantages and disadvantages
+a. Contiguous Allocation
+b. Linked Allocation
+c. Indexed Allocation
+10. Describe Free-Space Management
+a. Bit Vector
+b. Linked List
+c. Grouping
+d. Counting
+Chapter 5 - Input/Output Systems
+1. Principles of I/O Hardware
+a. I/O devices
+b. Device Controllers
+c. Memory-Mapped I/O
+d. Direct Memory Access (DMA)
+2. Principles of I/O Software
+a. Programmed I/O/Polling
+b. Interrupt-Driven I/O
+c. Software Layers
+i. Interrupt Handlers
+ii. Device Drivers
+iii. Device-Independent I/O Software
+iv. User-Space I/O Software
+3. Overview of Mass Storage Systems
+4. Magnetic Disks
+5. Transfer rates
+6. Positioning time
+7. What is an I/O Bus
+a. What are the common bus types 
+b. What is the host  controller vs. disk controller
+8. Details of Hard Disk Architecture
+9. Details of Solid-State Disks Architecture
+10. Disk Scheduling Algorithms
+a. FCFS
+b. SSTF
+c. SCAN, C-SCAN
+d. C-LOOK
+11. Disk Management
+a. Low-level formatting, partitioning
+b. Bootstrapping
+c. Overview of RAID Structures
+Chapter 6 - Deadlocks
+
+What is deadlock?
+Know the conditions necessary for deadlock to hold and what they mean.
+1. Mutual Exclusion
+2. Hold and Wait
+3. No preemption
+4. Circular Wait
+
+Know the methods for handling deadlock
+1. Deadlock Prevention
+2. Deadlock Avoidance
+3. Deadlock Detection
+
+Know the methods for recovering from deadlock
+1. Process Termination
+a. Abort all processes
+b. Abort one process at a time
+2. Resource Preemption
+a. Select a victim
+b. Rollback
+c. Starvation
+1. Buffering
+2. Caching
+3. Spooling and Device Reservation
+4. Error Handling
+
+
+
+
+
+Example Questions
+
+Chapter 1 - Introduction
+
+1. What are the three main purposes of an operating system?
+
+2. Keeping in mind the various definitions of operating system, consider whether the operating system should include applications such as Web browsers and mail programs. Argue both that it should and that it should not, and support your answers.
+
+3. How does the distinction between kernel mode and user mode function as a rudimentary form of protection (security) system?
+
+4. Give two reasons why caches are useful. What problems do they solve? What problems do they cause? If a cache can be made as large as the device for which it is caching (for instance, a cache as large as a disk), why not make it that large and eliminate the device?
+
+5. Distinguish between the client-server and peer-to-peer models of distributed systems.
+      	
+6. What is the purpose of system calls?
+
+7. What are the five major activities of an operating system with regard to process management?
+
+8. What is the purpose of the command interpreter? Why is it usually separate from the kernel?
+
+9. What is the purpose of system programs?
+
+10. Why do some systems store the operating system in firmware, while others store it on disk?
+
+Chapter 2 - Processes and Threads
+      
+1. The Sun UltraSPARC processor has multiple register sets. Describe what happens when a context switch occurs if the new context is already loaded into one of the register sets. What happens if the new context is in memory rather than in a register set and all the register sets are in use?
+
+2. When a process creates a new process using the fork() operation, which of the following state is shared between the parent process and the child process?
+a. Stack
+b. Heap
+c. Shared Memory
+
+3. Original versions of Apple's mobile iOS operating system provided no means of concurrent processing. Discuss three major complications that concurrent processing adds to an operating system.
+
+4. Provide three programming examples in which multithreading provides better performance than a single-threaded solution.
+
+5. Describe the actions taken by a kernel to context-switch between kernel level threads.
+
+6. What are two differences between user-level threads and kernel-level threads? Under what circumstances is one type better than the other?
+
+7. What resources are used when a thread is created? How do they differ from those used when a process is created?
+
+8. What is the meaning of the term busy waiting? What other kinds of waiting are there in an operating system? Can busy waiting be avoided altogether? Explain your answer.
+
+9. Explain why spinlocks are not appropriate for single-processor systems yet are often used in multiprocessor systems.
+
+10. Show that, if the wait() and signal() semaphore operations are not executed atomically, then mutual exclusion may be violated.
+
+11. Illustrate how a binary semaphore can be used to implement mutual exclusion among n processes.
+
+Chapter 3 - Memory Management
+
+1. What is the advantage of using dynamic loading?
+
+2. When does external fragmentation occur?
+
+a. Distinguish between internal and external fragmentation.
+
+3. Describe how a transaction look-aside buffer (TLB) assists in the translation of a logical address to a physical address.
+
+4. How is a limit register used for protecting main memory?
+
+5. Explain the distinction between a demand-paging system and a paging system with swapping.
+
+6. Explain the sequence of events that happens when a page-fault occurs.
+
+7. Explain how copy-on-write operates.
+
+8. Explain the distinction between global allocation versus local allocation.
+
+9. Explain the usefulness of a modify bit.
+
+Chapter 4- File Systems
+
+1. What are common attributes that an operating system keeps track of and associates with a file?
+
+2. Distinguish between an absolute path name and a relative path name.
+
+3. Why do all file systems suffer from internal fragmentation?
+
+4. What are the advantages and disadvantages of access control lists?
+
+5. What do the terms "raw" and "cooked" mean when used to describe a partition?
+
+6. Briefly describe the in-memory structures that may be used to implement a file system.
+
+7. What is the main disadvantage to using a linear list to implement a directory structure? What steps can be taken to compensate for this problem?
+
+8. Explain the benefit if using a unified buffer cache.
+
+Chapter 5 - I/O Systems
+
+1. Explain the concept of polling between a host and a controller.
+
+2. Why is DMA used for devices that execute large transfers?
+
+3. Give an example of when an application may need a nonblocking I/O system call.
+
+4. Explain the difference between a serial-port controller and a SCSI bus controller.
+
+5. What is the purpose of a programmable interval timer?
+
+6. What is the disadvantage of the SSTF scheduling algorithm?
+
+7. What are the factors influencing the selection of a disk-scheduling algorithm?
+
+Chapter 6 - Deadlock
+
+1. To handle deadlocks, operating systems most often _____.
+
+A)  pretend that deadlocks never occur
+B)  use protocols to prevent or avoid deadlocks
+C)  detect and recover from deadlocks
+D)  None of the above
+
+2. Describe the four conditions that must hold simultaneously in a system if a deadlock is to occur.
+
+3. What are the three general ways that a deadlock can be handled?
+
+4. What is the difference between deadlock prevention and deadlock avoidance?
+
+

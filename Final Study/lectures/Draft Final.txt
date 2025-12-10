@@ -1,0 +1,711 @@
+1
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+Cross-Cultural Emotional Responses to Video Media:
+International Student Status as a Moderator
+
+Gabriel Giancarlo
+Department of Psychology, Chapman University
+PSY 204: Research Methods in Behavioral Sciences
+Dr. Minju Kim
+12/10/25
+
+2
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+ABSTRACT
+This study examined emotional responses to video stimuli across three conditions
+(Control: Time Management, Soldier: Homecoming, Sports: Olympic Hockey) and explored
+whether international student status moderated these responses. A sample of 28 participants
+(Mage = 24.86 years, SD = 14.49) completed an online survey in which they viewed three videos
+in counterbalanced order (with Control always presented first) and rated their emotional
+responses using 7-point Likert scales. Results from repeated measures ANOVA revealed a
+significant main effect of condition on negative emotions, F(2, 54) = 50.745, p < .001, η²p =
+.454, with both Soldier and Sports conditions eliciting higher negative emotions than the Control
+condition. No significant differences were found for positive emotions across conditions. Mixed
+ANOVA revealed no significant moderation by international student status, though a marginally
+significant interaction emerged for negative emotions (p = .071). These findings demonstrate that
+emotionally charged video content reliably elicits negative emotional responses, though the role
+of cultural factors requires further investigation with larger samples and direct measurement of
+cultural dimensions. The study establishes proof-of-concept for examining cultural moderation
+of media-elicited emotions and provides effect size estimates for future power analyses.
+
+3
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+Cross-Cultural Emotional Responses to Video Media:
+International Student Status as a Moderator
+
+Social media has rapidly transformed from a space for self-expression to a global arena
+where users collectively experience, interpret, and emotionally respond to world events.
+Platforms such as X (formerly Twitter), Meta (formerly Facebook and Instagram), and YouTube
+now serve as primary mediators of emotional discourse surrounding humanitarian crises,
+international sports, and cultural moments. Their design—centered on algorithmic curation and
+participatory engagement—amplifies emotionally charged content, promoting cross-border
+emotional alignment among diverse audiences (Yolanda et al., 2025). As individuals across
+different nations increasingly consume the same global media, the emotional responses once
+bound by local culture have begun to converge, forming new, transnational affective
+communities.
+Foundational theories in cross-cultural psychology provide essential frameworks for
+understanding how culture shapes emotional experiences. Hofstede's cultural dimensions theory
+identifies six key dimensions that influence behavior, communication, and psychological
+processes across cultures (Hofstede, 2001; Hofstede et al., 2010). The individualism-collectivism
+dimension is particularly relevant for understanding emotional responses: individualistic cultures
+emphasize personal achievement, independence, and direct emotional expression, while
+collectivistic cultures prioritize group harmony, interdependence, and context-dependent
+
+4
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+emotional expression. Similarly, Uses and Gratifications theory proposes that individuals
+actively select media to satisfy specific psychological and social needs (Katz et al., 1973;
+Ruggiero, 2000). This framework suggests that cultural differences in media gratifications may
+influence how individuals respond emotionally to media content, as people from different
+cultural backgrounds may use media differently to satisfy emotional and social needs.
+Cross-cultural emotion research establishes that while basic emotions may be universal,
+their expression, experience, and regulation vary significantly across cultures. Mesquita and
+Frijda (1992) identified key cultural differences in emotion elicitation, expression, experience,
+and regulation. For example, collectivistic cultures may suppress individual emotions to maintain
+group harmony, while individualistic cultures encourage direct emotional expression. Tsai's
+(2007) ideal affect theory proposes that cultures differ in the emotions they value and want to
+feel: European Americans value high-arousal positive emotions (excitement, enthusiasm), while
+East Asians value low-arousal positive emotions (calm, peacefulness). Markus and Kitayama
+(1991) demonstrated that self-construal shapes emotion: independent selves experience emotions
+as internal, personal states, while interdependent selves experience emotions as relational,
+context-dependent states. Kitayama and colleagues (2000) further showed that the relationship
+between emotions and well-being differs across cultures, with individualistic cultures strongly
+associating positive emotions with well-being, while collectivistic cultures link well-being to
+emotional balance and social role fulfillment.
+Media effects research provides mechanisms through which media content elicits
+emotions. Zillmann's (1988) mood management theory proposes that individuals select media
+content to regulate their emotional states, seeking to maximize positive moods and minimize
+
+5
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+negative ones. Nabi (2009) outlined key mechanisms through which media content elicits
+emotions: direct emotional responses to content features, cognitive appraisal processes, empathy
+and identification with characters, and mood contagion. Oliver and Raney (2011) distinguished
+between hedonic (pleasure-seeking) and eudaimonic (meaning-seeking) motivations for media
+consumption, noting that the same content may elicit different emotional reactions depending on
+whether individuals approach it with hedonic or eudaimonic motivations.
+Research on meaningful media content demonstrates that when content is perceived as
+meaningful, audiences experience more complex emotional responses, including both negative
+and positive emotions (Bartsch & Mares, 2014; Rieger & Klimmt, 2019). Recent research on
+social media and cultural identity provides the most direct foundation for the current study.
+Cross-cultural differences in social media adoption reveal that individualistic cultures tend to
+find social media more useful and use platforms for self -promotion and personal documentation,
+while collectivistic cultures emphasize social interaction and networking (Alsaleh et al., 2019;
+Deng et al., 2024; Sheldon et al., 2017). For international students specifically, social media
+contact with different groups (co-nationals, host-country nationals, other international students)
+has differential effects on cultural adaptation and psychological well-being (Gaitán-Aguilar et
+al., 2022). Social media platforms serve as important spaces for identity work, particularly for
+marginalized, diasporic, and immigrant groups, who create hybrid identities that blend multiple
+cultural elements (Koutrouba & Georgalou, 2025; Perera et al., 2021). These platforms enable
+users to express cultural identity in ways that reflect both their heritage and their current cultural
+context.
+
+6
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+Despite extensive research on cross-cultural emotion, media effects, and social media
+use, limited research has examined how international student status moderates emotional
+responses to video stimuli. This gap is particularly significant given that international students
+represent a unique population at the intersection of multiple cultural contexts: they maintain
+connections to their heritage culture while navigating a new cultural environment, potentially
+experiencing emotions differently than domestic students when consuming media content. The
+present study addresses this gap by examining emotional responses to video content across three
+conditions (Control: Time Management, Soldier: Homecoming, Sports: Olympic Hockey) with
+international student status as a potential moderator. Drawing from prior research that links
+cultural background to emotion experience and regulation (Mesquita & Frijda, 1992; Nabi, 2009;
+Gaitán-Aguilar et al., 2022), this design seeks to operationalize emotion as both an outcome of
+media engagement and a potential indicator of cultural differences in emotional processing. We
+hypothesize that video condition will significantly affect emotional responses, with emotionally
+charged content (Soldier and Sports conditions) eliciting stronger emotional responses than
+neutral content (Control condition). Additionally, we explore whether international student status
+moderates these effects, given that international students may have different emotion norms,
+ideal affect, and self-construals than domestic students. This investigation contributes to
+understanding how cultural identity—operationalized through international student status serves
+as a boundary condition for media-elicited emotional responses, with implications for crosscultural communication, media design, and support services for diverse student populations.
+
+7
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+Method
+
+Participants and Recruitment
+Participants were recruited using a snowball sampling method, which involved initial
+recruitment through multiple channels followed by participant referrals. This approach was
+selected to reach diverse populations, including international students who may be less
+accessible through traditional university recruitment methods. Recruitment was conducted
+through several channels to maximize sample diversity and reach.
+Primary recruitment occurred through social media platforms. Study information and
+survey links were posted on Meta (Instagram and Facebook), X (formerly Twitter), and
+YouTube. Posts included brief descriptions of the study, eligibility criteria (18 years or older,
+ability to view videos in English), and links to the online survey. Additionally, recruitment
+materials were shared in online communities including Discord servers and Slack channels
+frequented by students and researchers. Physical recruitment was conducted through posters
+displayed on the Chapman University campus. These posters included QR codes that participants
+could scan with their mobile devices to access the survey directly, reducing barriers to
+participation.
+It is important to note that the university's Institutional Review Board reviewed the study
+materials and deemed certain types of content inappropriate for use in research. The research
+team complied with these restrictions and selected video stimuli that met university guidelines
+
+8
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+while still allowing for meaningful examination of emotional responses. All video content was
+reviewed and approved prior to data collection.
+Eligibility criteria required participants to be at least 18 years old and provide informed
+consent. A total of n = 28 participants completed the study. The sample had a mean age of M =
+24.86 years (SD = 14.49), with a range from 18 to 86 years. Regarding gender, 14 participants
+(50.0%) identified as male, 12 participants (42.9%) identified as female, and 2 participants
+(7.1%) identified as other or non-binary. The sample showed diversity in ethnic representation,
+with the largest group being White (n = 13, 46.4%), followed by Pacific Islander (n = 4, 14.3%),
+and various multiracial and other ethnic combinations. Multiple participants selected more than
+one ethnicity category, reflecting the multiracial nature of the sample. Regarding international
+student status, 18 participants (64.3%) identified as domestic students, 7 participants (25.0%)
+identified as international students, and 3 participants (10.7%) preferred not to say. The sample
+demonstrated considerable diversity in cultural identity, with 28 unique responses ranging from
+national identities (e.g., "American," "Filipino," "Greek") to regional identities (e.g.,
+"Californian," "Hawaiian") to ideological identities (e.g., "Liberal," "Swedish Left").
+Participants were recruited from Chapman University and had to consent to participate
+and be at least 18 years old. A total of 28 participants completed the study. The sample had a
+mean age of M = 24.86 years (SD = 14.49), with a range from 18 to 86 years. Regarding gender,
+14 participants (50.0%) identified as male, 12 participants (42.9%) identified as female, and 2
+participants (7.1%) identified as other or non-binary. The sample showed diversity in ethnic
+representation, with the largest group being White (n = 13, 46.4%), followed by Pacific Islander
+(n = 4, 14.3%), and various multiracial and other ethnic combinations. Multiple participants
+
+9
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+selected more than one ethnicity category, reflecting the multiracial nature of the sample.
+Regarding international student status, 18 participants (64.3%) identified as domestic students, 7
+participants (25.0%) identified as international students, and 3 participants (10.7%) preferred not
+to say. The sample demonstrated considerable diversity in cultural identity, with 28 unique
+responses ranging from national identities (e.g., "American," "Filipino," "Greek") to regional
+identities (e.g., "Californian," "Hawaiian") to ideological identities (e.g., "Liberal," "Swedish
+Left").
+
+Design
+The study employed a mixed factorial design with one within-subjects factor and one
+between- subjects factor. The within-subjects factor was Video Condition with three levels:
+Control (Time Management video), Soldier (Homecoming video), and Sports (Olympic Hockey
+video). The between-subjects factor was International Student Status with three levels: Yes, No,
+and Prefer not to say. This design maximizes statistical power by controlling for individual
+differences and allows for direct within-participant comparisons across conditions (Maxwell &
+Delaney, 2004; Field, 2018).
+The survey structure was designed to ensure participants were actively engaged with the
+video content and to verify attention throughout the study. After viewing each video, participants
+first completed a content check by providing a free-response text description of what they saw in
+the video. This content check served multiple purposes: (1) to verify that participants were
+actually watching and processing the video content rather than multitasking or skipping videos,
+(2) to assess comprehension and engagement with the material, and (3) to provide a qualitative
+measure of how participants interpreted the content. Following the content check, participants
+
+10
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+completed emotion ratings using Likert scales. This sequence—video viewing, content check,
+then emotion ratings—was designed to ensure that emotional responses were based on actual
+engagement with the content rather than superficial viewing.
+Video presentation order was structured to establish a neutral baseline before exposing
+participants to emotionally charged content. The Control condition (Time Management video)
+was always presented first to all participants, serving as a baseline measure of emotional state
+before exposure to potentially emotionally evocative content. This approach was selected to
+minimize carryover effects from emotionally charged videos affecting responses to the neutral
+control condition. After the Control condition, the two experimental conditions (Soldier and
+Sports) were presented in randomized order, with each participant receiving one of two possible
+orders (Soldier-Sports or Sports-Soldier). This partial counterbalancing approach controlled for
+order effects while maintaining the baseline function of the Control condition.
+
+Materials
+Video Stimuli. Three video stimuli were used in the study, all sourced from YouTube to
+ensure ecological validity and representativeness of content that participants might encounter in
+naturalistic settings. Each video was selected to represent different emotional profiles and
+cultural relevance.
+The Control condition featured a time management educational video
+(https://www.youtube.com/watch?v=rUO8Qvcs7cY). This video presented whiteboard drawings
+with narration explaining study habits and time management strategies. The content was
+deliberately neutral in emotional tone, focusing on educational information without emotional
+appeals, dramatic elements, or culturally specific references. This video was selected as a
+
+11
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+baseline condition because it was designed to be informative rather than emotionally evocative,
+allowing for comparison with emotionally charged content. The educational nature of the content
+also ensured that it would be appropriate for a university setting and unlikely to elicit strong
+emotional responses that could confound comparisons with experimental conditions.
+The Soldier condition featured a video of a military service member returning home and
+surprising his father (https://www.youtube.com/watch?v=yoV4TWiXI0k). This video depicted
+an emotional reunion moment in which a service member arrives at his father's workplace and
+surprises him, resulting in an emotional embrace. The video was selected because it contains
+clear emotional content (joy, relief, family connection) that is likely to resonate across cultural
+boundaries while potentially eliciting different emotional responses based on cultural
+background. The theme of family reunion and military service has both universal elements
+(family bonds, separation and return) and culturally specific associations (military service,
+patriotism) that may vary in relevance for international versus domestic students.
+The Sports condition featured a video of the 1980 Olympic hockey game between the
+United States and the Soviet Union (https://www.youtube.com/watch?v=htHOEYgFXGU
+
+12
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+), specifically showing the final moments of the game and the celebration following the
+U.S. victory. This video was selected because it represents a historically significant moment in
+American sports culture—the "Miracle on Ice"—that may have different emotional resonance for
+participants based on their cultural background and familiarity with American sports history. The
+video contains elements of tension (close game), triumph (victory celebration), and
+historical/cultural significance that may be more meaningful to participants with greater
+familiarity with American culture and sports history. For international students, this content may
+elicit different emotional responses depending on their knowledge of the historical context,
+identification with American culture, or lack thereof.
+
+13
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+Emotion Measures
+Emotional responses were measured using a 7-point Likert scale, ranging from 1 (Not at
+all) to 7 (An extreme amount). The 7-point scale was selected over the more common 5-point
+scale for several theoretical and methodological reasons. First, 7-point scales provide greater
+sensitivity and discrimination ability, allowing for more nuanced assessment of emotional
+intensity (Dawes, 2008). Second, 7-point scales are standard in emotion research, as evidenced
+by their use in validated measures such as the Positive and Negative Affect Schedule (PANAS;
+Watson et al., 1988) and the Self-Assessment Manikin (Bradley & Lang, 1994). Third, the
+additional response options better capture subtle differences in emotional responses that may be
+particularly important when examining cross-cultural differences, where emotional intensity may
+vary in ways that a 5-point scale might not detect. Finally, 7-point scales provide a neutral
+midpoint (4) while still offering sufficient range above and below to capture variation in
+emotional responses.
+Positive emotions were assessed using five specific emotion items: interested, hopeful,
+inspired, grateful, and joyful. These emotions were selected to capture both high-arousal positive
+states (interested, inspired, joyful) and lower-arousal positive states (hopeful, grateful),
+consistent with the circumplex model of affect (Russell, 1980). This selection also aligns with
+research on meaningful media content, which suggests that eudaimonic media experiences often
+elicit emotions such as inspiration and gratitude (Oliver & Raney, 2011; Rieger & Klimmt,
+2019). The inclusion of "interested" captures engagement and attention, while "hopeful,"
+"inspired," "grateful," and "joyful" represent distinct positive emotional experiences that may be
+differentially elicited by different types of content.
+
+14
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+Negative emotions were assessed using five specific emotion items: sad, angry, anxious,
+guilty, and upset. These emotions were selected to represent different dimensions of negative
+affect: sadness (low-arousal negative), anger and anxiety (high-arousal negative), guilt (selfconscious negative emotion), and upset (general negative distress). This selection provides
+comprehensive coverage of negative emotional experiences while avoiding redundancy. The
+inclusion of both high-arousal (angry, anxious) and low-arousal (sad) negative emotions allows
+for examination of how different types of content elicit different patterns of negative affect,
+consistent with the circumplex model (Russell, 1980).
+After each video, participants first completed a content check (free-response text
+description), then rated their emotional responses using the Likert scales. For each emotion,
+participants indicated how much they felt that emotion "right now" on a scale from 1 (Not at all)
+to 7 (An extreme amount). The exact wording and format of the emotion scales are shown in
+Figure 2. Items were averaged to create mean positive and negative emotion scores for each
+condition, providing a more reliable measure than individual items and controlling for individual
+differences in response tendencies (Watson et al., 1988; Russell, 1980; Bradle & Lang, 1994).
+
+15
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+Figure 1. Positive emotion rating scale used in the study. Participants rated how much they felt each
+emotion (interested, hopeful, inspired, grateful, joyful) on a 7-point scale from 1 (Not at all) to 7 (An
+extreme amount).
+
+Figure 1 Negative emotion rating scale used in the study. Participants rated how much they felt each
+emotion (sad, angry, anxious, guilty, upset) on a 7-point scale from 1 (Not at all) to 7 (An extreme
+amount).
+
+Demographic Measures
+Participants provided demographic information including age (continuous variable),
+gender (categorical: male, female, other/non-binary), ethnicity (categorical with multiple
+selections allowed: White, Black/African American, Hispanic/Latino, Asian, Pacific Islander,
+Native American, Middle Eastern, Multiracial), international student status (categorical: Yes,
+No, Prefer not to say), and cultural identity (open-ended text response).
+
+Procedure
+Participants accessed the study through an online survey platform (Qualtrics). Upon
+accessing the survey, participants were first presented with an informed consent form that
+explained the study purpose, procedures, potential risks and benefits, and their rights as
+
+16
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+participants. Participants were required to indicate that they were at least 18 years old and
+provide electronic consent before proceeding. Those who did not meet the age requirement or
+declined consent were automatically excluded from the study.
+After providing consent, participants completed a pre-survey assessing their current
+mood and emotional state. This baseline measure was included to account for participants'
+emotional state prior to video exposure, allowing for examination of changes in emotional
+responses relative to baseline.
+Participants then viewed three videos in a structured order. The Control condition (Time
+Management video) was always presented first to establish a neutral emotional baseline. This
+was followed by the two experimental conditions (Soldier and Sports) in randomized order. The
+randomization was implemented at the survey level, with each participant automatically assigned
+to one of two possible orders: (1) Control → Soldier → Sports, or (2) Control → Sports →
+Soldier. This partial counterbalancing approach ensured that order effects for the experimental
+conditions were controlled while maintaining the baseline function of the Control condition.
+After viewing each video, participants completed two assessment tasks in sequence. First,
+participants completed a content check by providing a free-response text description of what they
+saw in the video. This open-ended question asked participants to describe the video content in
+their own words, serving as both an attention check and a measure of content comprehension.
+Participants were required to provide a response before proceeding to the next section. Second,
+participants completed emotion ratings using the 7-point Likert scales described above. For each
+video, participants rated all five positive emotions (interested, hopeful, inspired, grateful, joyful)
+and all five negative emotions (sad, angry, anxious, guilty, upset). The emotion scales were
+
+17
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+presented with positive emotions first, followed by negative emotions, with the order of
+individual emotion items randomized within each category to control for order effects.
+After viewing all three videos and completing all emotion ratings, participants completed
+a post-survey assessing their mood and emotional state. This post-survey was identical to the
+pre- survey and allowed for examination of overall changes in emotional state following
+exposure to all video content.
+Finally, participants completed demographic questions including age, gender, ethnicity,
+international student status, religion, and cultural identity. The cultural identity question was
+open-ended, allowing participants to describe their cultural identity in their own words rather
+than forcing them into predefined categories.
+Upon completion of all measures, participants were presented with a debriefing statement
+that explained the study purpose, hypotheses, and the rationale for the video selection.
+Participants were thanked for their time and provided with contact information for the
+researchers should they have questions or concerns. The entire procedure took approximately 15
+- 20 minutes to complete.
+
+Results
+Descriptive statistics for emotion scores across conditions are presented below. For
+positive emotions, mean scores were M = 3.66 (SD = 1.55) for the Control condition, M = 3.58
+(SD = 1.80) for the Soldier condition, and M = 3.64 (SD = 1.86) for the Sports condition. For
+negative emotions, mean scores were M = 1.00 (SE = 0.05) for the Control condition, M = 2.00
+(SE = 0.10) for the Soldier condition, and M = 1.60 (SE = 0.08) for the Sports condition.
+
+18
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+A repeated measures ANOVA was conducted to examine the effect of video condition on
+positive emotion scores. Results showed no significant effect of condition on positive emotions,
+F(2, 54) < 1, p = .953, η²p = .000 (see Figure 1). This indicates that positive emotional responses
+did not differ significantly across the three video conditions.
+
+Figure 2. Mean positive emotion scores with standard error bars across three experimental video
+
+conditions (Control: Time Management, Soldier: Homecoming, Sports: Olympic Hockey) in a
+repeated measures design (n = 28).
+A repeated measures ANOVA was conducted to examine the effect of video condition on
+negative emotion scores. Results showed a significant main effect of condition on negative
+emotions, F(2, 54) = 50.75, p < .001, η²p = .454 (see Figure 2). This indicates a large effect size,
+with negative emotional responses varying significantly across conditions. Tukey post-hoc tests
+with Bonferroni correction revealed significant differences between the Control condition (M =
+
+19
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+1.00, SE = 0.05) and the Soldier condition (M = 2.00, SE = 0.10), p < .001, and between the
+Control condition and the Sports condition (M = 1.60, SE = 0.08), p < .001. However, there was
+no significant difference between the Soldier and Sports conditions, p = .717.
+
+Figure 2. Mean negative emotion scores with standard error bars across three experimental
+video conditions (Control: Time Management, Soldier: Homecoming, Sports: Olympic Hockey)
+in a repeated measures design (n = 28). Significance bars indicate pairwise comparisons from
+post-hoc Tukey tests.
+A mixed ANOVA was conducted to examine the interaction between video condition and
+international student status. For positive emotions, results revealed no significant main effect of
+International Status, F(2, 25) = 1.52, p = .238, η²p = .109; no significant main effect of
+Condition, F(2, 50) = 0.049, p = .952, η²p = .002; and no significant Interaction, F(4, 50) = 1.31,
+p = .278, η²p = .095 (see Figure 2). For negative emotions, results revealed no significant main
+
+20
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+effect of International Status, F(2, 25) = 1.68, p = .208, η²p = .118; a significant main effect of
+Condition, F(2, 50) = 55.66, p < .001, η²p = .690; and a marginally significant Interaction, F(4,
+50) = 2.31, p = .071, η²p = .156 (see Figure 2).
+
+Figure 3. Interaction plot displaying mean positive emotion scores (with standard error bars) across three
+experimental conditions, separately for three international student status groups (Yes, No, Prefer not to
+say) in a mixed ANOV A design (n = 28).
+
+21
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+
+Figure 4. Interaction plot displaying mean negative emotion scores (with standard error bars) across three
+experimental conditions, separately for three international student status groups (Yes, No, Prefer not to
+say) in a mixed ANOV A design (n = 28).
+
+Discussion
+The present pilot study examined emotional responses to video stimuli across three
+conditions and explored whether international student status moderated these responses. This
+investigation serves as a proof-of-concept study that establishes methodological feasibility and
+provides effect size estimates for future power analyses. Results revealed that negative emotions
+varied significantly across conditions, with both the Soldier and Sports conditions eliciting
+higher negative emotions than the Control condition, demonstrating a large effect size (η²p =
+.454). However, positive emotions did not differ significantly across conditions, with all
+conditions producing similar mean scores near the midpoint of the scale (M = 3.58-3.66).
+
+22
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+International student status did not significantly moderate the effects of condition on positive
+emotions, and while there was a marginally significant interaction for negative emotions (p =
+.071, η²p = .156), the effect did not reach conventional significance levels, likely due to
+insufficient statistical power given the small sample size.
+The finding that negative emotions varied significantly across conditions aligns with
+research on emotion elicitation through media content. Nabi (2009) outlined mechanisms
+through which media content elicits emotions, including cognitive appraisal processes and
+empathy with characters. The Soldier condition, featuring an emotional reunion between a
+service member and his father, likely elicited negative emotions through empathy and
+identification with theemotional moment. Similarly, the Sports condition, featuring a tense
+hockey game with historical significance, may have elicited negative emotions through the
+tension and uncertainty of the game's outcome. Zillmann's (1988) mood management theory
+suggests that individuals select media to regulate emotions, but in experimental contexts where
+content is controlled, the emotional content itself drives responses. Bartsch and Mares (2014)
+demonstrated that meaningful media content can elicit complex emotional responses, including
+both negative and positive emotions, which may explain why emotionally charged content
+(Soldier and Sports) elicited stronger negative emotional responses than the neutral Control
+condition.
+The non-significant finding for positive emotions may reflect several factors. First, the
+content characteristics of the videos may have been more effective at eliciting negative emotions
+(through empathy, tension, or concern) than positive emotions. The Control condition while
+educational and potentially positive, may not have been designed to elicit strong positive
+
+23
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+emotions. The Soldier condition, despite featuring a joyful reunion, may have also elicited
+concern or sadness alongside positive emotions, resulting in mixed emotional responses. Oliver
+and Raney's (2011) distinction between hedonic and eudaimonic motivations suggests that
+individuals may approach media content with different goals, and the same content may elicit
+different emotional reactions depending on these motivations. The videos used in this study may
+have been more aligned with eudaimonic motivations (seeking meaning, inspiration) than
+hedonic motivations (seeking pleasure), which could explain the stronger negative emotional
+responses relative to positive emotional responses.
+The finding that international student status did not significantly moderate emotional
+responses warrants careful interpretation. While cultural differences in emotion experience,
+expression, and regulation are well-established (Mesquita & Frijda, 1992; Gaitán-Aguilar et al.,
+2022), the current pilot study's sample size (n = 28) severely limited statistical power to detect
+interaction effects. With only 7 international students, 18 domestic students, and 3 participants
+who preferred not to say, the study was underpowered to detect anything but very large
+interaction effects. Post-hoc power analysis indicates that the study had approximately 30%
+power to detect a medium-sized interaction effect (f = 0.25), well below the recommended 80%
+threshold. Additionally, the sample demonstrated considerable diversity in cultural identity, with
+28 unique responses among 28 participants, suggesting that international student status is a crude
+proxy that may not capture the full range of cultural differences present in the sample. The
+marginally significant interaction for negative emotions (p = .071, η²p = .156) represents a
+medium-to-large effect size and suggests that there may be meaningful differences that would
+reach significance with adequate statistical power. This pattern, combined with the large main
+
+24
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+effect for negative emotions, provides preliminary evidence that cultural factors may indeed
+moderate emotional responses, though definitive conclusions require replication with larger
+Samples.
+These findings have important implications for understanding how media content elicits
+emotions and how cultural factors may influence these responses, though the pilot nature of this
+study requires that implications be interpreted cautiously. The results demonstrate that
+emotionally charged video content can reliably elicit negative emotional responses with large
+effect sizes, which has applications for media producers, educators, and mental health
+professionals. For educators, understanding how different types of content affect emotional
+responses can inform the selection of educational materials and the design of learning
+experiences, particularly when working with diverse student populations. For media producers,
+these findings highlight the importance of content characteristics in shaping emotional response
+and suggest that emotional content may have differential effects across cultural groups. For
+mental health professionals, understanding how media content affects emotions can inform
+interventions and support for individuals who may be particularly sensitive to emotional content,
+with particular relevance for international students navigating cultural transitions.
+However, the current study's limitations necessitate that these implications be considered
+preliminary. The small sample size, limited diversity, and reliance on international student status
+as a proxy for culture mean that definitive conclusions about cultural moderation cannot be
+drawn. Rather, this pilot study establishes proof-of-concept for the methodological approach and
+provides effect size estimates that can inform power analyses for future research. The large main
+effect for negative emotions (η²p = .454) and the medium-sized interaction effect for negative
+
+25
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+emotions (η²p = .156) suggest that both the manipulation and the potential moderation effect are
+substantial enough to warrant further investigation with adequate statistical power.
+Several limitations should be considered when interpreting these findings, and this study
+should be understood as a pilot investigation that establishes proof-of-concept for examining
+cultural moderation of media-elicited emotions. First, the sample size (n = 28) limits statistical
+power, particularly for detecting interaction effects. With only 7-18 participants per international
+student status group, the study was underpowered to detect medium-sized interaction effects.
+Power analysis indicates that a sample of approximately 150-200 participants would be needed
+to achieve adequate power (0.80) to detect medium-sized interaction effects. Second, the sample
+showed limited diversity in some categories and was primarily recruited from Chapman
+University, which may limit generalizability to broader populations. Third, emotional responses
+were measured using self-report Likert scales, which may be subject to social desirability bias or
+cultural differences in response styles. Fourth, the specific video content used may limit
+generalizability to other types of media content, particularly shorter-form content that is more
+representative of contemporary social media. Finally, the study used an online survey format,
+which, while increasing accessibility, may not fully capture the immersive experience of viewing
+videos in naturalistic settings.
+Additionally, the current study measured emotional responses but did not assess whether
+these responses translate into meaningful real-world outcomes. Understanding whether mediaelicited emotions lead to behavioral intentions, attitude changes, or actual behaviors is critical for
+understanding the broader implications of emotional responses to media content. Future research
+should examine whether emotional responses predict intentions to share content, engage in
+
+26
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+related behaviors, or take action on issues depicted in media. This would move beyond
+measuring transient emotional states to understanding how media-elicited emotions connect to
+measurable real-world effects.
+Future research should address the limitations identified above through several
+methodological and conceptual improvements. First, sample size and recruitment: A larger,
+more diverse sample is essential for detecting interaction effects and improving generalizability.
+Future studies should aim for n = 200-250 participants, with balanced representation across
+international and domestic student groups. Recruitment should extend beyond a single university
+to include participants from multiple institutions and geographic locations, including
+international participants from various countries. This would allow for more robust examination
+of cultural differences and reduce the influence of institution-specific factors.
+Second, video format and length: The current study used longer-form videos (several
+minutes in length), which may not reflect the contemporary media landscape dominated by shortform content. Future research should examine emotional responses to shorter videos (8-15
+seconds), which are more representative of platforms like TikTok, Meta Reels (formerly
+Instagram Reels), and YouTube Shorts. Shorter videos may reduce participant burden,
+potentially increasing completion rates and engagement, while also providing more meaningful
+responses as participants are less likely to experience fatigue or disengagement. Additionally,
+shorter videos allow for examination of a greater number of stimuli within the same time frame,
+increasing statistical power and generalizability.
+Third, attention check methodology: The current study used free-response text
+descriptions as content checks, which require manual coding and analysis. Future research
+
+27
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+should consider simplified attention checks that are more efficient and objective. One promising
+approach is to replace the text-based content check with a Likert scale item asking participants to
+"select neutral" or respond to a specific question about video content using a Likert scale. This
+would eliminate the need for text analysis while still verifying attention, and could be easily
+automated for data processing. Such an approach would also reduce participant burden and
+potentially increase data quality by making attention checks less intrusive.
+Fourth, measurement of action and behavioral outcomes: As noted above, future
+research should move beyond measuring emotional responses to examining whether these
+responses translate into meaningful outcomes. This could include measures of behavioral
+intentions (e.g., "How likely are you to share this video?"), actual behaviors (e.g., tracking
+whether participants share content or engage with related materials), or attitude changes (e.g.,
+pre-post measures of attitudes toward issues depicted in videos). Understanding the connection
+between emotional responses and real-world actions is critical for understanding the broader
+implications of media-elicited emotions, particularly in contexts where media content is intended
+to inspire action or change.
+Fifth, direct measurement of cultural dimensions: Rather than relying solely on
+international student status as a proxy for cultural differences, future research should include
+direct measurement of cultural dimensions such as individualism-collectivism (Triandis &
+Gelfand, 1998), self-construal (Singelis, 1994), ideal affect (Tsai, 2007), and acculturation
+strategies. This would provide more precise understanding of how specific cultural factors
+moderate emotional responses, moving beyond the crude categorization of international versus
+
+28
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+domestic students to examine continuous cultural variables that may better capture the
+heterogeneity observed in the current sample.
+Sixth, multimethod assessment: Combining self-report measures with physiological
+measures (e.g., heart rate variability, skin conductance) and behavioral measures (e.g., facial
+expression coding) would provide more comprehensive assessment of emotional responses. This
+would address concerns about self-report bias and cultural differences in response styles, while
+also providing convergent validity for emotional responses. Additionally, including continuous
+emotion tracking during video viewing (rather than only post-viewing ratings) would provide
+insights into the temporal dynamics of emotional responses.
+Finally, culturally tailored stimuli: Future research should include video stimuli that are
+specifically designed to vary in cultural relevance, allowing for more precise examination of how
+cultural background influences emotional responses. This could include videos with varying
+levels of cultural specificity (universal content, Western-specific content, Eastern-specific
+content, participant's heritage culture-specific content), enabling direct tests of cultural
+moderation hypotheses.
+
+References
+Alsaleh, D. A., Elliott, M. T., Fu, F. Q., & Thakur, R. (2019). Cross-cultural differences in
+the adoption of social media. Journal of Research in Interactive Marketing, 13(1),
+119–140. https://doi.org/10.1108/jrim-10-2017-0092
+
+Kitayama, S., Markus, H. R., & Kurokawa, M. (2000). Culture, emotion, and well-being:
+Good feelings in Japan and the United States. Cognition and Emotion, 14(1), 93–
+
+29
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+124. https://doi.org/10.1080/026999300379003
+
+Koutrouba, I., & Georgalou, M. (2025). Constructing ethnocultural identities on Meta
+(Instagram) and TikTok: Evidence from new Greek immigrants in the USA and
+Korea. Journal of Multicultural Discourses. Advance online publication.
+https://doi.org/10.1080/17447143.2025.2453741
+
+Markus, H. R., & Kitayama, S. (1991). Culture and the self: Implications for cognition,
+emotion, and motivation. Psychological Review, 98(2), 224–253.
+https://doi.org/10.1037/0033-295X.98.2.224
+
+Maxwell, S. E., & Delaney, H. D. (2004). Designing experiments and analyzing data: A
+model comparison perspective (2nd ed.). Lawrence Erlbaum Associates.
+Mesquita, B., & Frijda, N. H. (1992). Cultural variations in emotions: A review.
+Psychological Bulletin, 112(2), 179–204. https://doi.org/10.1037/0033-2909.112.2.179
+
+Myrick, J. G. (2015). Emotion regulation, procrastination, and watching cat videos
+online: Who watches Internet cats, why, and to what effect? Computers in Human
+Behavior, 52, 168–176. https://doi.org/10.1016/j.chb.2015.06.001
+
+Nabi, R. L. (2009). Emotion and media effects. In R. L. Nabi & M. B. Oliver (Eds.), The
+SAGE handbook of media processes and effects (pp. 205–221). Sage Publications.
+Oliver, M. B., & Raney, A. A. (2011). Entertainment as pleasurable and meaningful:
+
+30
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+Identifying hedonic and eudaimonic motivations for entertainment consumption.
+Journal of Communication, 61(5), 984–1004. https://doi.org/10.1111/j.14602466.2011.01585.x
+
+Perera, B. Y ., Chaudhury, S. R., Albinsson, P. A., & Nafees, L. (2021). This Is Who I Am:
+Meta (Instagram) as Counterspace for Shared Gendered Ethnic Identity
+Expressions. Journal of the Association for Consumer Research, 6(2), 274–285.
+https://doi.org/10.1086/713288
+
+Rieger, D., & Klimmt, C. (2019). The daily dose of digital inspiration: A multi-method
+exploration of meaningful communication in social media. New Media & Society,
+21(1), 97–118. https://doi.org/10.1177/1461444818788323
+
+Ruggiero, T. E. (2000). Uses and gratifications theory in the 21st century. Mass
+Communication & Society, 3(1), 3–37.
+https://doi.org/10.1207/S15327825MCS0301_02
+
+Russell, J. A. (1980). A circumplex model of affect. Journal of Personality and Social
+Psychology, 39(6), 1161–1178. https://doi.org/10.1037/h0077714
+
+Sheldon, P., Rauschnabel, P. A., Antony, M. G., & Car, S. (2017). A cross-cultural
+comparison of Croatian and American social network sites: Exploring cultural
+differences in motives for Meta (Instagram) use. Computers in Human Behavior,
+
+31
+
+VIDEO MEDIA AND EMOTIONAL RESPONSES
+75, 643–651. https://doi.org/10.1016/j.chb.2017.06.009
+
+Tsai, J. L. (2007). Ideal affect: Cultural causes and behavioral consequences. Perspectives
+on Psychological Science, 2(3), 242–259. https://doi.org/10.1111/j.17456916.2007.00043.x
+
+Watson, D., Clark, L. A., & Tellegen, A. (1988). Development and validation of brief
+measures of positive and negative affect: The PANAS scales. Journal of
+Personality and Social Psychology, 54(6), 1063–1070.
+https://doi.org/10.1037/0022-3514.54.6.1063
+
+Yolanda, A., Andary, R. W., Tamsil, I. S., Zaman, K., & Wei, S. (2025). The Role of
+Social Media in the Formation of Global Cultural Identity. Journal of Social
+CROSS-CULTURAL EMOTIONAL RESPONSES
+Science Utilizing Technology, 3(1), 10–18. https://doi.org/10.70177/jssut.v3i1.210
+
+Zillmann, D. (1988). Mood management through communication choices. American
+Behavioral Scientist, 31(3), 327–340.
+https://doi.org/10.1177/000276488031003005
+
+

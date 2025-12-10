@@ -1,0 +1,1108 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter 6
+Deadlocks
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Overview
+• Deadlock definition and modeling
+• Deadlock detection
+• Deadlock avoidance
+• Deadlock prevention
+• Deadlock handling in practice
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+System Model
+
+
+System consists of resources
+
+
+
+Resource types R1, R2, . . ., Rm
+CPU cycles, memory space, I/O devices
+
+
+
+Each resource type Ri has Wi instances.
+
+
+
+Each process utilizes a resource as follows:
+
+
+request
+
+
+
+use
+
+
+
+release
+
+Operating System Concepts – 10th Edition
+
+8.3
+
+Silberschatz, Galvin and Gagne ©2018
+
+Deadlock Characterization
+Deadlock can arise if four conditions hold simultaneously.
+
+Operating System Concepts – 10th Edition
+
+
+
+Mutual exclusion: only one process at a time can use a
+resource
+
+
+
+Hold and wait: a process holding at least one resource is
+waiting to acquire additional resources held by other
+processes
+
+
+
+No preemption: a resource can be released only voluntarily
+by the process holding it, after that process has completed
+its task
+
+
+
+Circular wait: there exists a set {P0, P1, …, Pn} of waiting
+processes such that P0 is waiting for a resource that is held
+by P1, P1 is waiting for a resource that is held by P2, …, Pn–1
+is waiting for a resource that is held by Pn, and Pn is waiting
+for a resource that is held by P0.
+
+8.4
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Allocation Graph
+A set of vertices V and a set of edges
+E.
+
+
+V is partitioned into two types:
+
+
+P = {P1, P2, …, Pn}, the set consisting of all the processes
+in the system
+
+
+
+R = {R1, R2, …, Rm}, the set consisting of all resource
+types in the system
+
+
+
+request edge – directed edge Pi  Rj
+
+
+
+assignment edge – directed edge Rj  Pi
+
+Operating System Concepts – 10th Edition
+
+8.5
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Allocation Graph (Cont.)
+
+
+Process
+
+
+
+Resource Type with 4 instances
+
+
+
+Pi requests instance of Rj
+Pi
+
+
+
+Rj
+
+Pi is holding an instance of Rj
+
+Pi
+Rj
+
+Operating System Concepts – 10th Edition
+
+8.6
+
+Silberschatz, Galvin and Gagne ©2018
+
+Example of a Resource Allocation Graph
+
+Operating System Concepts – 10th Edition
+
+8.7
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource Allocation Graph With A Deadlock
+
+Operating System Concepts – 10th Edition
+
+8.8
+
+Silberschatz, Galvin and Gagne ©2018
+
+Graph With A Cycle But No Deadlock
+
+Operating System Concepts – 10th Edition
+
+8.9
+
+Silberschatz, Galvin and Gagne ©2018
+
+Basic Facts
+
+
+If graph contains no cycles  no deadlock
+
+
+
+If graph contains a cycle 
+
+Operating System Concepts – 10th Edition
+
+
+
+if only one instance per resource type, then deadlock
+
+
+
+if several instances per resource type, possibility of
+deadlock
+
+8.10
+
+Silberschatz, Galvin and Gagne ©2018
+
+Methods for Handling Deadlocks
+
+
+Ensure that the system will never enter a deadlock
+state:
+
+
+Deadlock prevention
+
+
+
+Deadlock avoidence
+
+
+
+Allow the system to enter a deadlock state and then
+recover
+
+
+
+Ignore the problem and pretend that deadlocks never
+occur in the system; used by most operating systems,
+including UNIX
+
+Operating System Concepts – 10th Edition
+
+8.11
+
+Silberschatz, Galvin and Gagne ©2018
+
+The Dining Philosophers Problem (1)
+• There are 5 philosophers, each seated at a round table in front of a
+plate of spaghetti. A philosopher needs 2 forks to eat the spaghetti,
+located on his left and his right.
+• Obvious (non)solution:
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+The Dining Philosophers Problem (2)
+• There are 5 philosophers, each seated at a round table in front of a
+plate of spaghetti. A philosopher needs 2 forks to eat the spaghetti,
+located on his left and his right.
+• Obvious (non)solution:
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Resource Deadlocks: Examples
+• Dining Philosophers: Everybody starts by taking the left fork
+• Four cars arrive simultaneously at a junction and each yields to the
+car on the right
+• Process A opens file #1 and tries to open file #2. File #2 is currently
+opened by Process B and Process B waits for file #1
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Deadlock
+
+Nothing flows, everything hangs
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Starvation
+
+• Resource: The narrow bridge
+• Access: Traffic from the right (the yellow car) has right of way
+• Deadlock resolution: Cars back up (preemption & rollback)
+• Starvation is possible
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Livelock (1 of 2)
+
+Many operations executed, but no
+progress
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Deadlock Handling
+Strategies are used for dealing with deadlocks:
+• Ignore the problem
+– No action taken
+• Deadlock detection
+– Detect deadlock and perform recovery actions
+• Deadlock avoidance
+– Carefully allocate resources to avoid deadlocks
+• Deadlock prevention
+– Structurally prevent any of the deadlock conditions
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Ignore the Problem
+• Also known as the ostrich algorithm
+• Cost-effective solution to deadlocks
+• Assumes deadlocks are rare
+• Assumes cost of handling deadlocks is high
+• Assumes effects of deadlocks are tolerable
+• Simplest solution to manage system resources, i.e., process table,
+inode table, swap space, etc.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Overview (3 of 6)
+• Deadlock definition and modeling
+• Deadlock detection
+• Deadlock avoidance
+• Deadlock prevention
+• Deadlock handling in practice
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Deadlock Detection
+
+
+Allow system to enter deadlock state
+
+
+
+Detection algorithm
+
+
+
+Recovery scheme
+
+Operating System Concepts – 10th Edition
+
+8.21
+
+Silberschatz, Galvin and Gagne ©2018
+
+Single Instance of Each Resource Type
+
+
+Maintain wait-for graph
+
+
+Nodes are processes
+
+
+
+Pi  Pj if Pi is waiting for Pj
+
+
+
+Periodically invoke an algorithm that searches for a cycle in the graph.
+If there is a cycle, there exists a deadlock
+
+
+
+An algorithm to detect a cycle in a graph requires an order of n2
+operations, where n is the number of vertices in the graph
+
+Operating System Concepts – 10th Edition
+
+8.22
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Allocation Graph and Wait-for Graph
+
+Resource-Allocation Graph
+
+Operating System Concepts – 10th Edition
+
+Corresponding wait-for graph
+
+8.23
+
+Silberschatz, Galvin and Gagne ©2018
+
+Several Instances of a Resource Type
+
+
+Available: A vector of length m indicates the number of
+available resources of each type
+
+
+
+Allocation: An n x m matrix defines the number of resources
+of each type currently allocated to each process
+
+
+
+Request: An n x m matrix indicates the current request of
+each process. If Request [i][j] = k, then process Pi is
+requesting k more instances of resource type Rj.
+
+Operating System Concepts – 10th Edition
+
+8.24
+
+Silberschatz, Galvin and Gagne ©2018
+
+Detection Algorithm
+1. Let Work and Finish be vectors of length m and n, respectively
+Initialize:
+(a) Work = Available
+(b) For i = 1,2, …, n, if Allocationi  0, then
+Finish[i] = false; otherwise, Finish[i] = true
+2. Find an index i such that both:
+(a) Finish[i] == false
+(b) Requesti  Work
+If no such i exists, go to step 4
+
+Operating System Concepts – 10th Edition
+
+8.25
+
+Silberschatz, Galvin and Gagne ©2018
+
+Detection Algorithm (Cont.)
+3. Work = Work + Allocationi
+Finish[i] = true
+go to step 2
+4. If Finish[i] == false, for some i, 1  i  n, then the system is in
+deadlock state. Moreover, if Finish[i] == false, then Pi is
+deadlocked
+
+Algorithm requires an order of O(m x n2) operations to detect whether the system is in
+deadlocked state
+
+Operating System Concepts – 10th Edition
+
+8.26
+
+Silberschatz, Galvin and Gagne ©2018
+
+Example of Detection Algorithm
+
+
+Five processes P0 through P4; three resource types
+A (7 instances), B (2 instances), and C (6 instances)
+
+
+
+Snapshot at time T0:
+Allocation
+ABC
+P0
+P1
+
+010
+200
+
+Operating System Concepts – 10th Edition
+
+ABC ABC
+000
+
+000
+
+202
+303
+
+P2
+
+
+
+Request Available
+
+000
+
+P3
+
+211
+
+100
+
+P4
+
+002
+
+002
+
+Sequence <P0, P2, P3, P1, P4> will result in Finish[i] = true for all i
+
+8.27
+
+Silberschatz, Galvin and Gagne ©2018
+
+Example (Cont.)
+
+
+P2 requests an additional instance of type C
+Request
+ABC
+
+
+
+P0
+
+000
+
+P1
+
+202
+
+P2
+
+001
+
+P3
+
+100
+
+P4
+
+002
+
+State of system?
+
+Operating System Concepts – 10th Edition
+
+
+
+Can reclaim resources held by process P0, but insufficient
+resources to fulfill other processes; requests
+
+
+
+Deadlock exists, consisting of processes P1, P2, P3, and P4
+
+8.28
+
+Silberschatz, Galvin and Gagne ©2018
+
+Detection-Algorithm Usage
+
+
+When, and how often, to invoke depends on:
+
+
+How often a deadlock is likely to occur?
+
+
+
+How many processes will need to be rolled back?
+ one for each disjoint cycle
+
+
+
+If detection algorithm is invoked arbitrarily, there may be many
+cycles in the resource graph and so we would not be able to tell
+which of the many deadlocked processes “caused” the deadlock.
+
+Operating System Concepts – 10th Edition
+
+8.29
+
+Silberschatz, Galvin and Gagne ©2018
+
+Recovery from Deadlock: Process Termination
+
+
+Abort all deadlocked processes
+
+
+
+Abort one process at a time until the deadlock cycle is eliminated
+
+
+
+In which order should we choose to abort?
+
+Operating System Concepts – 10th Edition
+
+1.
+
+Priority of the process
+
+2.
+
+How long process has computed, and how much longer to
+completion
+
+3.
+
+Resources the process has used
+
+4.
+
+Resources process needs to complete
+
+5.
+
+How many processes will need to be terminated
+
+6.
+
+Is process interactive or batch?
+
+8.30
+
+Silberschatz, Galvin and Gagne ©2018
+
+Recovery from Deadlock: Resource Preemption
+
+
+Selecting a victim – minimize cost
+
+
+
+Rollback – return to some safe state, restart process for that
+state
+
+
+
+Starvation – same process may always be picked as victim,
+include number of rollback in cost factor
+
+Operating System Concepts – 10th Edition
+
+8.31
+
+Silberschatz, Galvin and Gagne ©2018
+
+Deadlock Prevention
+Restrain the ways request can be made
+
+
+
+Mutual Exclusion – not required for sharable resources
+(e.g., read-only files); must hold for non-sharable resources
+
+
+
+Hold and Wait – must guarantee that whenever a process
+requests a resource, it does not hold any other resources
+
+Operating System Concepts – 10th Edition
+
+
+
+Require process to request and be allocated all its
+resources before it begins execution, or allow process
+to request resources only when the process has none
+allocated to it.
+
+
+
+Low resource utilization; starvation possible
+
+8.32
+
+Silberschatz, Galvin and Gagne ©2018
+
+Deadlock Prevention (Cont.)
+
+
+
+
+No Preemption –
+
+
+If a process that is holding some resources requests
+another resource that cannot be immediately allocated to
+it, then all resources currently being held are released
+
+
+
+Preempted resources are added to the list of resources
+for which the process is waiting
+
+
+
+Process will be restarted only when it can regain its old
+resources, as well as the new ones that it is requesting
+
+Circular Wait – impose a total ordering of all resource types,
+and require that each process requests resources in an
+increasing order of enumeration
+
+Operating System Concepts – 10th Edition
+
+8.33
+
+Silberschatz, Galvin and Gagne ©2018
+
+Deadlock Example
+/* thread one runs in this function */
+void *do_work_one(void *param)
+{
+
+pthread_mutex_lock(&first_mutex);
+pthread_mutex_lock(&second_mutex);
+/** * Do some work */
+pthread_mutex_unlock(&second_mutex);
+pthread_mutex_unlock(&first_mutex);
+pthread_exit(0);
+}
+/* thread two runs in this function */
+void *do_work_two(void *param)
+{
+
+pthread_mutex_lock(&second_mutex);
+pthread_mutex_lock(&first_mutex);
+/** * Do some work */
+pthread_mutex_unlock(&first_mutex);
+pthread_mutex_unlock(&second_mutex);
+pthread_exit(0);
+}
+Operating System Concepts – 10th Edition
+
+8.34
+
+Silberschatz, Galvin and Gagne ©2018
+
+Deadlock Example with Lock Ordering
+void transaction(Account from, Account to, double amount)
+{
+mutex lock1, lock2;
+lock1 = get_lock(from);
+lock2 = get_lock(to);
+acquire(lock1);
+acquire(lock2);
+withdraw(from, amount);
+deposit(to, amount);
+release(lock2);
+release(lock1);
+}
+
+Transactions 1 and 2 execute concurrently. Transaction 1 transfers $25
+from account A to account B, and Transaction 2 transfers $50 from account
+B to account A
+
+Operating System Concepts – 10th Edition
+
+8.35
+
+Silberschatz, Galvin and Gagne ©2018
+
+Deadlock Avoidance
+Requires that the system has some additional a priori information
+available
+
+Operating System Concepts – 10th Edition
+
+
+
+Simplest and most useful model requires that each process
+declare the maximum number of resources of each type
+that it may need
+
+
+
+The deadlock-avoidance algorithm dynamically examines
+the resource-allocation state to ensure that there can never
+be a circular-wait condition
+
+
+
+Resource-allocation state is defined by the number of
+available and allocated resources, and the maximum
+demands of the processes
+
+8.36
+
+Silberschatz, Galvin and Gagne ©2018
+
+Safe State
+
+
+When a process requests an available resource, system must
+decide if immediate allocation leaves the system in a safe state
+
+
+
+System is in safe state if there exists a sequence <P1, P2, …, Pn>
+of ALL the processes in the systems such that for each Pi, the
+resources that Pi can still request can be satisfied by currently
+available resources + resources held by all the Pj, with j < I
+
+
+
+That is:
+
+Operating System Concepts – 10th Edition
+
+
+
+If Pi resource needs are not immediately available, then Pi can
+wait until all Pj have finished
+
+
+
+When Pj is finished, Pi can obtain needed resources, execute,
+return allocated resources, and terminate
+
+
+
+When Pi terminates, Pi +1 can obtain its needed resources, and
+so on
+
+8.37
+
+Silberschatz, Galvin and Gagne ©2018
+
+Basic Facts
+
+
+If a system is in safe state  no deadlocks
+
+
+
+If a system is in unsafe state  possibility of deadlock
+
+
+
+Avoidance  ensure that a system will never enter an
+unsafe state.
+
+Operating System Concepts – 10th Edition
+
+8.38
+
+Silberschatz, Galvin and Gagne ©2018
+
+Safe, Unsafe, Deadlock State
+
+Operating System Concepts – 10th Edition
+
+8.39
+
+Silberschatz, Galvin and Gagne ©2018
+
+Avoidance Algorithms
+
+
+Single instance of a resource type
+
+
+
+
+Multiple instances of a resource type
+
+
+Operating System Concepts – 10th Edition
+
+Use a resource-allocation graph
+
+Use the banker’s algorithm
+
+8.40
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Allocation Graph Scheme
+
+
+Claim edge Pi  Rj indicated that process Pj may request
+resource Rj; represented by a dashed line
+
+
+
+Claim edge converts to request edge when a process requests
+a resource
+
+
+
+Request edge converted to an assignment edge when the
+resource is allocated to the process
+
+
+
+When a resource is released by a process, assignment edge
+reconverts to a claim edge
+
+
+
+Resources must be claimed a priori in the system
+
+Operating System Concepts – 10th Edition
+
+8.41
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Allocation Graph
+
+Operating System Concepts – 10th Edition
+
+8.42
+
+Silberschatz, Galvin and Gagne ©2018
+
+Unsafe State In Resource-Allocation Graph
+
+Operating System Concepts – 10th Edition
+
+8.43
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Allocation Graph Algorithm
+
+
+Suppose that process Pi requests a resource Rj
+
+
+
+The request can be granted only if converting the
+request edge to an assignment edge does not result
+in the formation of a cycle in the resource allocation
+graph
+
+Operating System Concepts – 10th Edition
+
+8.44
+
+Silberschatz, Galvin and Gagne ©2018
+
+Banker’s Algorithm
+
+
+Multiple instances
+
+
+
+Each process must a priori claim maximum use
+
+
+
+When a process requests a resource it may have to wait
+
+
+
+When a process gets all its resources it must return them in a
+finite amount of time
+
+Operating System Concepts – 10th Edition
+
+8.45
+
+Silberschatz, Galvin and Gagne ©2018
+
+Data Structures for the Banker’s Algorithm
+Let n = number of processes, and m = number of resources types.
+
+
+
+Available: Vector of length m. If available [j] = k, there are k
+instances of resource type Rj available
+
+
+
+Max: n x m matrix. If Max [i,j] = k, then process Pi may request at
+most k instances of resource type Rj
+
+
+
+Allocation: n x m matrix. If Allocation[i,j] = k then Pi is currently
+allocated k instances of Rj
+
+
+
+Need: n x m matrix. If Need[i,j] = k, then Pi may need k more
+instances of Rj to complete its task
+Need [i,j] = Max[i,j] – Allocation [i,j]
+
+Operating System Concepts – 10th Edition
+
+8.46
+
+Silberschatz, Galvin and Gagne ©2018
+
+Safety Algorithm
+1. Let Work and Finish be vectors of length m and n, respectively.
+Initialize:
+Work = Available
+Finish [i] = false for i = 0, 1, …, n- 1
+2. Find an i such that both:
+(a) Finish [i] = false
+(b) Needi  Work
+If no such i exists, go to step 4
+3. Work = Work + Allocationi
+Finish[i] = true
+go to step 2
+4. If Finish [i] == true for all i, then the system is in a safe state
+
+Operating System Concepts – 10th Edition
+
+8.47
+
+Silberschatz, Galvin and Gagne ©2018
+
+Resource-Request Algorithm for Process Pi
+Requesti = request vector for process Pi. If Requesti [j] = k then
+process Pi wants k instances of resource type Rj
+1. If Requesti  Needi go to step 2. Otherwise, raise error
+condition, since process has exceeded its maximum claim
+2. If Requesti  Available, go to step 3. Otherwise Pi must wait,
+since resources are not available
+3. Pretend to allocate requested resources to Pi by modifying the
+state as follows:
+Available = Available – Requesti;
+Allocationi = Allocationi + Requesti;
+Needi = Needi – Requesti;
+ If safe  the resources are allocated to P
+
+i
+
+ If unsafe  P must wait, and the old resource-allocation state
+
+is restored
+
+Operating System Concepts – 10th Edition
+
+i
+
+8.48
+
+Silberschatz, Galvin and Gagne ©2018
+
+Example of Banker’s Algorithm
+
+
+5 processes P0 through P4;
+3 resource types:
+A (10 instances), B (5instances), and C (7 instances)
+
+
+
+Snapshot at time T0:
+Allocation
+
+Operating System Concepts – 10th Edition
+
+Max
+
+Available
+
+ABC
+
+ABC
+
+ABC
+
+P0
+
+010
+
+753
+
+332
+
+P1
+
+200
+
+322
+
+P2
+
+302
+
+902
+
+P3
+
+211
+
+222
+
+P4
+
+002
+
+433
+
+8.49
+
+Silberschatz, Galvin and Gagne ©2018
+
+Example (Cont.)
+
+
+The content of the matrix Need is defined to be Max – Allocation
+Need
+ABC
+
+
+
+Operating System Concepts – 10th Edition
+
+P0
+
+743
+
+P1
+
+122
+
+P2
+
+600
+
+P3
+
+011
+
+P4
+
+431
+
+The system is in a safe state since the sequence < P1, P3, P4, P2, P0>
+satisfies safety criteria
+
+8.50
+
+Silberschatz, Galvin and Gagne ©2018
+
+Modern Operating Systems
+Fifth Edition
+
+Chapter 6 - End
+Deadlocks
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+

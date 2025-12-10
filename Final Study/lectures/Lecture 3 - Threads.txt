@@ -1,0 +1,583 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter 2
+Threads
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Threads
+• Implicit assumption so far:
+– 1 process  1 thread of execution
+• Multithreaded execution:
+– 1 process
+
+
+
+N threads of execution
+
+• Why allow multiple threads per process?
+– Lightweight processes
+▪ Allow space- and time- efficient parallelism
+– Organized in thread groups
+▪ Allow simple communication and synchronization
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Concurrency vs. Parallelism
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Threads Usage
+
+
+Many web browsers ran as single process (some still do)
+
+
+
+
+If one web site causes trouble, entire browser can hang or crash
+
+Google Chrome Browser is multiprocess with 3 different types of processes:
+
+
+Browser process manages user interface, disk and network I/O
+
+
+
+Renderer process renders web pages, deals with HTML, Javascript. A
+new renderer created for each website opened
+ Runs in sandbox restricting disk and network I/O, minimizing effect
+
+of security exploits
+
+
+
+Plug-in process for each type of plug-in
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Thread Usage
+A word processor with three threads.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Thread Benefits
+
+
+Responsiveness – may allow continued execution if part of process is
+blocked, especially important for user interfaces
+
+
+
+Resource Sharing – threads share resources of process, easier than
+shared memory or message passing
+
+
+
+Economy – cheaper than process creation, thread switching lower
+overhead than context switching
+
+
+
+Scalability – process can take advantage of multiprocessor architectures
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Threads and Processes
+• Threads reside in the same address space
+of a single process
+• All information exchange is via data shared
+between the threads
+• Threads synchronize via simple primitives
+• Each thread has its own stack, hardware
+registers, and state
+• Thread table/switch: a lighter process
+table/switch
+• Each thread may call any O S-supported
+system call on behalf of the process to
+which it belongs
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Single and Multithreaded Processes
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+PO S I X Threads
+Thread call
+
+Description
+
+Pthread_create
+
+Create a new thread
+
+pthread_exit
+
+Terminate the calling thread
+
+pthread_join
+
+Wait for a specific thread to exit
+
+pthread_yield
+
+Release the CP U to let another thread run
+
+pthread_attr_init
+
+Create and initialize a thread's attribute structure
+
+pthread_attr_destroy
+
+Remove a thread's attribute structure
+
+Some of the P threads function calls.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Pthreads Example
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Pthreads Code for Joining 10 Threads
+
+Operating System Concepts
+
+– 9 th Edition
+
+Operating System Concepts – 10th Edition
+
+Silberschatz, Galvin and Gagne ©2013
+
+4. 21
+
+4.11
+
+Silberschatz, Galvin and Gagne ©2018
+
+User Threads and Kernel Threads
+
+
+User threads - management done by user-level threads library
+
+
+
+Three primary thread libraries:
+
+
+POSIX Pthreads
+
+
+
+Windows threads
+
+
+
+Java threads
+
+
+
+Kernel threads - Supported by the Kernel
+
+
+
+Examples – virtually all general-purpose operating systems, including:
+
+
+Windows
+
+
+
+Solaris
+
+
+
+Linux
+
+
+
+Tru64 UNIX
+
+
+
+Mac OS X
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+User and Kernel Level Threads
+(a) A user-level threads package. (b) A threads package
+managed by the kernel.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+User Threads: Pros and Cons
+
++ Thread switching time (no mode switch)
++ Scalability, customizability (no in-kernel management)
+- Transparency (typically requires app cooperation)
+- Parallelism (blocking syscalls are problematic)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Multithreading Models
+
+
+Many-to-One
+
+
+
+One-to-One
+
+
+
+Many-to-Many
+
+Operating System Concepts – 10th Edition
+
+4.15
+
+Silberschatz, Galvin and Gagne ©2018
+
+Many-to-One
+
+
+Many user-level threads mapped to
+single kernel thread
+
+
+
+One thread blocking causes all to block
+
+
+
+Multiple threads may not run in parallel
+on muticore system because only one
+may be in kernel at a time
+
+
+
+Few systems currently use this model
+
+
+
+Examples:
+
+
+Solaris Green Threads
+
+
+
+GNU Portable Threads
+
+Operating System Concepts – 10th Edition
+
+4.16
+
+Silberschatz, Galvin and Gagne ©2018
+
+One-to-One
+
+
+Each user-level thread maps to kernel thread
+
+
+
+Creating a user-level thread creates a kernel thread
+
+
+
+More concurrency than many-to-one
+
+
+
+Number of threads per process sometimes
+restricted due to overhead
+
+
+
+Examples
+
+
+Windows
+
+
+
+Linux
+
+
+
+Solaris 9 and later
+
+Operating System Concepts – 10th Edition
+
+4.17
+
+Silberschatz, Galvin and Gagne ©2018
+
+Many-to-Many Model
+
+
+Allows many user level threads to be
+mapped to many kernel threads
+
+
+
+Allows the operating system to create
+a sufficient number of kernel threads
+
+
+
+Solaris prior to version 9
+
+
+
+Windows with the ThreadFiber
+package
+
+Operating System Concepts – 10th Edition
+
+4.18
+
+Silberschatz, Galvin and Gagne ©2018
+
+Two-level Model
+
+
+Similar to M:M, except that it allows a user thread to be
+bound to kernel thread
+
+
+
+Examples
+
+
+IRIX
+
+
+
+HP-UX
+
+
+
+Tru64 UNIX
+
+
+
+Solaris 8 and earlier
+
+Operating System Concepts – 10th Edition
+
+4.19
+
+Silberschatz, Galvin and Gagne ©2018
+
+Implicit Threading
+
+
+Growing in popularity as numbers of threads increase,
+program correctness more difficult with explicit threads
+
+
+
+Creation and management of threads done by compilers and
+run-time libraries rather than programmers
+
+
+
+Three methods explored
+
+
+
+
+
+Thread Pools
+
+
+
+OpenMP
+
+
+
+Grand Central Dispatch
+
+Other methods include Microsoft Threading Building Blocks
+(TBB), java.util.concurrent package
+
+Operating System Concepts – 10th Edition
+
+4.20
+
+Silberschatz, Galvin and Gagne ©2018
+
+Thread Pools
+
+
+Create a number of threads in a pool where they await work
+
+
+
+Advantages:
+
+
+Usually slightly faster to service a request with an existing
+thread than create a new thread
+
+
+
+Allows the number of threads in the application(s) to be
+bound to the size of the pool
+
+
+
+Separating task to be performed from mechanics of
+creating task allows different strategies for running task
+ i.e.Tasks could be scheduled to run periodically
+
+
+
+Windows API supports thread pools:
+
+Operating System Concepts – 10th Edition
+
+4.21
+
+Silberschatz, Galvin and Gagne ©2018
+
+OpenMP
+
+
+Set of compiler directives and an
+API for C, C++, FORTRAN
+
+
+
+Provides support for parallel
+programming in shared-memory
+environments
+
+
+
+Identifies parallel regions –
+blocks of code that can run in
+parallel
+
+#pragma omp parallel
+Create as many threads as there are
+cores
+#pragma omp parallel for
+for(i=0;i<N;i++) {
+c[i] = a[i] + b[i];
+}
+Run for loop in parallel
+
+Operating System Concepts – 10th Edition
+
+4.22
+
+Silberschatz, Galvin and Gagne ©2018
+
+Grand Central Dispatch
+
+
+Apple technology for Mac OS X and iOS operating systems
+
+
+
+Extensions to C, C++ languages, API, and run-time library
+
+
+
+Allows identification of parallel sections
+
+
+
+Manages most of the details of threading
+
+
+
+Block is in “^{ }” - ˆ{ printf("I am a block"); }
+
+
+
+Blocks placed in dispatch queue
+
+
+Assigned to available thread in thread pool when removed
+from queue
+
+Operating System Concepts – 10th Edition
+
+4.23
+
+Silberschatz, Galvin and Gagne ©2018
+
+Threads: Issues
+• Does the O S keep track of threads?
+– Kernel threads v s . user threads
+• What to do on fork?
+– Clone all threads v s . calling thread
+er
+
+us
+
+er
+
+us
+
+– What if a thread is currently blocking on a systems call?
+• What to do with signals?
+– Send signal to all threads v s . single thread
+er
+
+us
+
+– Per-process or per-thread signal handlers
+• Where to store per-thread variables?
+• Does sharing come at a cost?
+• Are threads required inside an operating system?
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Thread Cancellation
+
+
+Terminating a thread before it has finished
+
+
+
+Thread to be canceled is target thread
+
+
+
+Two general approaches:
+
+
+
+
+
+Asynchronous cancellation terminates the target thread
+immediately
+
+
+
+Deferred cancellation allows the target thread to periodically
+check if it should be cancelled
+
+Pthread code to create and cancel a thread:
+
+Operating System Concepts – 10th Edition
+
+4.25
+
+Silberschatz, Galvin and Gagne ©2018
+
+Modern Operating Systems
+Fifth Edition
+
+End of Threads Lecture
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+

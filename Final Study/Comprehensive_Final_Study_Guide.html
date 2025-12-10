@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Operating Systems Final Exam Study Guide - CPSC 380</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #000000;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #888;
+            font-weight: 300;
+        }
+        
+        .toc {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .toc h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+            font-weight: 400;
+        }
+        
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            color: #00aaff;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+        
+        .toc a:hover {
+            color: #00ccff;
+            text-decoration: underline;
+        }
+        
+        .section {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #fff;
+            border-left: 3px solid #00aaff;
+            padding-left: 15px;
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 400;
+        }
+        
+        .section h3 {
+            color: #ccc;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            font-weight: 400;
+        }
+        
+        .section h4 {
+            color: #aaa;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+        
+        .section p {
+            color: #ddd;
+        }
+        
+        .key-points {
+            background: #111;
+            border-left: 4px solid #00aaff;
+            border: 1px solid #222;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .key-points ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .key-points li {
+            margin: 8px 0;
+            color: #ddd;
+        }
+        
+        .code-block {
+            background: #000;
+            border: 1px solid #333;
+            color: #00ff88;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Space Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .code-block code {
+            color: #00ff88;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #0a0a0a;
+        }
+        
+        table th, table td {
+            border: 1px solid #222;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        table th {
+            background: #111;
+            color: white;
+            font-weight: 500;
+        }
+        
+        table td {
+            color: #ddd;
+        }
+        
+        table tr:nth-child(even) {
+            background: #050505;
+        }
+        
+        .formula {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Space Mono', 'Courier New', monospace;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .diagram {
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+            color: #ddd;
+        }
+        
+        .highlight {
+            background: #1a1a0a;
+            border: 1px solid #666;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+            color: #ffaa00;
+        }
+        
+        .warning {
+            background: #1a0000;
+            border-left: 4px solid #ff4444;
+            border: 1px solid #ff4444;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            color: #ff8888;
+        }
+        
+        .info {
+            background: #001a1a;
+            border-left: 4px solid #00aaff;
+            border: 1px solid #00aaff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            max-width: 200px;
+            font-size: 0.9em;
+        }
+        
+        .navigation a {
+            display: block;
+            color: #3498db;
+            text-decoration: none;
+            margin: 5px 0;
+            padding: 5px;
+        }
+        
+        .navigation a:hover {
+            background: #e8f4f8;
+            border-radius: 3px;
+        }
+        
+        @media print {
+            .navigation {
+                display: none;
+            }
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Operating Systems Final Exam Study Guide</h1>
+            <p>CPSC 380 - Comprehensive Review</p>
+            <p>Based on Lectures, Homework, and In-Class Materials</p>
+        </div>
+
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#introduction">1. Introduction to Operating Systems</a></li>
+                <li><a href="#processes">2. Processes and Process Management</a></li>
+                <li><a href="#threads">3. Threads and Concurrency</a></li>
+                <li><a href="#synchronization">4. Synchronization and Critical Sections</a></li>
+                <li><a href="#scheduling">5. CPU Scheduling</a></li>
+                <li><a href="#deadlocks">6. Deadlocks</a></li>
+                <li><a href="#memory">7. Memory Management</a></li>
+                <li><a href="#virtual-memory">8. Virtual Memory</a></li>
+                <li><a href="#file-systems">9. File Systems</a></li>
+                <li><a href="#io">10. I/O Subsystem</a></li>
+                <li><a href="#implementations">11. Implementation Examples</a></li>
+            </ul>
+        </div>
+
+        <div id="introduction" class="section">
+            <h2>1. Introduction to Operating Systems</h2>
+            
+            <h3>What is an Operating System?</h3>
+            <p>An operating system is system software that manages computer hardware and software resources, providing common services for computer programs. It acts as an intermediary between users and computer hardware.</p>
+            
+            <div class="key-points">
+                <h4>Key Functions of an OS:</h4>
+                <ul>
+                    <li><strong>Process Management:</strong> Creating, scheduling, and terminating processes</li>
+                    <li><strong>Memory Management:</strong> Allocating and managing memory space</li>
+                    <li><strong>File System Management:</strong> Organizing and managing files and directories</li>
+                    <li><strong>Device Management:</strong> Controlling and coordinating computer peripherals</li>
+                    <li><strong>Security:</strong> Protecting system resources and user data</li>
+                </ul>
+            </div>
+
+            <h3>Operating System Structure</h3>
+            <p>Layered view from top to bottom:</p>
+            <ol>
+                <li><strong>Users</strong></li>
+                <li><strong>Application Programs</strong></li>
+                <li><strong>Operating System</strong></li>
+                <li><strong>Hardware</strong></li>
+            </ol>
+
+            <h3>OS Views</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Extended Machine (Top-down):</strong> Provides abstractions to application programs, hiding hardware details</li>
+                    <li><strong>Resource Manager (Bottom-up):</strong> Manages pieces of complex system, provides orderly and controlled allocation of resources</li>
+                </ul>
+            </div>
+
+            <h3>System Calls</h3>
+            <p>System calls are the interface the OS offers to applications to request services. They are grouped into categories:</p>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Examples</th>
+                </tr>
+                <tr>
+                    <td>Process Management</td>
+                    <td>fork(), exec(), wait(), exit()</td>
+                </tr>
+                <tr>
+                    <td>File Management</td>
+                    <td>open(), read(), write(), close()</td>
+                </tr>
+                <tr>
+                    <td>Directory Management</td>
+                    <td>mkdir(), rmdir(), link(), unlink()</td>
+                </tr>
+                <tr>
+                    <td>Miscellaneous</td>
+                    <td>chmod(), chown(), kill(), signal()</td>
+                </tr>
+            </table>
+
+            <h3>OS Structure Types</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Monolithic Systems:</strong> All OS components in kernel (e.g., traditional UNIX)</li>
+                    <li><strong>Layered Systems:</strong> OS organized in layers, each layer uses services of lower layers</li>
+                    <li><strong>Microkernels:</strong> Minimal kernel, most services run as user processes</li>
+                </ul>
+            </div>
+
+            <h3>Computer Startup (Bootstrap)</h3>
+            <p>When computer starts:</p>
+            <ol>
+                <li>CPU executes BIOS (firmware in flash memory)</li>
+                <li>BIOS initializes RAM and devices</li>
+                <li>BIOS looks for boot device (checks partition table)</li>
+                <li>Bootloader loads OS kernel into memory</li>
+                <li>OS kernel initializes system</li>
+            </ol>
+
+            <h3>Interrupts and I/O Structure</h3>
+            <p>Interrupts allow devices to signal CPU when I/O operations complete:</p>
+            <ol>
+                <li>Device controller raises interrupt line</li>
+                <li>CPU saves current state</li>
+                <li>CPU jumps to interrupt handler</li>
+                <li>Handler processes interrupt</li>
+                <li>CPU resumes previous task</li>
+            </ol>
+
+            <h3>Direct Memory Access (DMA)</h3>
+            <p>DMA allows devices to transfer data directly to/from memory without CPU intervention:</p>
+            <ol>
+                <li>CPU sets up DMA transfer (source, destination, size)</li>
+                <li>DMA controller performs transfer</li>
+                <li>DMA controller interrupts CPU when done</li>
+            </ol>
+            <p class="info">DMA improves efficiency by freeing CPU during data transfers.</p>
+        </div>
+
+        <div id="processes" class="section">
+            <h2>2. Processes and Process Management</h2>
+            
+            <h3>Process Concept</h3>
+            <p>A <span class="highlight">process</span> is a program in execution. Each process has:</p>
+            <ul>
+                <li>Own address space (text, data, stack, heap)</li>
+                <li>Own set of resources (registers, open files, etc.)</li>
+                <li>Process Control Block (PCB) containing process state</li>
+            </ul>
+
+            <h3>Process Control Block (PCB)</h3>
+            <p>The PCB contains all information needed to manage a process:</p>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Process State</td>
+                    <td>Running, Ready, Waiting, etc.</td>
+                </tr>
+                <tr>
+                    <td>Program Counter</td>
+                    <td>Location of next instruction</td>
+                </tr>
+                <tr>
+                    <td>CPU Registers</td>
+                    <td>Contents of all process-centric registers</td>
+                </tr>
+                <tr>
+                    <td>CPU Scheduling Info</td>
+                    <td>Priority, scheduling queue pointers</td>
+                </tr>
+                <tr>
+                    <td>Memory Management Info</td>
+                    <td>Base/limit registers, page tables</td>
+                </tr>
+                <tr>
+                    <td>Accounting Info</td>
+                    <td>CPU time used, time limits</td>
+                </tr>
+                <tr>
+                    <td>I/O Status Info</td>
+                    <td>I/O devices allocated, list of open files</td>
+                </tr>
+            </table>
+
+            <h3>Process States</h3>
+            <div class="diagram">
+                <p><strong>Process State Transitions:</strong></p>
+                <p>New → Ready → Running → Waiting → Ready → Terminated</p>
+            </div>
+            <ul>
+                <li><strong>New:</strong> Process being created</li>
+                <li><strong>Ready:</strong> Process waiting to be assigned to CPU</li>
+                <li><strong>Running:</strong> Process currently executing</li>
+                <li><strong>Waiting/Blocked:</strong> Process waiting for some event (I/O, signal)</li>
+                <li><strong>Terminated:</strong> Process has finished execution</li>
+            </ul>
+
+            <h3>Process Creation</h3>
+            <p>Four principal events cause process creation:</p>
+            <ol>
+                <li>System initialization</li>
+                <li>Execution of process creation system call by running process</li>
+                <li>User request to create new process</li>
+                <li>Initiation of batch job</li>
+            </ol>
+
+            <h3>Process Management System Calls</h3>
+            <div class="code-block">
+<code>pid_t fork()      // Creates child process (duplicates parent)
+pid_t wait(int *status)  // Waits for child to terminate
+int execv(const char *path, char *const argv[])  // Loads new program
+void exit(int status)    // Terminates process
+int kill(pid_t pid, int sig)  // Sends signal to process</code>
+            </div>
+
+            <h3>Context Switch</h3>
+            <p>When CPU switches from one process to another:</p>
+            <ol>
+                <li>Save state of current process (registers, PC, etc.) to its PCB</li>
+                <li>Load state of new process from its PCB</li>
+                <li>Update memory management (page tables, etc.)</li>
+                <li>Resume execution of new process</li>
+            </ol>
+            <p class="warning">Context switch time is overhead - system does no useful work during switch.</p>
+
+            <h3>Process Hierarchies</h3>
+            <p>Processes form tree structures. Parent processes create child processes. On UNIX, init (PID 1) is the root of all processes.</p>
+        </div>
+
+        <div id="threads" class="section">
+            <h2>3. Threads and Concurrency</h2>
+            
+            <h3>Thread Concept</h3>
+            <p>A <span class="highlight">thread</span> is a lightweight process - a flow of control within a process. Multiple threads share:</p>
+            <ul>
+                <li>Address space (code, data, heap)</li>
+                <li>Open files</li>
+                <li>Process attributes</li>
+            </ul>
+            <p>Each thread has its own:</p>
+            <ul>
+                <li>Stack</li>
+                <li>Registers</li>
+                <li>Program counter</li>
+                <li>Thread ID</li>
+            </ul>
+
+            <h3>Thread Benefits</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Responsiveness:</strong> Allow continued execution if part of process is blocked</li>
+                    <li><strong>Resource Sharing:</strong> Threads share process resources easily</li>
+                    <li><strong>Economy:</strong> Cheaper than process creation, lower overhead than context switching</li>
+                    <li><strong>Scalability:</strong> Can take advantage of multiprocessor architectures</li>
+                </ul>
+            </div>
+
+            <h3>POSIX Threads (Pthreads)</h3>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>pthread_create()</td>
+                    <td>Create a new thread</td>
+                </tr>
+                <tr>
+                    <td>pthread_exit()</td>
+                    <td>Terminate calling thread</td>
+                </tr>
+                <tr>
+                    <td>pthread_join()</td>
+                    <td>Wait for specific thread to exit</td>
+                </tr>
+                <tr>
+                    <td>pthread_yield()</td>
+                    <td>Release CPU to let another thread run</td>
+                </tr>
+            </table>
+
+            <h3>User-Level vs Kernel-Level Threads</h3>
+            <table>
+                <tr>
+                    <th>Aspect</th>
+                    <th>User-Level Threads</th>
+                    <th>Kernel-Level Threads</th>
+                </tr>
+                <tr>
+                    <td>Management</td>
+                    <td>User-level thread library</td>
+                    <td>Kernel</td>
+                </tr>
+                <tr>
+                    <td>Context Switch</td>
+                    <td>Fast (no mode switch)</td>
+                    <td>Slower (requires kernel call)</td>
+                </tr>
+                <tr>
+                    <td>Blocking</td>
+                    <td>One thread blocks all</td>
+                    <td>One thread blocks doesn't affect others</td>
+                </tr>
+                <tr>
+                    <td>Examples</td>
+                    <td>POSIX Pthreads (user mode)</td>
+                    <td>Windows threads, Linux threads</td>
+                </tr>
+            </table>
+
+            <h3>Multithreading Models</h3>
+            <ul>
+                <li><strong>Many-to-One:</strong> Many user threads to one kernel thread (blocking issue)</li>
+                <li><strong>One-to-One:</strong> Each user thread maps to kernel thread (better concurrency)</li>
+                <li><strong>Many-to-Many:</strong> Many user threads to many kernel threads (flexible)</li>
+            </ul>
+
+            <h3>Concurrency vs Parallelism</h3>
+            <ul>
+                <li><strong>Concurrency:</strong> Multiple tasks making progress (may be on single CPU)</li>
+                <li><strong>Parallelism:</strong> Multiple tasks executing simultaneously (requires multiple CPUs)</li>
+            </ul>
+
+            <h3>Amdahl's Law</h3>
+            <div class="formula">
+                Speedup = 1 / ((1 - P) + P/N)
+            </div>
+            <p>Where P = parallelizable portion, N = number of processors</p>
+        </div>
+
+        <div id="synchronization" class="section">
+            <h2>4. Synchronization and Critical Sections</h2>
+            
+            <h3>Race Conditions</h3>
+            <p>A <span class="highlight">race condition</span> occurs when multiple processes/threads access shared data concurrently and the outcome depends on the order of execution.</p>
+
+            <h3>Critical Section Problem</h3>
+            <p>A <span class="highlight">critical section</span> is a code segment that accesses shared variables and must not be executed concurrently by multiple processes.</p>
+            
+            <div class="key-points">
+                <h4>Requirements for Solution:</h4>
+                <ol>
+                    <li><strong>Mutual Exclusion:</strong> No two processes simultaneously in critical section</li>
+                    <li><strong>Progress:</strong> No process running outside critical region blocks others</li>
+                    <li><strong>Bounded Waiting:</strong> No process waits forever to enter critical section</li>
+                </ol>
+            </div>
+
+            <h3>Mutual Exclusion Solutions</h3>
+            
+            <h4>Peterson's Solution</h4>
+            <p>Software solution for two processes using shared variables:</p>
+            <div class="code-block">
+<code>// For process i
+do {
+    flag[i] = true;
+    turn = j;
+    while (flag[j] && turn == j);  // Wait
+    // Critical section
+    flag[i] = false;
+    // Remainder section
+} while (true);</code>
+            </div>
+
+            <h4>Hardware Solutions</h4>
+            <ul>
+                <li><strong>TestAndSet:</strong> Atomic instruction that tests and sets a value</li>
+                <li><strong>CompareAndSwap:</strong> Atomic compare and swap operation</li>
+            </ul>
+
+            <h3>Semaphores</h3>
+            <p>A <span class="highlight">semaphore</span> is an integer variable accessed only through two atomic operations:</p>
+            <div class="code-block">
+<code>wait(S) {  // Also called P()
+    while (S <= 0);  // Busy wait
+    S--;
+}
+
+signal(S) {  // Also called V()
+    S++;
+}</code>
+            </div>
+
+            <h4>Semaphore Types</h4>
+            <ul>
+                <li><strong>Binary Semaphore:</strong> Value 0 or 1 (same as mutex)</li>
+                <li><strong>Counting Semaphore:</strong> Value can range over unrestricted domain</li>
+            </ul>
+
+            <h3>Mutex Locks</h3>
+            <p>Simplest synchronization tool. Protects critical section:</p>
+            <div class="code-block">
+<code>acquire() {
+    while (!available);  // Busy wait
+    available = false;
+}
+
+release() {
+    available = true;
+}</code>
+            </div>
+            <p class="warning">Mutex locks with busy waiting are called <strong>spinlocks</strong>.</p>
+
+            <h3>Classic Synchronization Problems</h3>
+            
+            <h4>Bounded-Buffer (Producer-Consumer) Problem</h4>
+            <p>Producers insert items, consumers remove items from bounded buffer:</p>
+            <ul>
+                <li>Use mutex for mutual exclusion</li>
+                <li>Use empty semaphore (initialized to buffer size)</li>
+                <li>Use full semaphore (initialized to 0)</li>
+            </ul>
+
+            <h4>Readers-Writers Problem</h4>
+            <p>Multiple readers can read simultaneously, but only one writer at a time:</p>
+            <ul>
+                <li>Reader-preference: Readers get priority</li>
+                <li>Writer-preference: Writers get priority</li>
+                <li>No starvation: Both guaranteed to make progress</li>
+            </ul>
+
+            <h4>Dining Philosophers Problem</h4>
+            <p>Five philosophers need two forks to eat. Solutions include:</p>
+            <ul>
+                <li>Allow only 4 philosophers to sit</li>
+                <li>Require both forks be picked up atomically</li>
+                <li>Odd philosophers pick left first, even pick right first</li>
+            </ul>
+
+            <h3>Monitors</h3>
+            <p>High-level synchronization construct that ensures only one process can be active in monitor at a time. Uses condition variables for waiting/signaling.</p>
+
+            <h3>Priority Inversion</h3>
+            <p>Problem where low-priority task holds lock needed by high-priority task, causing medium-priority task to run instead. Solutions:</p>
+            <ul>
+                <li>Priority inheritance: Low-priority task inherits high-priority task's priority</li>
+                <li>Priority ceiling: Associate priority with mutex</li>
+            </ul>
+        </div>
+
+        <div id="scheduling" class="section">
+            <h2>5. CPU Scheduling</h2>
+            
+            <h3>Scheduling Criteria</h3>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>CPU Utilization</td>
+                    <td>Keep CPU as busy as possible</td>
+                </tr>
+                <tr>
+                    <td>Throughput</td>
+                    <td>Number of processes completed per time unit</td>
+                </tr>
+                <tr>
+                    <td>Turnaround Time</td>
+                    <td>Time from submission to completion</td>
+                </tr>
+                <tr>
+                    <td>Waiting Time</td>
+                    <td>Time process spends waiting in ready queue</td>
+                </tr>
+                <tr>
+                    <td>Response Time</td>
+                    <td>Time from submission until first response</td>
+                </tr>
+            </table>
+
+            <h3>Scheduling Algorithms</h3>
+            
+            <h4>First-Come, First-Served (FCFS)</h4>
+            <ul>
+                <li>Non-preemptive</li>
+                <li>Simple FIFO queue</li>
+                <li>Convoy effect: Short processes wait behind long ones</li>
+            </ul>
+
+            <h4>Shortest-Job-First (SJF)</h4>
+            <ul>
+                <li>Non-preemptive: Selects process with shortest next CPU burst</li>
+                <li>Optimal for minimum average waiting time</li>
+                <li>Problem: Need to know next CPU burst length</li>
+                <li>Solution: Use exponential averaging to predict</li>
+            </ul>
+            <div class="formula">
+                τ<sub>n+1</sub> = αt<sub>n</sub> + (1-α)τ<sub>n</sub>
+            </div>
+            <p>Where α is commonly 1/2</p>
+
+            <h4>Round Robin (RR)</h4>
+            <ul>
+                <li>Preemptive</li>
+                <li>Each process gets time quantum (q)</li>
+                <li>If process doesn't finish, it's preempted and goes to end of queue</li>
+                <li>q should be large compared to context switch time</li>
+                <li>q typically 10-100ms, context switch < 10μs</li>
+            </ul>
+
+            <h4>Priority Scheduling</h4>
+            <ul>
+                <li>Preemptive or non-preemptive</li>
+                <li>Schedules highest priority process first</li>
+                <li>Lower number = higher priority (typically)</li>
+                <li>Problem: Starvation of low-priority processes</li>
+                <li>Solution: Aging - gradually increase priority of waiting processes</li>
+            </ul>
+
+            <h3>Real-Time Scheduling</h3>
+            
+            <h4>Rate-Monotonic Scheduling</h4>
+            <p>For periodic tasks, assign priorities based on period (shorter period = higher priority).</p>
+            <div class="formula">
+                U ≤ n(2<sup>1/n</sup> - 1)
+            </div>
+            <p>Where U = CPU utilization, n = number of tasks</p>
+
+            <h4>Earliest Deadline First (EDF)</h4>
+            <p>Dynamic priority scheduling: Earlier deadline = higher priority. Can achieve 100% CPU utilization.</p>
+
+            <h3>Multiprocessor Scheduling</h3>
+            <ul>
+                <li><strong>Processor Affinity:</strong> Process prefers to run on same processor</li>
+                <li><strong>Load Balancing:</strong> Distribute work evenly across processors</li>
+                <li><strong>Symmetric Multiprocessing (SMP):</strong> Each processor self-schedules</li>
+            </ul>
+        </div>
+
+        <div id="deadlocks" class="section">
+            <h2>6. Deadlocks</h2>
+            
+            <h3>Deadlock Definition</h3>
+            <p>A set of processes is <span class="highlight">deadlocked</span> if each process is waiting for an event that only another process in the set can cause.</p>
+
+            <h3>Necessary Conditions for Deadlock</h3>
+            <div class="key-points">
+                <p>All four must hold simultaneously:</p>
+                <ol>
+                    <li><strong>Mutual Exclusion:</strong> At least one resource must be non-sharable</li>
+                    <li><strong>Hold and Wait:</strong> Process holding resource waits for additional resource</li>
+                    <li><strong>No Preemption:</strong> Resources cannot be preempted</li>
+                    <li><strong>Circular Wait:</strong> Circular chain of processes, each waiting for resource held by next</li>
+                </ol>
+            </div>
+
+            <h3>Resource-Allocation Graph</h3>
+            <p>Graph with:</p>
+            <ul>
+                <li>Processes (circles)</li>
+                <li>Resources (rectangles with dots for instances)</li>
+                <li>Request edge: Process → Resource</li>
+                <li>Assignment edge: Resource → Process</li>
+            </ul>
+            <p class="info">If graph has no cycles → no deadlock. If graph has cycle and only one instance per resource type → deadlock.</p>
+
+            <h3>Deadlock Handling Methods</h3>
+            
+            <h4>1. Deadlock Prevention</h4>
+            <p>Prevent one of the four necessary conditions:</p>
+            <ul>
+                <li><strong>Mutual Exclusion:</strong> Make resources sharable (not always possible)</li>
+                <li><strong>Hold and Wait:</strong> Require process request all resources before execution, OR only request when holding none</li>
+                <li><strong>No Preemption:</strong> If process can't get resource, release all held resources</li>
+                <li><strong>Circular Wait:</strong> Impose total ordering of resources, require requests in increasing order</li>
+            </ul>
+
+            <h4>2. Deadlock Avoidance</h4>
+            <p>Requires a priori information about resource usage. System must be in <strong>safe state</strong>:</p>
+            <ul>
+                <li>Safe state: System can allocate resources to each process in some order and avoid deadlock</li>
+                <li>Unsafe state: May lead to deadlock</li>
+            </ul>
+
+            <h4>Banker's Algorithm</h4>
+            <p>For multiple instances of resource types:</p>
+            <ul>
+                <li>Each process declares maximum need</li>
+                <li>System checks if allocation leaves system in safe state</li>
+                <li>If safe, allocate; otherwise, make process wait</li>
+            </ul>
+
+            <h4>3. Deadlock Detection</h4>
+            <p>Allow system to enter deadlock, then detect and recover:</p>
+            <ul>
+                <li>For single instance: Use wait-for graph (cycle = deadlock)</li>
+                <li>For multiple instances: Use detection algorithm similar to Banker's</li>
+            </ul>
+
+            <h4>4. Deadlock Recovery</h4>
+            <p>Once deadlock detected:</p>
+            <ul>
+                <li><strong>Process Termination:</strong> Abort all deadlocked processes OR abort one at a time</li>
+                <li><strong>Resource Preemption:</strong> Select victim, rollback to safe state, restart</li>
+            </ul>
+
+            <h4>5. Ignore the Problem</h4>
+            <p>Ostrich algorithm - assume deadlocks never occur. Used by most operating systems including UNIX.</p>
+        </div>
+
+        <div id="memory" class="section">
+            <h2>7. Memory Management</h2>
+            
+            <h3>Memory Abstraction</h3>
+            <p>Separation of logical and physical address spaces:</p>
+            <ul>
+                <li><strong>Logical Address:</strong> Address generated by CPU (virtual address)</li>
+                <li><strong>Physical Address:</strong> Address seen by memory unit</li>
+                <li><strong>Memory Management Unit (MMU):</strong> Hardware that maps logical to physical addresses</li>
+            </ul>
+
+            <h3>Base and Limit Registers</h3>
+            <p>Simple memory protection scheme:</p>
+            <ul>
+                <li><strong>Base Register:</strong> Starting physical address</li>
+                <li><strong>Limit Register:</strong> Size of logical address space</li>
+                <li>Every address checked: base ≤ address < base + limit</li>
+            </ul>
+
+            <h3>Binding of Instructions to Memory</h3>
+            <table>
+                <tr>
+                    <th>Time</th>
+                    <th>Description</th>
+                    <th>Requirements</th>
+                </tr>
+                <tr>
+                    <td>Compile Time</td>
+                    <td>Absolute addresses generated</td>
+                    <td>Must know memory location</td>
+                </tr>
+                <tr>
+                    <td>Load Time</td>
+                    <td>Relocatable code, addresses bound at load</td>
+                    <td>Must generate relocatable code</td>
+                </tr>
+                <tr>
+                    <td>Execution Time</td>
+                    <td>Addresses bound at runtime</td>
+                    <td>Hardware support (MMU)</td>
+                </tr>
+            </table>
+
+            <h3>Dynamic Loading</h3>
+            <p>Routine not loaded until called. Better memory utilization. Implemented through program design.</p>
+
+            <h3>Dynamic Linking</h3>
+            <p>Linking postponed until execution time. Stub replaces itself with address of routine. Useful for shared libraries.</p>
+
+            <h3>Swapping</h3>
+            <p>Process can be swapped temporarily out of memory to backing store, then brought back:</p>
+            <ul>
+                <li>Total physical memory can exceed available RAM</li>
+                <li>Backing store must be fast and large</li>
+                <li>Transfer time proportional to amount swapped</li>
+            </ul>
+
+            <h3>Contiguous Memory Allocation</h3>
+            <p>Each process in contiguous block of memory. Allocation strategies:</p>
+            
+            <h4>First Fit</h4>
+            <p>Allocate first hole large enough. Fast but may leave small fragments.</p>
+
+            <h4>Best Fit</h4>
+            <p>Allocate smallest hole large enough. Minimizes waste but may create many small fragments.</p>
+
+            <h4>Worst Fit</h4>
+            <p>Allocate largest hole. Leaves large remaining holes but poor performance in practice.</p>
+
+            <h3>Fragmentation</h3>
+            <ul>
+                <li><strong>Internal Fragmentation:</strong> Memory allocated to process but not used (within allocated block)</li>
+                <li><strong>External Fragmentation:</strong> Enough total memory exists, but not contiguous</li>
+            </ul>
+
+            <h3>Compaction</h3>
+            <p>Shuffle memory to place all free memory together. Requires dynamic relocation. I/O problem: addresses may change during I/O operations.</p>
+        </div>
+
+        <div id="virtual-memory" class="section">
+            <h2>8. Virtual Memory</h2>
+            
+            <h3>Paging</h3>
+            <p>Divide physical memory into fixed-sized blocks called <strong>frames</strong>. Divide logical memory into blocks of same size called <strong>pages</strong>.</p>
+
+            <h3>Address Translation</h3>
+            <p>Logical address divided into:</p>
+            <ul>
+                <li><strong>Page Number (p):</strong> Index into page table</li>
+                <li><strong>Page Offset (d):</strong> Displacement within page</li>
+            </ul>
+            <p>Physical address = (frame number × page size) + offset</p>
+
+            <h3>Page Table</h3>
+            <p>Maps page numbers to frame numbers. Stored in main memory. Each process has own page table.</p>
+
+            <h3>Translation Lookaside Buffer (TLB)</h3>
+            <p>Fast associative memory cache for page table entries:</p>
+            <ul>
+                <li>Reduces memory accesses (from 2 to 1 if TLB hit)</li>
+                <li>Small (64-1024 entries)</li>
+                <li>On TLB miss, load entry from page table</li>
+            </ul>
+
+            <div class="formula">
+                EAT = (1 + ε)α + (2 + ε)(1 - α)
+            </div>
+            <p>Where α = hit ratio, ε = TLB search time</p>
+
+            <h3>Page Table Structures</h3>
+            
+            <h4>Hierarchical Paging</h4>
+            <p>Break page table into multiple levels (two-level, three-level). Reduces memory for page tables.</p>
+
+            <h4>Hashed Page Tables</h4>
+            <p>Use hash table to map virtual page numbers. Good for large address spaces.</p>
+
+            <h4>Inverted Page Tables</h4>
+            <p>One entry per physical frame. Reduces memory but increases search time.</p>
+
+            <h3>Segmentation</h3>
+            <p>Memory-management scheme supporting user view. Program is collection of segments (logical units). Logical address: &lt;segment-number, offset&gt;</p>
+
+            <h3>Demand Paging</h3>
+            <p>Bring page into memory only when needed:</p>
+            <ul>
+                <li>Less I/O needed</li>
+                <li>Less memory needed</li>
+                <li>Faster response</li>
+                <li>More users</li>
+            </ul>
+
+            <h3>Page Fault</h3>
+            <p>When page not in memory:</p>
+            <ol>
+                <li>Trap to OS</li>
+                <li>Save user registers and process state</li>
+                <li>Determine page fault was legal</li>
+                <li>Find free frame (or use page replacement)</li>
+                <li>Read page from disk into frame</li>
+                <li>Update page table</li>
+                <li>Restart instruction</li>
+            </ol>
+
+            <h3>Page Replacement Algorithms</h3>
+            
+            <h4>First-In-First-Out (FIFO)</h4>
+            <p>Replace oldest page. Simple but may replace frequently used pages. Can suffer from Belady's Anomaly (more frames can cause more page faults).</p>
+
+            <h4>Optimal Page Replacement</h4>
+            <p>Replace page that will not be used for longest time. Optimal but requires future knowledge (used for comparison).</p>
+
+            <h4>Least Recently Used (LRU)</h4>
+            <p>Replace page that has not been used for longest time. Good approximation of optimal. Implementation:</p>
+            <ul>
+                <li>Counter: Every page entry has counter, copy clock on reference</li>
+                <li>Stack: Keep stack of page numbers, move referenced page to top</li>
+            </ul>
+
+            <h4>LRU Approximation</h4>
+            <ul>
+                <li><strong>Reference Bit:</strong> Set when page referenced</li>
+                <li><strong>Second-Chance (Clock):</strong> FIFO with reference bit, give second chance</li>
+                <li><strong>Enhanced Second-Chance:</strong> Use (reference, modify) bits</li>
+            </ul>
+
+            <h3>Frame Allocation</h3>
+            <ul>
+                <li><strong>Fixed Allocation:</strong> Equal or proportional allocation</li>
+                <li><strong>Priority Allocation:</strong> Allocate based on process priority</li>
+                <li><strong>Global Replacement:</strong> Process can select frame from all frames</li>
+                <li><strong>Local Replacement:</strong> Process selects only from its own frames</li>
+            </ul>
+
+            <h3>Thrashing</h3>
+            <p>Process spends more time paging than executing. Caused by insufficient frames. Solution: Increase frames or reduce degree of multiprogramming.</p>
+
+            <h3>Working-Set Model</h3>
+            <p>Working set = set of pages used in most recent Δ page references. If sum of working sets > available frames → thrashing.</p>
+        </div>
+
+        <div id="file-systems" class="section">
+            <h2>9. File Systems</h2>
+            
+            <h3>File Concept</h3>
+            <p>File is named collection of related information. OS perspective: stream of bytes. Program perspective: structured (archives, executables, etc.)</p>
+
+            <h3>File Attributes</h3>
+            <ul>
+                <li>Name</li>
+                <li>Type</li>
+                <li>Location</li>
+                <li>Size</li>
+                <li>Protection</li>
+                <li>Time, date, user identification</li>
+            </ul>
+
+            <h3>File Operations</h3>
+            <ul>
+                <li>Create, Delete, Open, Close</li>
+                <li>Read, Write, Append</li>
+                <li>Seek, Get attributes, Set attributes, Rename</li>
+            </ul>
+
+            <h3>Directory Structures</h3>
+            
+            <h4>Single-Level Directory</h4>
+            <p>All files in one directory. Naming and grouping problems.</p>
+
+            <h4>Tree-Structured Directories</h4>
+            <p>Hierarchical structure. Each directory can contain files and subdirectories.</p>
+
+            <h4>Acyclic-Graph Directories</h4>
+            <p>Allow sharing (hard links and soft/symbolic links).</p>
+
+            <h3>File System Implementation</h3>
+            
+            <h4>Allocation Methods</h4>
+            
+            <h4>Contiguous Allocation</h4>
+            <p>File occupies contiguous blocks. Simple but external fragmentation.</p>
+
+            <h4>Linked Allocation</h4>
+            <p>Each file is linked list of blocks. No external fragmentation but sequential access only.</p>
+
+            <h4>Indexed Allocation</h4>
+            <p>Each file has index block containing pointers to data blocks. Supports direct access.</p>
+
+            <h3>Free-Space Management</h3>
+            
+            <h4>Bit Vector</h4>
+            <p>Each block represented by bit (1 = free, 0 = allocated). Easy to find contiguous space.</p>
+
+            <h4>Linked List</h4>
+            <p>Free blocks linked together. No waste of space but cannot get contiguous space easily.</p>
+
+            <h3>Directory Implementation</h3>
+            
+            <h4>Linear List</h4>
+            <p>Simple but slow for large directories. Solution: Use hash table.</p>
+
+            <h4>Hash Table</h4>
+            <p>Fast lookup but collisions possible.</p>
+
+            <h3>Virtual File System (VFS)</h3>
+            <p>Provides object-oriented interface to multiple file system types. Allows same system call interface for different file systems.</p>
+        </div>
+
+        <div id="io" class="section">
+            <h2>10. I/O Subsystem</h2>
+            
+            <h3>I/O Hardware</h3>
+            
+            <h4>Device Types</h4>
+            <ul>
+                <li><strong>Block Devices:</strong> Fixed-size blocks, random access (disks, SSDs)</li>
+                <li><strong>Character Devices:</strong> Stream of characters, sequential access (keyboard, printer)</li>
+            </ul>
+
+            <h4>Device Controller</h4>
+            <p>Hardware component between device and computer. Offers I/O registers for communication.</p>
+
+            <h4>Memory-Mapped I/O vs Port-Mapped I/O</h4>
+            <ul>
+                <li><strong>Memory-Mapped I/O:</strong> I/O registers mapped into memory address space</li>
+                <li><strong>Port-Mapped I/O:</strong> I/O registers accessed via special port numbers and instructions</li>
+            </ul>
+
+            <h3>I/O Software Principles</h3>
+            <ul>
+                <li><strong>Device Independence:</strong> Programs don't care about device particularities</li>
+                <li><strong>Uniform Naming:</strong> Consistent naming scheme (/dev/sda, /mnt/movies)</li>
+                <li><strong>Error Handling:</strong> Handle errors closest to source</li>
+                <li><strong>Buffering:</strong> Buffer data to smooth out transfer rates</li>
+                <li><strong>Synchronous vs Asynchronous:</strong> Blocking vs non-blocking I/O</li>
+            </ul>
+
+            <h3>I/O Software Layers</h3>
+            <ol>
+                <li><strong>User-Level I/O Software:</strong> Libraries, spooling</li>
+                <li><strong>Device-Independent I/O Software:</strong> Uniform interface, buffering, error reporting</li>
+                <li><strong>Device Drivers:</strong> Device-specific code</li>
+                <li><strong>Interrupt Handlers:</strong> Handle I/O completion interrupts</li>
+            </ol>
+
+            <h3>Direct Memory Access (DMA)</h3>
+            <p>Hardware transfers data directly to/from memory without CPU:</p>
+            <ol>
+                <li>CPU sets up DMA transfer</li>
+                <li>DMA controller performs transfer</li>
+                <li>DMA interrupts CPU when done</li>
+            </ol>
+            <p class="info">DMA frees CPU during data transfers, improving efficiency.</p>
+
+            <h3>Disk Scheduling</h3>
+            <p>Minimize seek time and maximize disk bandwidth:</p>
+            
+            <h4>FCFS</h4>
+            <p>First-come-first-served. Simple but poor performance.</p>
+
+            <h4>SSTF (Shortest Seek Time First)</h4>
+            <p>Select request with minimum seek time. Better than FCFS but may cause starvation.</p>
+
+            <h4>SCAN (Elevator Algorithm)</h4>
+            <p>Disk arm moves from one end to other, servicing requests. Provides uniform wait time.</p>
+
+            <h4>C-SCAN</h4>
+            <p>Like SCAN but returns to beginning without servicing on return trip. More uniform wait time.</p>
+
+            <h4>C-LOOK</h4>
+            <p>Version of C-SCAN that only goes as far as last request in each direction.</p>
+        </div>
+
+        <div id="implementations" class="section">
+            <h2>11. Implementation Examples</h2>
+            
+            <h3>Producer-Consumer Problem</h3>
+            <p>Classic synchronization problem with bounded buffer:</p>
+            <ul>
+                <li>Producers insert items, consumers remove items</li>
+                <li>Synchronization: Mutex + Empty semaphore + Full semaphore</li>
+                <li>Circular buffer implementation</li>
+            </ul>
+
+            <h3>Reader-Writer Synchronization</h3>
+            <p>Multiple readers can read simultaneously, only one writer at a time:</p>
+            <ul>
+                <li>Writer-preference: Writers get priority</li>
+                <li>Uses condition variables for efficient blocking</li>
+                <li>No starvation guaranteed</li>
+            </ul>
+
+            <h3>CPU Scheduling Simulator</h3>
+            <p>Implements four algorithms:</p>
+            <ul>
+                <li>FCFS: First-come-first-served</li>
+                <li>SJF: Shortest job first (non-preemptive)</li>
+                <li>RR: Round robin with time quantum</li>
+                <li>Priority: Preemptive priority scheduling</li>
+            </ul>
+            <p>Each process runs in separate thread, scheduler controls execution via semaphores.</p>
+
+            <h3>Contiguous Memory Allocator</h3>
+            <p>Implements three allocation strategies:</p>
+            <ul>
+                <li>First Fit: First hole large enough</li>
+                <li>Best Fit: Smallest hole large enough</li>
+                <li>Worst Fit: Largest hole</li>
+            </ul>
+            <p>Features: Automatic hole merging, compaction, fragmentation analysis.</p>
+
+            <h3>Virtual Memory Manager</h3>
+            <p>Translates logical to physical addresses:</p>
+            <ul>
+                <li>16-entry TLB with LRU replacement</li>
+                <li>256-entry page table</li>
+                <li>Demand paging with FIFO replacement</li>
+                <li>128 frames of physical memory</li>
+            </ul>
+
+            <h3>Simple Shell Interface</h3>
+            <p>Basic shell using fork() and execvp():</p>
+            <ul>
+                <li>Command parsing and execution</li>
+                <li>Background process support</li>
+                <li>Proper parent-child synchronization</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Key Formulas and Equations</h2>
+            
+            <h3>Scheduling</h3>
+            <div class="formula">
+                Turnaround Time = Completion Time - Arrival Time
+            </div>
+            <div class="formula">
+                Waiting Time = Turnaround Time - Burst Time
+            </div>
+            <div class="formula">
+                Response Time = First Response Time - Arrival Time
+            </div>
+            <div class="formula">
+                Throughput = Number of Processes Completed / Total Time
+            </div>
+            <div class="formula">
+                CPU Utilization = (Busy Time / Total Time) × 100%
+            </div>
+
+            <h3>Exponential Averaging (SJF Prediction)</h3>
+            <div class="formula">
+                τ<sub>n+1</sub> = αt<sub>n</sub> + (1-α)τ<sub>n</sub>
+            </div>
+            <p>Where α commonly = 1/2</p>
+
+            <h3>Rate-Monotonic Scheduling</h3>
+            <div class="formula">
+                U ≤ n(2<sup>1/n</sup> - 1)
+            </div>
+
+            <h3>Amdahl's Law</h3>
+            <div class="formula">
+                Speedup = 1 / ((1 - P) + P/N)
+            </div>
+
+            <h3>Virtual Memory</h3>
+            <div class="formula">
+                Effective Access Time = (1 + ε)α + (2 + ε)(1 - α)
+            </div>
+            <p>Where α = TLB hit ratio, ε = TLB search time</p>
+
+            <h3>Memory Fragmentation</h3>
+            <div class="formula">
+                External Fragmentation = (1 - Largest Free Block / Total Free Memory) × 100%
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Study Tips</h2>
+            <ul>
+                <li>Understand the concepts, not just memorize definitions</li>
+                <li>Practice drawing state diagrams (process states, deadlock graphs)</li>
+                <li>Work through scheduling examples by hand</li>
+                <li>Understand the trade-offs between different algorithms</li>
+                <li>Review your assignment implementations - they demonstrate key concepts</li>
+                <li>Know when to use different synchronization primitives</li>
+                <li>Understand the relationship between concepts (e.g., paging enables virtual memory)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

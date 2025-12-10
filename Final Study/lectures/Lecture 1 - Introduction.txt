@@ -1,0 +1,757 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter 1
+Introduction
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Components of a Modern Computer
+• One or more
+processors
+• Main memory
+• Disks or Flash
+drives
+• Printers
+• Keyboard
+• Mouse
+• Display
+• Network
+interfaces
+• I/O devices
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Components of a Modern Computer
+Where the operating system fits in.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+The Operating System as a Resource
+Manager
+• Top-down view
+– Provide abstractions to application programs
+• Bottom-up view
+– Manage pieces of complex system
+– Provide orderly, controlled allocation of
+resources
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+History of Operating Systems
+• The first generation (1945-55): Vacuum tubes
+• The second generation (1955-65): Transistors
+and batch systems
+• The third generation (1965-1980): IC s and
+multiprogramming
+• The fourth generation (1980-present): Personal
+computers
+• The fifth generation (1990-present): Mobile
+computers
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+First Generation: Vacuum tubes
+
+Annotated photographs of the COLOSSUS electronic digital computer/Kew/National Archives
+and Records Administration (NAR A) [F O 850/234]
+
+The Colossus Mark 2 computer: Cryptanalysis of the Lorenz Cipher
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Second Generation: Transistors and
+Batch Systems
+An early batch system. (a) Programmers bring cards to
+1401. (b) 1401 reads batch of jobs onto tape. (c) Operator
+carries input tape to 7094. (d) 7094 does computing. (e)
+Operator carries output tape to 1401. (f) 1401 prints output.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Second Generation: Transistors and
+Batch Systems
+Structure of a typical FM S job.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Third Generation: IC s and
+Multiprogramming
+A multiprogramming system with three jobs in memory.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+UNI X – a Simpler Operating System
+
+Courtesy of the Computer History Museum
+
+/*
+* You are not expected to understand
+this.
+*/
+Comment by Ken Thompson in the source code of UNIXv6, 1975. A.k.a the most famous comment ever. Interestingly, the
+code to which it pertained contained a bug, so perhaps the authors did not understand it either. :)
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+MINIX (1980s)
+“Hello everybody out there using minix I'm doing a (free) operating system (just a hobby, won't be big and
+professional like gnu) for 386(486) A T clones. This has been brewing
+since april, and is starting to get ready. I'd like any feedback on
+things people like/dislike in minix, as my O S resembles it somewhat
+(same physical layout of the file-system (due to practical reasons)
+among other things).
+I've currently ported bash(1.08) and gcc(1.40), and things seem to work.
+This implies that I'll get something practical within a few months, and
+I'd like to know what features most people would want. Any suggestions
+are welcome, but I won't promise I'll implement them :-)
+
+P S. Yes - it's free of any minix code, and it has a multi-threaded fs.
+It is NOT portable (uses 386 task switching etc), and it probably never will support
+anything other than A T-hard disks, as that's all I have :-(”.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hardware - Processors
+Some of the components of a simple personal computer.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hardware - Processors
+a) A three-stage pipeline. (b) A superscalar CP U.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hardware - Memory
+(a) A quad-core chip with a shared L2 cache. (b) A quad-core
+chip with separate L2 caches.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hardware - Memory
+A typical memory hierarchy. The numbers are very rough
+approximations.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hardware - Memory
+Caching system issues:
+1. When to put a new item into the cache.
+2. Which cache line to put the new item in.
+3. Which item to remove from the cache when a slot is
+needed.
+4. Where to put a newly evicted item in the larger memory.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Nonvolatile Storage
+Structure of a disk drive.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Solid State Drives (SS D)
+Often (incorrectly) referred to as disk also. No moving parts,
+data in electronic (flash) memory. Much faster than magnetic
+disks.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Devices
+Many types of I/O devices.
+Typically consist of 2 parts:
+– Controller
+▪ Chips that control device, receive
+commands from O S (e.g., to read data)
+Example: SAT A disk controller
+– Device itself
+▪ Generally simple interface (so SAT A
+controller can handle any SAT A disk)
+Device driver: O S component that talks to controller
+One for each type of device controller
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Devices
+Device driver communicates with controller via registers
+Example: disk controller may have registers for
+• disk address,
+• memory address
+• sector count
+• direction (read or write)
+Device registers are either accessed using special
+instructions (e.g., IN/OUT). or mapped in the O S’ address
+space (the addresses it can use).
+The collection of device registers forms the I/O Port Space
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Devices
+To perform I/O:
+• Process executes system call
+• Kernel makes a call to driver
+• Driver starts I/O
+Either polls device to see if it is done (busy waiting)
+or asks device generate an interrupt when it is
+done more advanced: make use of special
+hardware – D M A
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Devices
+(a) The steps in starting an I/O device and getting an interrupt. (b)
+Interrupt processing involves taking the interrupt, running the interrupt
+handler, and returning to the user program.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Busses
+
+The structure of a large x 8 6 system: many buses (e.g., cache, memory, PCI e, US B, SAT A, and DM
+I)
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Computer Startup
+Flash memory on motherboard
+contains firmware (a.k.a. BIO S)
+After pressing power button, CP
+U executes BIO S which
+• Initializes RA M and other
+resources
+• Scans PC I/PCI e buses and
+initializes devices
+• Sets up the runtime firmware
+for critical services (e.g., lowlevel I/O) to be used by the
+system after booting
+BIO S looks for location of partition table on second sector of boot device
+• Contains locations of other partitions
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Operating System Types
+• Mainframe Operating Systems
+• Server Operating Systems
+• Personal Computer Operating Systems
+• Smartphone and Handheld Computer Operating
+Systems
+• The Internet of Things (IO T) and Embedded
+Operating Systems
+• Real-Time Operating Systems
+• Smart Card Operating Systems
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+What is an Operating System
+• Extended Machine
+– Extending the hardware functionality
+– Abstraction over hardware
+– Hiding details from the programmer
+• Resource Manager
+– Protects simultaneous/unsafe usage of
+resources
+– Fair sharing of resources
+– Resource accounting/limiting
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Operating System Concepts
+• O S offers functionality through system calls
+• Groups of system calls implement services
+– File System Service
+– Process Management Service
+• Processes are user-level abstractions to execute a
+program on behalf of a user
+• Each process has its own address space
+• Data involved in this processing is retrieved
+from/stored in files
+• Files persist over processes
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Processes
+• Key concept in all operating systems
+• Definition: a program in execution
+• Process is associated with an address space
+• Also associated with set of resources (registers,
+open files, alarms, etc.)
+• Process can be thought of as a container
+– Holds all information needed to run program
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Processes
+• Layout affected by:
+– Architecture
+– OS
+– Program
+• Very basic layout:
+– Stack: Active call data
+– Data: Program
+variables
+– Text: Program code
+Try it:
+Linux : readelf –S <program name>
+MAC : otool –l <program name>
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Processes
+•
+
+Information about process is kept in the O S’ process table
+
+•
+
+Process Management
+•
+
+•
+
+Operations such as creating, terminating, pausing and resuming a
+processes
+
+One process can create another process
+Known as a child process
+Creates a hierarchy (or “tree”) of processes
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Processes
+A process tree. Process A created two child processes, B and C.
+Process B created three child processes, D, E, and F.
+
+Processes are “owned” by a user, identified by a UI D.
+• Every process typically has the UI D of the user who started it
+•
+
+On UNI X, a child process has the same UI D as its parent process
+
+•
+
+Users can be members of groups, identified by a GUI D
+Try it:
+Linux : pstree
+MAC : Applications > Utilities > Activity Monitor or type “top”
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Files
+• File: abstraction of (possibly) real storage device
+(e.g., disk)
+• You can read and write data from/to file by
+providing a position and an amount of data to
+transfer
+• Files are maintained in directories
+– A directory keeps an identifier for each file it
+contains
+– A directory is a file by itself
+– The U N I X philosophy: “Everything is a file”.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Files
+• Directories and files form a hierarchy:
+– Hierarchy starts at root directory:
+▪ /
+– Files can be accessed through absolute paths:
+▪ /home/ast/todo-list
+– … or relative paths starting from the current
+working directory:
+▪ ../courses/slides1.pdf
+– Other filesystems can be mounted into the root:
+▪ /mnt/windows
+– Filesystems mounting on Windows?
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Files
+• Files are “protected” by three bit tuples for owner,
+group and other users
+• Tuples contain a (r)ead, (w)rite and an e(x)ecute bit
+(but more bits are available)
+– Example:
+▪ -rwxr-x--x myuser my group 14492
+Dec 4 18:04 my file
+– Owner is allowed to execute, modify, read the file
+– Group is allowed to read and execute the file
+– Other users are only allowed to execute the file
+• x bit for directories?
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Files
+A file system for a university department.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+File System Mounting
+(a) Before mounting, the files on the US B drive are not
+accessible. (b) After mounting, they are part of the file
+hierarchy.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Files (Pipes)
+Two processes connected by a pipe.
+
+• Pipes: pseudo files allowing for processes to communicate
+over a FIF O channel
+• Has to be set up in advance
+• Looks like a “normal” file to read and write from/to
+running processes
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+System Calls
+System calls are the interface the O S offers to applications to
+request services
+Problem:
+• System call mechanism is highly operating system and
+hardware specific
+• The need for efficiency exacerbates this problem
+
+Solution:
+• Encapsulate system calls in the C library (libc)
+• Typically exports 1 library call for each system call
+• UNI X libc based on the C POSI X library
+• Note that many UNI X C libraries exist…
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+System Calls
+System call sequence to copy the contents of one file to another file
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+System
+Calls
+Some of the major POSIX
+system calls. The return
+code s is −1 if an error
+has occurred. The return
+codes are as follows: pid
+is a process id, fd is a file
+descriptor, n is a byte
+count, position is an offset
+within the file, and
+seconds is the elapsed
+time. The parameters are
+explained in the text.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Windows System Call API
+The Win32 AP I
+calls that
+roughly
+correspond to
+the UNIX calls
+of Fig. 1.18. It
+is worth
+emphasizing
+that Windows
+has a very
+large number
+of other system
+calls, most of
+which do not
+correspond to
+anything in
+UNIX.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+O S Structure: Monolithic
+
+Typical UNI X structure
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+O S structure: Virtualization
+Virtual machine monitor (VM M) or Hypervisor emulates
+hardware
+• Type 1: VM M runs on bare metal (e.g., Xen)
+• Type 2: VM M hosted in the O S (e.g., QEM U)
+• Hybrid: VM M inside the O S (e.g., KV M)
+
+(a) A type 1 hypervisor. (b) A pure type 2 hypervisor. (c) A practical type 2 hypervisor
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Containers
+• Containers can run multiple instances of an O S on a single
+machine
+• Each container shares the host O S kernel and the binaries
+and libraries
+– Container does not contain full O S and therefore can
+be lightweight
+• Downsides to containers
+– Cannot run a container with a completely different OS
+than the host
+– Unlike with virtual machines no strict resource
+partitioning
+– Containers are process-level isolated
+▪ If a container alters the stability of the underlying
+kernel this may affect other containers
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+The World According to C
+• C was created by Dennis Ritchie in 1972 to develop
+U N I X programs
+• Some of the UNI X roots still visible
+• “Everything is a file”
+
+• UNIX/Linux – Everything is a file
+
+• Sockets
+• Devices
+• Hard drives
+• Printers
+• Pipes
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+The World According to C
+What do we have to do to print “Hello World” on the
+console (Standard output)?
+• printf(char *str, …);
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+printf("Hello World!\n");
+return 0;
+}
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Build Process
+The process of compiling
+C and header files to
+make an executable.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hello World Example
+What do we have to do to print “Hello World” on the
+console (Standard output)?
+• printf(char *str, …);
+• int write(int fd, char *buf, size_t
+len);
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Recall: Everything Is a File!
+Descriptive
+Name
+
+Short Name
+
+File
+Number
+
+Description
+
+Standard In
+
+stdin
+
+0
+
+Input from the keyboard
+
+Standard Out
+
+stdout
+
+1
+
+Output to the console
+
+Standard Error
+
+stderr
+
+2
+
+Error output to the
+console
+
+Default every process starts with 3 “files” opened
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hello World Example
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hello World Example
+What do we have to do to print “Hello World” on the console
+(Standard output)?
+• printf(char *str, …);
+• int write(int fd, char *buf, size_t len);
+• int syscall(int number, ...);
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hello World Example
+#define _G N U_SOURCE
+#include <sys/syscall.h>
+#define STDOUT 1
+int main(int argc, char **argv)
+{
+char msg[] = "Hello World!\n";
+int nr = SYS_write;
+syscall(nr, STDOUT, msg,
+sizeof(msg));
+return 0;
+
+}
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Standard C Library
+• Libc provides useful wrappers around syscalls
+– E.g., write, read, exit
+• Need to call the syscall or int 0x80 instruction
+– Done in assembly (inline, or separate object)
+• syscall(int nr, …)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Process Management System Calls
+Consider a minimal shell:
+• Waits for user to type in a command
+• Starts a process to execute the command
+• Waits until the process has finished
+(fork, wait, execv)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Process Creation
+• pid_t fork()
+– Duplicates the current process
+– Returns child pid in caller (parent)
+– Returns 0 in new (child) process
+• pid_t wait(int *wstatus)
+– Waits for child processes to change state
+– Writes status to wstatus
+– E.g., due to exit or signal
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Process Creation (fork, wait)
+void main(void)
+{
+int pid, child_status;
+if (fork() == 0) {
+do_something_in_child();
+} else {
+wait(&child_status); // Wait for
+child
+}
+}
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Process Creation (execv)
+• int execv(const char *path, char
+*constargv[ ]);
+– Loads a new binary (path) in the current process,
+removing all other memory mappings.
+– constargv contains the program arguments
+– Last argument is NULL
+– E.g., constargv = {“/bin/ls”, “-a”,
+NULL}
+– Different exec(v)(p) variants (check man pages)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Process Creation (fork, wait, execv)
+void
+{
+
+main(void)
+int
+
+pid, child_status;
+
+char
+*args[] = {“/bin/ls”, “-l”, NULL};
+if (fork() == 0) {
+// fork creates child process
+execv(args[0], args); // in child: load+execute program
+} else {
+wait(&child_status);
+
+// Wait for child
+
+}
+}
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Minimal Shell
+while (1) {
+char cmd[256], *args[256];
+int status;
+pid_t pid;
+read_command(cmd, args); /* reads command and
+arguments from command line */
+pid = fork();
+if (pid == 0) {
+execv(cmd, args);
+exit(1);
+} else {
+wait(&status);
+}
+}
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+How to Exit Programs?
+• Ctrl+C, but how does this work??
+• Answer: signals
+• Processes sometimes need to be interrupted during their
+execution
+• A signal is sent to the process that needs to be interrupted
+• Interrupted process can catch the signal by installing a signal
+handler
+• What happens when a terminal user hits CTR L+C or CTR L+Z
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Signals
+• sighandler_t signal(int signum,
+sighandler_t handler)
+– Registers a signal handler for signal signum
+• unsigned int alarm(unsigned int seconds)
+– Deliver S I GALR M in specified number of seconds
+• int kill(pid_t pid, int sig)
+– Deliver signal sig to process pid
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Alarm Example
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Pipe Example
+What happens if we execute the following command?
+$ cat names.txt | sort
+And how about the following commands?
+$ mkfifo named.pipe
+$ echo “Hello World!” > named.pipe
+$ cat named.pipe
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Pipe Example (open, close, pipe, dup)
+• int open(const char *pathname, int
+flags)
+– Opens the file specified by pathname
+• int close(int fd)
+– Closes the specified file descriptor fd
+• int pipe(int pipefd[2])
+– Creates a pipe with two fds for the ends of the
+pipe
+• int dup(int oldfd)
+– Creates a copy of the oldfd file descriptor using
+the lowest-numbered unused file descriptor for
+the copy
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Pipe Example
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Modern Operating Systems
+Fifth Edition
+
+End of Introduction
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+

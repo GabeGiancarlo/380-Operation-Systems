@@ -1,0 +1,748 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter 2
+Scheduling
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Introduction to Scheduling Process Behavior
+CP U bound vs . I/O bound processes
+er
+
+us
+
+Figure 2.40 Bursts of CP U usage alternate with periods of waiting for
+I/O. (a) A CP U-bound process. (b) An I/O-bound process.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Process State Revisited
+
+If more processes ready than CPU s available:
+• Scheduler decides which process to run next
+• Algorithm used by scheduler is called scheduling algorithm
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+When to Schedule?
+• Process exits
+• Process blocks on I/O, Semaphore, etc.
+• When a new process is created
+• When an interrupt occurs:
+– I/O, clock, syscall, etc.
+Preemptive v s non-preemptive scheduling?
+ersu
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Categories of Scheduling Algorithms
+• Batch
+• Interactive
+• Real time
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Scheduling Algorithm Goals
+• Different goals for different systems
+– Batch
+– Interactive
+– Real time
+• All systems:
+– Fairness - giving each process a fair share of the C P U
+– Policy enforcement - seeing that stated policy is carried out
+– Balance - keeping all parts of the system busy
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Scheduling Criteria
+ CPU utilization – keep the CPU as busy as possible
+ Throughput – # of processes that complete their execution
+
+per time unit
+
+ Turnaround time – amount of time to execute a particular
+
+process
+
+ Waiting time – amount of time a process has been waiting in
+
+the ready queue
+
+ Response time – amount of time it takes from when a
+
+request was submitted until the first response is produced,
+not output (for time-sharing environment)
+
+Operating System Concepts – 10th Edition
+
+5.7
+
+Silberschatz, Galvin and Gagne ©2018
+
+Batch Systems
+
+Scanrail/123 RF
+
+• Throughput : maximize jobs per hour
+• Turnaround time : minimize time between submission and termination
+• CP U utilization : keeping the CP U busy all the time
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+First-Come First-Served
+• Process jobs in order of their arrival
+• Non-preemptive
+• Single Process Queue
+– New jobs or blocking processes are added to the end of the queue
+• “Convoy Effect” if only few CP U bound and many I/O bound
+processes
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+First- Come, First-Served (FCFS) Scheduling
+Process Burst Time
+P1
+
+24
+
+P2
+
+3
+
+P3
+
+3
+
+Suppose that the processes arrive in the order: P1 , P2 , P3
+The Gantt Chart for the schedule is:
+P1
+
+P2
+
+0
+
+24
+
+P3
+27
+
+30
+
+Waiting time for P1 = 0; P2 = 24; P3 = 27
+Average waiting time: (0 + 24 + 27)/3 = 17
+
+Operating System Concepts – 10th Edition
+
+5.10
+
+Silberschatz, Galvin and Gagne ©2018
+
+Shortest-Job-First (SJF) Scheduling
+ Associate with each process the length of its next CPU burst
+ Use these lengths to schedule the process with the shortest time
+
+ SJF is optimal – gives minimum average waiting time for a given
+
+set of processes
+
+ The difficulty is knowing the length of the next CPU request
+ Could ask the user
+
+Operating System Concepts – 10th Edition
+
+5.11
+
+Silberschatz, Galvin and Gagne ©2018
+
+Example of SJF
+ProcessArriva
+
+l Time
+
+P1
+
+0.0
+
+6
+
+P2
+
+2.0
+
+8
+
+P3
+
+4.0
+
+7
+
+P4
+
+5.0
+
+3
+
+Burst Time
+
+SJF scheduling chart
+P4
+0
+
+P1
+3
+
+P3
+9
+
+P2
+16
+
+24
+
+Average waiting time = (3 + 16 + 9 + 0) / 4 = 7
+
+Operating System Concepts – 10th Edition
+
+5.12
+
+Silberschatz, Galvin and Gagne ©2018
+
+Interactive Systems
+• Response time: respond to requests quickly
+• Proportionality: meet users’ expectations
+
+McClatchy-Tribune/Tribune Content Agency LL C/Alamy Stock Photo
+
+Apple MacIntosh (1984)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Round Robin Scheduling
+• Preemptive scheduling algorithm
+• Each process gets a time slice or quantum
+• If process is still running at end of quantum it gets preempted end
+goes to end of ready queue
+• Question: How big should the quantum be?
+CP U utilization v s. response time
+ersu
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Example of RR with Time Quantum = 4
+Process Burst Time
+P1
+
+24
+
+P2
+
+3
+3
+
+P3
+The Gantt chart is:
+P1
+0
+
+P2
+4
+
+P3
+7
+
+P1
+10
+
+P1
+14
+
+P1
+18
+
+P1
+22
+
+P1
+26
+
+30
+
+Typically, higher average turnaround than SJF, but better response
+q should be large compared to context switch time
+q usually 10ms to 100ms, context switch < 10 usec
+
+Operating System Concepts – 10th Edition
+
+5.15
+
+Silberschatz, Galvin and Gagne ©2018
+
+Time Quantum and Context Switch Time
+
+Operating System Concepts – 10th Edition
+
+5.16
+
+Silberschatz, Galvin and Gagne ©2018
+
+Priority Scheduling (1 of 2)
+Simplest, multiple queues
+
+• Similar to round robin but several ready queues
+• Next process is picked from queue with highest priority
+• Static v s. dynamic priorities
+• What processes should have high priorities?
+ersu
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Example of Priority Scheduling
+ProcessA
+
+arri Burst TimeT Priority
+
+P1
+
+10
+
+3
+
+P2
+
+1
+
+1
+
+P3
+
+2
+
+4
+
+P4
+
+1
+
+5
+
+P5
+
+5
+
+2
+
+Priority scheduling Gantt Chart
+
+Average waiting time = 8.2 msec
+
+Operating System Concepts – 10th Edition
+
+5.18
+
+Silberschatz, Galvin and Gagne ©2018
+
+Shortest Process Next
+Problem: How to minimize response time for each priority queue?
+Idea: Use shortest “job” first and try to best predict next running time
+whatever runs between the waits
+Solution: Form weighted average of previous running times of
+process  Aging
+Tk  1 a  Tk  1  1  a   Tk
+
+Easy to implement when a = 1 2
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Example of SJF
+ProcessArriva
+
+l Time
+
+P1
+
+0.0
+
+6
+
+P2
+
+2.0
+
+8
+
+P3
+
+4.0
+
+7
+
+P4
+
+5.0
+
+3
+
+Burst Time
+
+SJF scheduling chart
+P4
+0
+
+P1
+3
+
+P3
+
+P2
+
+9
+
+16
+
+24
+
+Average waiting time = (3 + 16 + 9 + 0) / 4 = 7
+
+Operating System Concepts – 10th Edition
+
+5.20
+
+Silberschatz, Galvin and Gagne ©2018
+
+Determining Length of Next CPU Burst
+
+
+Can only estimate the length – should be similar to the previous one
+
+
+
+
+Then pick process with shortest predicted next CPU burst
+
+Can be done by using the length of previous CPU bursts, using
+exponential averaging
+1. t n actual length of n th CPU burst
+2.  n 1 predicted value for the next CPU burst
+3.  , 0  1
+4. Define :
+
+ n 1  t n  1    n .
+
+
+
+Commonly, α set to ½
+
+
+
+Preemptive version called shortest-remaining-time-first
+
+Operating System Concepts – 10th Edition
+
+5.21
+
+Silberschatz, Galvin and Gagne ©2018
+
+Guaranteed Scheduling
+Idea: N processes running 
+(also known as fair-share)
+
+each process gets 1/Nth of CP U time
+
+Solution:
+• Calculate how much CP U time it might have gotten:
+– Time since process creation divided by N
+• Measure actual consumed CP U time and form ratio
+• 0.5 
+
+process running half the time it was entitled to
+
+• 2.0 
+
+process running twice as much as it was entitled to
+
+• Pick process with the smallest ratio to run next
+• How to incorporate priorities (See Linux’ CF S)?
+• Note: fair-share scheduling can be per-user/-process
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Lottery Scheduling
+• Processes get lottery tickets
+• Whenever a scheduling decision is made O S chooses a winning
+ticket randomly
+• Processes can possess multiple tickets  Priorities
+• Tickets can be traded between processes.
+• Tickets are immediately available to newly created processes.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Policy v s . Mechanism
+er
+
+us
+
+Important principle
+Here: we may have a scheduling algorithm, but parameters to be filled
+in by user (process)
+For instance, to give some child processes higher priority than others
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Real Time Systems (1 of 3)
+
+Yauhen_D/Shutterstock
+
+NAS A
+
+• Meeting deadlines: avoid losing data
+• Predictability: avoid quality degradation in multimedia systems
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Priority-based Scheduling
+
+
+For real-time scheduling, scheduler must support preemptive, priority-based scheduling
+
+
+But only guarantees soft real-time
+
+
+
+For hard real-time must also provide ability to meet deadlines
+
+
+
+Processes have new characteristics: periodic ones require CPU at constant intervals
+
+
+Has processing time t, deadline d, period p
+
+
+
+0≤t≤d≤p
+
+
+
+Rate of periodic task is 1/p
+
+Operating System Concepts – 10th Edition
+
+5.26
+
+Silberschatz, Galvin and Gagne ©2018
+
+Rate Montonic Scheduling
+
+
+P1 and P2 are 50 and 100, respectively—that is, p1 = 50 and p2 = 100. The
+
+
+processing times are t1 = 20 for P1 and t2 = 35 for P2. The deadline for each
+
+
+
+process requires that it complete its CPU burst by the start of its next period.
+
+Operating System Concepts – 10th Edition
+
+5.27
+
+Silberschatz, Galvin and Gagne ©2018
+
+Missed Deadlines with Rate Monotonic Scheduling
+
+Assume that process P1 has a period of p1 = 50 and a CPU burst of t1 = 25.
+For P2, the corresponding values are p2 = 80 and t2 = 35.
+
+Operating System Concepts – 10th Edition
+
+5.28
+
+Silberschatz, Galvin and Gagne ©2018
+
+Earliest Deadline First Scheduling (EDF)
+
+
+Priorities are assigned according to deadlines:
+
+
+the earlier the deadline, the higher the priority;
+
+
+
+the later the deadline, the lower the priority
+
+Recall that P1 has values of p1 = 50 and t1 = 25 and that P2 has
+values of p2 = 80 and t2 = 35.
+
+Operating System Concepts – 10th Edition
+
+5.29
+
+Silberschatz, Galvin and Gagne ©2018
+
+POSIX Real-Time Scheduling
+
+
+The POSIX.1b standard
+
+
+
+API provides functions for managing real-time threads
+
+
+
+Defines two scheduling classes for real-time threads:
+1.
+
+SCHED_FIFO - threads are scheduled using a FCFS strategy with a FIFO
+queue. There is no time-slicing for threads of equal priority
+
+2.
+
+SCHED_RR - similar to SCHED_FIFO except time-slicing occurs for
+threads of equal priority
+Defines two functions for getting and setting scheduling policy:
+
+3. pthread_attr_getsched_policy(pthread_attr_t
+
+*attr, int
+
+*policy)
+4. pthread_attr_setsched_policy(pthread_attr_t
+
+*attr, int
+
+policy)
+
+Operating System Concepts – 10th Edition
+
+5.31
+
+Silberschatz, Galvin and Gagne ©2018
+
+POSIX Real-Time Scheduling API
+#include <pthread.h>
+#include <stdio.h>
+#define NUM_THREADS 5
+int main(int argc, char *argv[])
+{
+int i, policy;
+pthread_t_tid[NUM_THREADS];
+pthread_attr_t attr;
+/* get the default attributes */
+pthread_attr_init(&attr);
+/* get the current scheduling policy */
+if (pthread_attr_getschedpolicy(&attr, &policy) != 0)
+fprintf(stderr, "Unable to get policy.\n");
+else {
+if (policy == SCHED_OTHER) printf("SCHED_OTHER\n");
+else if (policy == SCHED_RR) printf("SCHED_RR\n");
+else if (policy == SCHED_FIFO) printf("SCHED_FIFO\n");
+}
+Operating System Concepts – 10th Edition
+
+5.32
+
+Silberschatz, Galvin and Gagne ©2018
+
+POSIX Real-Time Scheduling API (Cont.)
+/* set the scheduling policy - FIFO, RR, or OTHER */
+if (pthread_attr_setschedpolicy(&attr, SCHED_FIFO) != 0)
+fprintf(stderr, "Unable to set policy.\n");
+/* create the threads */
+for (i = 0; i < NUM_THREADS; i++)
+pthread_create(&tid[i],&attr,runner,NULL);
+/* now join on each thread */
+for (i = 0; i < NUM_THREADS; i++)
+pthread_join(tid[i], NULL);
+}
+/* Each thread will begin control in this function */
+void *runner(void *param)
+{
+/* do some work ... */
+pthread_exit(0);
+}
+
+Operating System Concepts – 10th Edition
+
+5.33
+
+Silberschatz, Galvin and Gagne ©2018
+
+Multiple-Processor Scheduling
+
+
+CPU scheduling more complex when multiple CPUs are available
+
+
+
+Homogeneous processors within a multiprocessor
+
+
+
+Asymmetric multiprocessing – only one processor accesses the
+system data structures, alleviating the need for data sharing
+
+
+
+Symmetric multiprocessing (SMP) – each processor is self-scheduling,
+all processes in common ready queue, or each has its own private queue
+of ready processes
+
+
+
+
+Currently, most common
+
+Processor affinity – process has affinity for processor on which it is
+currently running
+
+
+soft affinity
+
+
+
+hard affinity
+
+
+
+Variations including processor sets
+
+Operating System Concepts – 10th Edition
+
+5.34
+
+Silberschatz, Galvin and Gagne ©2018
+
+Multiple-Processor Scheduling – Load Balancing
+
+
+If SMP, need to keep all CPUs loaded for efficiency
+
+
+
+Load balancing attempts to keep workload evenly distributed
+
+
+
+Push migration – periodic task checks load on each processor, and if found
+pushes task from overloaded CPU to other CPUs
+
+
+
+Pull migration – idle processors pulls waiting task from busy processor
+
+Operating System Concepts – 10th Edition
+
+5.35
+
+Silberschatz, Galvin and Gagne ©2018
+
+Modern Operating Systems
+Fifth Edition
+
+Chapter 2
+Scheduling - End
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+

@@ -1,0 +1,1009 @@
+Modern Operating Systems
+Fifth Edition
+
+Chapter
+5
+Input /Output
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Overview
+• Principles of I/O Hardware
+• Principles of I/O Software
+• I/O Devices
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Hardware
+
+
+
+
+Incredible variety of I/O devices
+
+
+Storage
+
+
+
+Transmission
+
+
+
+Human-interface
+
+Common concepts – signals from I/O devices interface with computer
+
+
+Port – connection point for device
+
+
+
+Bus - daisy chain or shared direct access
+ PCI bus common in PCs and servers, PCI Express (PCIe)
+ expansion bus connects relatively slow devices
+
+
+
+Controller (host adapter) – electronics that operate port, bus, device
+ Sometimes integrated
+ Sometimes separate circuit board (host adapter)
+ Contains processor, microcode, private memory, bus controller, etc
+–
+
+Operating System Concepts – 10th Edition
+
+Some talk to per-device controller with bus controller, microcode,
+memory, etc
+
+12.3
+
+Silberschatz, Galvin and Gagne ©2018
+
+I/O Devices
+• Block devices (e.g., hard disks and SSD s)
+– Stores information in fixed-size blocks
+– Transfers are in units of entire blocks
+– I/O occurs with random access (by block I D)
+• Character devices (e.g., printers, network interfaces)
+– No blocks, only stream of characters (or bytes)
+– Not addressable, does not have any seek operation
+– I/O occurs with sequential access
+• Distinction is a bit blurred
+– Is a tape drive a block or a character device?
+– Some devices do not fit in this model, e.g. clocks
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Devices
+Device
+
+Data rate
+
+Keyboard
+
+10 bytes/se c
+
+Mouse
+
+100 bytes/se c
+
+56K modem
+
+7 K B/se c
+
+Bluetooth 5 BL E
+
+256 K B/se c
+
+Scanner at 300 dp i
+
+1 M B/se c
+
+Digital video recorder
+
+3.5 M B/se c
+
+802.11n Wireless
+
+37.5 M B/se c
+
+US B 2.0
+
+60 M B/se c
+
+16x Blu-ray disc
+
+72 M B/se c
+
+Gigabit Ethernet
+
+125 M B/se c
+
+SAT A 3 disk drive
+
+600 M B/se c
+
+US B 3.0
+
+625 M B/se c
+
+Single-lane PCI e 3.0 bus
+
+985 M B/se c
+
+802.11 a x Wireless
+
+1.25 G B/se c
+
+PCI e Gen 3.0 NVM e M.2 SS D (reading)
+
+3.5 G B/se c
+
+US B 4.0
+
+5 G B/se c
+
+PC I Express 6.0
+
+126 G B/se c
+
+Figure 5.1 Some typical device, network, and bus data rates.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Device Controller
+
+• Located between actual device and computer
+• Offers electronic interface in form of I/O registers
+• R/W those registers to ask the controller to perform actions
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Example: Parallel Port
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Example: US B
+Pin
+
+Name
+
+Cable
+color
+
+Description
+
+1
+
+VC C
+
+Red
+
++5 VD C
+
+0
+
+D-
+
+White
+
+Data -
+
+3
+
+D+
+
+Green
+
+Data +
+
+4
+
+GN D
+
+Black
+
+Ground
+
+Petteri Aimonen
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Accessing I/O Registers
+Port-mapped I/O (P M I O)
+• I/O Registers are accessed via dedicated port numbers and special
+instructions
+inb ax, 0x278 #
+#
+
+hash
+
+hash
+
+load value of I/O register
+0x278 to register a x
+
+Figure 5.2 (a) Separate I/O and memory space.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Accessing I/O Registers
+Memory-mapped I/O (M M I O)
+• I/O Registers are mapped into addresses
+of main memory and accessed like
+memory
+mov 0x278, ax #
+#
+
+hash
+
+hash
+
+store value of ax
+to address 0x278
+
+Figure 5.2 (b) Memory-mapped I/O.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Accessing I/O Registers
+Hybrid (PMMI O + MMI O)
+• Both implementation can coexist on a given architecture
+• Example: x86
+
+Figure 5.2 (c) Hybrid.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Memory-Mapped I/O
+
+Figure 5.3 (a) A single-bus architecture. (b) A dual-bus memory architecture.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+PMI O Example (IB M P C)
+Port range
+
+Summary
+
+0x0000-0x001F
+
+The first legacy DMA controller, often used for transfers to floppies.
+
+0x0020-0x0021
+
+The first Programmable Interrupt Controller
+
+0x0040-0x0047
+
+The P I T (Programmable Interval Timer)
+
+0x0060-0x0064
+
+The "8042" PS/2 Controller or its predecessors, dealing with keyboards
+and mice.
+
+0x0070-0x0071
+
+The C M O S and RTC registers
+
+0x0080-0x008F
+
+The D M A (Page registers)
+
+0x0092
+
+The location of the fast A20 gate register
+
+0x00A0-0x00A1
+
+The second P I C
+
+0x00C0-0x00D F
+
+The second D M A controller, often used for sound blasters
+
+0x0170-0x0177
+
+The secondary A T A hard disk controller.
+
+0x01F0-0x01F7
+
+The primary A T A hard disk controller.
+
+0x0278-0x027A
+
+Parallel port
+
+0x02F8-0x02FF
+
+Second parallel port
+
+0x03B0-0x03D F
+
+The range used for the I B M V G A, its direct predecessors, as well as
+any modern video card in legacy mode.
+
+0x03F0-0x03F7
+
+Floppy disk controller
+
+0x03F8-0x03F F
+
+First serial port
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+MMI O Example (OMA P 3)
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Quiz
+What mechanism (PMI O v s. MMI O) is more flexible and efficient to
+implement device access control for unprivileged user processes?
+ersu
+
+A: MMI O because mapping a page containing I/O ports can be
+handled by the normal virtual memory system. To allow a user access
+to a device, just map its control page into the user’s address space
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Waiting for I/O Requests …
+Ellipsis
+
+We can now send commands to devices, but what if the requested
+operation takes time?
+• Most devices offer status bits in their registers to signal that a
+request has been finished (and the error code)
+• O S can poll this status bit (polling)
+• Is this a good solution?
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Polling
+
+
+
+
+For each byte of I/O
+1.
+
+Read busy bit from status register until 0
+
+2.
+
+Host sets read or write bit and if write copies data into data-out
+register
+
+3.
+
+Host sets command-ready bit
+
+4.
+
+Controller sets busy bit, executes transfer
+
+5.
+
+Controller clears busy bit, error bit, command-ready bit when
+transfer done
+
+Step 1 is busy-wait cycle to wait for I/O from device
+
+
+Reasonable if device is fast
+
+
+
+But inefficient if device slow
+
+
+
+CPU switches to other tasks?
+ But if miss a cycle data overwritten / lost
+
+Operating System Concepts – 10th Edition
+
+12.17
+
+Silberschatz, Galvin and Gagne ©2018
+
+Interrupts
+•
+
+•
+
+Device controller can trigger interrupts to signal that a I/O request is
+complete
+– For the device, this means simply changing the voltage on an
+electrical interrupt line
+Each controller has interrupt vector assigned
+– CP U runs vector-specific handler when int occurs
+
+Figure 5.4. Operation of a DM A
+transfer.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Data Exchange Between Device and CP U
+• How do we transfer data from e.g., hard disk to memory?
+– Program disk controller to read a sector
+– Wait for interrupt
+– Read sizeof(sector) bytes from I/O registers
+– Repeat for next sector
+• Is this a problem?
+– Yes! CP U cycles can be spent in a better way!
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Direct Memory Access (DM A)
+• Solution:
+– Let the hardware do the transfer via DM A!
+
+Figure 5.4 Operation of a DM A transfer.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+DM A Controller
+• On IS A systems there was a dedicated DM A controller (third-party
+DM A)
+• On PC I (and PCI e) systems each PC I device may become “Bus
+Master” and perform DM A (first-party DM A)
+– Device and DM A controller are combined
+– Do you see a problem here?
+– You have to trust your H W (or use a I/O MM U)
+• Note:
+– Embedded systems still have dedicated DM A controller
+– Disk controller still uses own buffers
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Quiz
+You’re comparing the performance of two systems, both using no
+interrupts for device data transfer, but one using D M A + polling while
+the other system uses polling alone.
+Q: Do you expect comparable or different performance for the two
+systems?
+A: When DM A is used, the CP U can possibly do other work while
+the I/O is going on.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Overview
+• Principles of I/O Hardware
+• Principles of I/O Software
+• I/O Devices
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Principles of I/O Software
+Issues:
+• Device independence
+• Uniform naming
+• Error handling
+• Buffering
+• Synchronous versus asynchronous
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Principles of I/O Software
+• Device independence
+– I/O software provides abstraction over actual hardware
+– Programs should not have to care about device particularities
+• Uniform naming
+– We don’t want to type S T6N M04 to address the first hard disk
+– /dev/sda is better
+– /mnt/movies even better
+• Error handling
+– Errors should be handled closest to their source
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Principles of I/O Software
+• Buffering
+– Networking: incoming packets have to be buffered
+– Audio: buffering to avoid clicks
+• Synchronous v s. asynchronous I/O
+ersu
+
+– Programs don’t want to deal with interrupts O S 
+turns async operations into blocking operations
+– Lower levels have to deal with interrupts, D M A,
+etc.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+I/O Software Layers
+
+Figure 5.11 Layers of the I/O software system.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Interrupt Handlers
+Typical steps after hardware interrupt completes:
+1.
+2.
+3.
+4.
+5.
+6.
+
+Save registers not already saved by interrupt H W
+Set up context for interrupt service procedure
+Set up a stack for the interrupt service procedure
+Acknowledge interrupt controller. If no centralized interrupt controller, re-enable interrupts
+Copy registers from where saved to process table
+Run interrupt service procedure. Typically, extract information from interrupting device
+controller’s registers. Often split into low-level interrupt service procedure (ran
+immediately) and high-level interrupt service procedure (scheduled later)
+7. Choose which process to run next
+8. Set up the MM U context for process to run next
+9. Load new process’ registers,
+10. Start running the new process
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Device Drivers
+• Accepts abstract requests from device-independent layer and
+transforms them into commands for the device
+• Can queue new requests as necessary
+• Usually needs to wait for the completion of the request (I R Q)
+• Checks for errors as necessary
+• Answers requests from device-independent layer
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Device Drivers
+
+Figure 5.12 Logical positioning of device drivers. In reality all communication
+between drivers and device controllers goes over the bus.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Device-Independent I/O Software
+• Uniform interfacing for device drivers
+– Driver interface, naming (e.g., major/minor numbers), protection
+• Buffering
+– Necessary for both character and block devices
+• Error reporting
+– Hardware-level, driver-level, etc.
+• Allocating and releasing dedicated devices
+– e.g., Printers
+• Providing a device-independent block size
+– Unify blocks/characters across devices
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Buffering
+
+Figure 5.16 Networking may involve many copies of a packet.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+User-Level I/O Software
+• Offers a uniform interface to user to access devices
+• C standard I/O library
+– fopen, fclose, fflush, fprintf, etc
+• Safely multiplexes access to exclusive devices
+– E.g. Printing spooler
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Layers of I/O Software
+
+Figure 5.17 Layers of the I/O system and the main functions of each layer.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Overview (4 of 4)
+• Principles of I/O Hardware
+• Principles of I/O Software
+• I/O Devices
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Storage Devices: SS D v s. HD D (1)
+ersu
+
+Keith Homan/Shutterstock
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Storage Devices: SS D v s. HD D
+ersu
+
+Blank
+
+Power
+Heat
+Noise
+Vibration
+Weight
+Durability
+Speed
+Cost
+Capacity
+
+SS D
+
+HD D
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A red cross mark.
+
+A green tick mark sign.
+
+A red cross mark.
+
+A green tick mark sign.
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Solid-State Drive (SS D)
+• DRA M or NO R/NAN D flash memory based
+– No mechanical parts (only controller+mem)
+– Can be used as part of S S H D s
+• NAN D flash memory
+– Organized in cells pages, blocks
+– Controller can read/program at page granularity
+– Controller can erase at block granularity
+– RN D/SE Q access latency comparable
+– Reads more efficient than writes
+– Wear leveling to improve write endurance
+– Garbage collection to implement write operations
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hard Disk Drive (HD D)
+• Multiple platters and cylinders
+in a single disk with as many
+tracks as their heads. Each
+track  N sectors
+• Addressing modes:
+– CH S (Cylinder-head-sector),
+virtual/physical
+– LB A (Logical Block
+Addressing), virtual
+LionKimbro
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hard Disk Geometry
+
+Figure 5.18 (a) Physical geometry of a disk with two zones.
+(b) A possible virtual geometry for this disk.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Disk Formatting
+
+Figure 5.20 An illustration of cylinder skew.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hard Disk: Block Read/Write Time
+Factors determining disk block read/write time:
+– Seek time
+▪ The time to move the arm to the proper cylinder
+– Rotational delay
+▪ The time for the sector to come under the head
+– Data transfer time
+▪ The time to transfer a single block
+• Which one dominates the read/write time? Seek time
+• How do we minimize it and where? Sort requests by cylinder
+number
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Disk Scheduling
+
+
+The operating system is responsible for using hardware
+efficiently — for the disk drives, this means having a fast
+access time and disk bandwidth
+
+
+
+Minimize seek time
+
+
+
+Seek time  seek distance
+
+
+
+Disk bandwidth is the total number of bytes transferred,
+divided by the total time between the first request for service
+and the completion of the last transfer
+
+Operating System Concepts – 10th Edition
+
+11.43
+
+Silberschatz, Galvin and Gagne ©2018
+
+Disk Scheduling (Cont.)
+
+
+Note that drive controllers have small buffers and can manage a
+queue of I/O requests (of varying “depth”)
+
+
+
+Several algorithms exist to schedule the servicing of disk I/O
+requests
+
+
+
+The analysis is true for one or many platters
+
+
+
+We illustrate scheduling algorithms with a request queue (0-199)
+98, 183, 37, 122, 14, 124, 65, 67
+Head pointer 53
+
+Operating System Concepts – 10th Edition
+
+11.44
+
+Silberschatz, Galvin and Gagne ©2018
+
+FCFS
+Illustration shows total head movement of 640 cylinders
+
+Operating System Concepts – 10th Edition
+
+11.45
+
+Silberschatz, Galvin and Gagne ©2018
+
+SSTF
+
+
+Shortest Seek Time First selects the request with the minimum
+seek time from the current head position
+
+
+
+SSTF scheduling is a form of SJF scheduling; may cause
+starvation of some requests
+
+
+
+Illustration shows total head movement of 236 cylinders
+
+Operating System Concepts – 10th Edition
+
+11.46
+
+Silberschatz, Galvin and Gagne ©2018
+
+SCAN
+
+
+The disk arm starts at one end of the disk, and moves toward the
+other end, servicing requests until it gets to the other end of the
+disk, where the head movement is reversed and servicing
+continues.
+
+
+
+SCAN algorithm Sometimes called the elevator algorithm
+
+
+
+Illustration shows total head movement of 236 cylinders
+
+
+
+But note that if requests are uniformly dense, largest density at
+other end of disk and those wait the longest
+
+Operating System Concepts – 10th Edition
+
+11.47
+
+Silberschatz, Galvin and Gagne ©2018
+
+SCAN (Cont.)
+
+Operating System Concepts – 10th Edition
+
+11.48
+
+Silberschatz, Galvin and Gagne ©2018
+
+C-SCAN
+
+
+Provides a more uniform wait time than SCAN
+
+
+
+The head moves from one end of the disk to the other, servicing
+requests as it goes
+
+
+When it reaches the other end, however, it immediately
+returns to the beginning of the disk, without servicing any
+requests on the return trip
+
+
+
+Treats the cylinders as a circular list that wraps around from the
+last cylinder to the first one
+
+
+
+Total number of cylinders?
+
+Operating System Concepts – 10th Edition
+
+11.49
+
+Silberschatz, Galvin and Gagne ©2018
+
+C-SCAN (Cont.)
+
+Operating System Concepts – 10th Edition
+
+11.50
+
+Silberschatz, Galvin and Gagne ©2018
+
+C-LOOK
+
+
+LOOK a version of SCAN, C-LOOK a version of C-SCAN
+
+
+
+Arm only goes as far as the last request in each direction,
+then reverses direction immediately, without first going all the
+way to the end of the disk
+
+
+
+Total number of cylinders?
+
+Operating System Concepts – 10th Edition
+
+11.51
+
+Silberschatz, Galvin and Gagne ©2018
+
+C-LOOK (Cont.)
+
+Operating System Concepts – 10th Edition
+
+11.52
+
+Silberschatz, Galvin and Gagne ©2018
+
+Selecting a Disk-Scheduling Algorithm
+
+
+SSTF is common and has a natural appeal
+
+
+
+SCAN and C-SCAN perform better for systems that place a heavy load
+on the disk
+
+
+Less starvation
+
+
+
+Performance depends on the number and types of requests
+
+
+
+Requests for disk service can be influenced by the file-allocation method
+
+
+And metadata layout
+
+
+
+The disk-scheduling algorithm should be written as a separate module of
+the operating system, allowing it to be replaced with a different algorithm
+if necessary
+
+
+
+Either SSTF or LOOK is a reasonable choice for the default algorithm
+
+
+
+What about rotational latency?
+
+
+
+
+Difficult for OS to calculate
+
+How does disk-based queueing effect OS queue ordering efforts?
+
+Operating System Concepts – 10th Edition
+
+11.53
+
+Silberschatz, Galvin and Gagne ©2018
+
+Hard Disk: Error Handling
+• Programming Errors
+– e.g., request for nonexistent sector
+• Transient Errors
+– e.g., caused by dust on the head
+• Permanent Errors
+– e.g., disk block physically damaged
+• Seek Errors
+– e.g., the arm was sent to cylinder 6 but it went to 7
+• Controller Errors
+– e.g., controller refuses to accept commands
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Hard Disk: Bad Sector Remapping
+
+Figure 5.24 (a) A disk track with a bad sector.
+(b) Substituting a spare for the bad sector. (c)
+Shifting all the sectors to bypass the bad one.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Clock Hardware
+• Two types:
+– Simple clocks deliver hardware interrupts for each voltage cycle
+of the power supply (i.e., every 20 or 16.7 m s)
+– Advanced programmable clocks that have own crystal oscillator
+that decrements a counter in a register.
+HW
+
+If counter hits zero
+
+interrupt
+• H W also provides “counters” S W can read as needed
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Clock Software
+Typical duties of a clock driver:
+• Maintaining the time of day
+– System boot time (backup clock) + uptime (ticks)
+• Preventing processes from running longer than allowed
+– Decrement current process' quantum at each tick
+• Accounting for CP U usage
+– Increment current process’ cp u time at each tick
+– Handling alarm system call from user processes
+• Decrement alarm counter at each tick
+– Providing watchdog timers for parts of system itself
+▪ Generate sys notifications for synchronous alarms
+– Profiling, monitoring, statistics gathering
+▪ Increment specific counters at each tick
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+The X Window System
+
+Figure 5.33 Clients and servers in the M.I.T. X Window System.
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+Modern Operating Systems
+Fifth Edition
+
+Chapter
+5
+Input /Output
+
+Copyright © 2023, 2014, 2008 Pearson Education, Inc. All Rights Reserved
+
+
